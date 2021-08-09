@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:layout_below="@+id/login_title"
-            android:text="User id:"
+            android:text="Username:"
             android:textColor="@color/blue_1"
             android:textStyle="normal"
             android:layout_marginStart="20dp"
@@ -81,7 +81,7 @@
             android:layout_marginTop="7dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
-            android:hint="User Id"
+            android:hint="Enter user name"
             android:backgroundTint="@color/blue_1"
             android:layout_below="@+id/text_login_userid"/>
 
@@ -105,10 +105,83 @@
             android:layout_marginTop="7dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
-            android:hint="Password"
+            android:hint="Enter password"
             android:inputType="textPassword"
             android:backgroundTint="@color/blue_1"
             android:layout_below="@+id/text_login_password"/>
+
+        <TextView
+            android:id="@+id/text_login_forgotpassword"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:textSize="16sp"
+            android:layout_below="@+id/edittext_login_password"
+            android:text="Forgot Password"
+            android:gravity="center"
+            android:textColor="@color/blue_1"
+            android:textStyle="normal"
+            android:paddingStart="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="15dp"
+                       />
+
+        <TextView
+            android:id="@+id/text_loginbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_below="@+id/text_login_forgotpassword"
+            android:text="LOGIN"
+            android:background="@drawable/gdridantcoolor"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:paddingStart="45dp"
+            android:paddingEnd="45dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="15dp"
+            />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/text_loginbtn"
+            android:layout_centerHorizontal="true">
+            <TextView
+                android:id="@+id/text_dontacc_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="Dont't have an account?"
+                android:gravity="center"
+                android:layout_centerVertical="true"
+                android:textColor="@color/blue_1"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:id="@+id/text_login_singup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="Sign up"
+                android:layout_toEndOf="@+id/text_dontacc_title"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="25dp"
+                android:gravity="center"
+                android:textColor="@color/blue_1"
+                android:textStyle="bold"
+
+                android:layout_marginEnd="15dp"
+                />
+        </RelativeLayout>
+
 
     </RelativeLayout>
 
