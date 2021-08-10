@@ -6,7 +6,10 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".LoginActivity">
-
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="visible">
     <androidx.cardview.widget.CardView
         android:id="@+id/card_login1"
         android:layout_width="match_parent"
@@ -58,7 +61,7 @@
             android:textColor="@color/blue_1"
             android:textStyle="bold"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="45dp"
+            android:layout_marginTop="30dp"
 
             />
 
@@ -72,14 +75,13 @@
             android:textColor="@color/blue_1"
             android:textStyle="normal"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="25dp"
 
             />
         <EditText
             android:id="@+id/edittext_login_userid"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginTop="7dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
             android:hint="Enter user name"
@@ -103,7 +105,6 @@
             android:id="@+id/edittext_login_password"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginTop="7dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
             android:hint="Enter password"
@@ -141,7 +142,7 @@
             android:paddingEnd="45dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:layout_centerHorizontal="true"
             android:layout_marginEnd="15dp"
             />
@@ -210,58 +211,11 @@
             android:textColor="@color/blue_1"
             android:textStyle="bold"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="45dp"
+            android:layout_marginTop="30dp"
 
             />
 
-        <TextView
-            android:id="@+id/text_reg_username"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:layout_below="@+id/reg_title"
-            android:text="User Name"
-            android:textColor="@color/blue_1"
-            android:textStyle="normal"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
 
-            />
-        <EditText
-            android:id="@+id/edittext_reg_username"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:hint="Enter user name"
-            android:backgroundTint="@color/blue_1"
-            android:layout_below="@+id/text_reg_username"/>
-
-        <TextView
-            android:id="@+id/text_reg_mobile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:layout_below="@+id/edittext_reg_username"
-            android:text="Mobile Number"
-            android:textColor="@color/blue_1"
-            android:textStyle="normal"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-
-            />
-        <EditText
-            android:id="@+id/edittext_reg_mobile"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:hint="Enter mobile number"
-            android:inputType="textPassword"
-            android:backgroundTint="@color/blue_1"
-            android:layout_below="@+id/text_reg_mobile"/>
 
 
         <TextView
@@ -269,19 +223,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:layout_below="@+id/edittext_reg_mobile"
+            android:layout_below="@+id/reg_title"
             android:text="Hospital Name"
             android:textColor="@color/blue_1"
             android:textStyle="normal"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="25dp"
 
             />
         <EditText
             android:id="@+id/edittext_reg_hospitalname"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginTop="5dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
             android:hint="Enter mobile number"
@@ -306,20 +259,41 @@
             android:id="@+id/edittext_reg_hospitalregno"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginTop="5dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
             android:hint="Enter Registration number"
             android:inputType="textPassword"
             android:backgroundTint="@color/blue_1"
             android:layout_below="@+id/text_reg_hospitalregno"/>
+        <TextView
+            android:id="@+id/text_reg_mobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_below="@+id/edittext_reg_hospitalregno"
+            android:text="Mobile Number"
+            android:textColor="@color/blue_1"
+            android:textStyle="normal"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
 
+            />
+        <EditText
+            android:id="@+id/edittext_reg_mobile"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:hint="Enter mobile number"
+            android:inputType="textPassword"
+            android:backgroundTint="@color/blue_1"
+            android:layout_below="@+id/text_reg_mobile"/>
         <TextView
             android:id="@+id/text_regbtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:layout_below="@+id/edittext_reg_hospitalregno"
+            android:layout_below="@+id/edittext_reg_mobile"
             android:text="REGISTER"
             android:background="@drawable/gdridantcoolor"
             android:gravity="center"
@@ -329,7 +303,7 @@
             android:paddingEnd="45dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:layout_centerHorizontal="true"
             android:layout_marginEnd="15dp"
             />
@@ -373,5 +347,84 @@
 
 
     </RelativeLayout>
+</RelativeLayout>
+    <LinearLayout
+        android:id="@+id/linear_mainloginview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="2"
+        android:visibility="invisible"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/image_logo_mainview"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/blue2"/>
+
+            <TextView
+                android:id="@+id/mainview_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="28sp"
+                android:text="MEDDU"
+                android:textAlignment="center"
+                android:textColor="@color/blue_1"
+                android:textStyle="bold"
+                android:layout_below="@+id/image_logo_mainview"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.8">
+
+            <TextView
+                android:id="@+id/textv_hospital_login"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:textSize="20sp"
+                android:text="Hospital Login"
+                android:background="@drawable/gdridantcoolor"
+                android:layout_marginStart="45dp"
+                android:layout_marginEnd="45dp"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:layout_centerHorizontal="true"
+               />
+
+            <TextView
+                android:id="@+id/textv_doctor_login"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:textSize="20sp"
+                android:background="@drawable/gdridantcoolor"
+                android:layout_below="@+id/textv_hospital_login"
+                android:text="Doctor Login"
+                android:layout_marginStart="45dp"
+                android:layout_marginEnd="45dp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+
+                />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
 
 </RelativeLayout>
