@@ -2,13 +2,39 @@ package com.spiel.hospital;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 public class DoctorActivity extends AppCompatActivity {
-
+    TextView textv_doctorup,textv_doctor_logout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor);
+
+         textv_doctorup = (TextView) findViewById(R.id.textv_doctorup);
+        textv_doctor_logout = (TextView) findViewById(R.id.textv_doctor_logout);
+
+
+
+        textv_doctorup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(DoctorActivity.this,DoctorProfileActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+        textv_doctor_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DoctorActivity.this,MainViewActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

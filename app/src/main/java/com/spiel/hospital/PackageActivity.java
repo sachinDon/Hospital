@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,6 +54,16 @@ public class PackageActivity extends AppCompatActivity {
             CourseModel courseModel = getItem(position);
             TextView courseTV = listitemView.findViewById(R.id.idTVCourse);
             ImageView courseIV = listitemView.findViewById(R.id.idIVcourse);
+
+            courseIV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(PackageActivity.this,DoctorListActivity.class);
+                    startActivity(intent);
+                }
+            });
+
             courseTV.setText(courseModel.getCourse_name());
             courseIV.setImageResource(courseModel.getImgid());
             return listitemView;

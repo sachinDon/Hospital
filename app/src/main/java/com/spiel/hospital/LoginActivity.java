@@ -2,6 +2,7 @@ package com.spiel.hospital;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -10,7 +11,7 @@ import android.widget.TextView;
 public class LoginActivity extends AppCompatActivity {
 
     RelativeLayout card_login2,card_reg2;
-    TextView text_login_singup,text_reg_login;
+    TextView text_login_singup,text_reg_login,text_loginbtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,6 +20,7 @@ public class LoginActivity extends AppCompatActivity {
         card_reg2 = (RelativeLayout)findViewById(R.id.card_reg2);
         text_login_singup = (TextView)findViewById(R.id.text_login_singup);
         text_reg_login = (TextView)findViewById(R.id.text_reg_login);
+        text_loginbtn = (TextView)findViewById(R.id.text_reg_login);
 
 
         text_login_singup.setOnClickListener(new View.OnClickListener() {
@@ -36,6 +38,16 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 card_login2.setVisibility(View.VISIBLE);
                 card_reg2.setVisibility(View.INVISIBLE);
+
+            }
+        });
+
+        text_loginbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(LoginActivity.this,PackageActivity.class);
+                startActivity(intent);
 
             }
         });
