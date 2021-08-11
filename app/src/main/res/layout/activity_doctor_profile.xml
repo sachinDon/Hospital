@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DoctorProfileActivity">
+
+    <TextView
+        android:id="@+id/textview_doct_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="SureDoc"
+        android:gravity="center"
+        android:textSize="22sp"
+        android:textColor="@color/blue_1"
+        />
+    <TextView
+        android:id="@+id/textview_doct_back"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="Back"
+        android:paddingStart="20dp"
+        android:paddingEnd="30dp"
+        android:gravity="center"
+        android:textSize="22sp"
+        android:textColor="@color/blue_1"
+        />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/textview_doct_title"
+        >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <RelativeLayout
+            android:id="@+id/relative_doc_uploadpic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:id="@+id/imageview_profile_doc"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:background="@drawable/gdridantcoolor"
+                android:layout_centerHorizontal="true"
+                />
+            <TextView
+                android:id="@+id/textview_doct_uploadimage"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="Upload picture"
+                android:paddingStart="20dp"
+                android:paddingEnd="30dp"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/relative_doc_uploadpic"
+            >
+
+            <TextView
+                android:id="@+id/text_doctusername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="Name:"
+                android:textColor="@color/blue_1"
+                android:textStyle="normal"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="35dp"
+
+                />
+            <EditText
+                android:id="@+id/edittext_doctusername"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:hint="Enter your name"
+                android:backgroundTint="@color/blue_1"
+                android:layout_below="@+id/text_doctusername"/>
+
+            <TextView
+                android:id="@+id/text_doct_degree"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edittext_doctusername"
+                android:textSize="16sp"
+                android:text="Qualification:"
+                android:textColor="@color/blue_1"
+                android:textStyle="normal"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+
+                />
+            <EditText
+                android:id="@+id/edittext_doct_degree"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:hint="Enter your Qualification"
+                android:backgroundTint="@color/blue_1"
+                android:layout_below="@+id/text_doct_degree"/>
+
+            <TextView
+                android:id="@+id/text_doct_subjects"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edittext_doct_degree"
+                android:textSize="16sp"
+                android:text="Qualification:"
+                android:textColor="@color/blue_1"
+                android:textStyle="normal"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+
+                />
+            <EditText
+                android:id="@+id/edittext_doct_subjects"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:hint="Enter your Qualification"
+                android:backgroundTint="@color/blue_1"
+                android:layout_below="@+id/text_doct_subjects"/>
+
+            <TextView
+                android:id="@+id/text_doct_exps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edittext_doct_subjects"
+                android:textSize="16sp"
+                android:text="Experience:"
+                android:textColor="@color/blue_1"
+                android:textStyle="normal"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+
+                />
+            <EditText
+                android:id="@+id/edittext_doct_exps"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:hint="Enter your Qualification"
+                android:backgroundTint="@color/blue_1"
+                android:layout_below="@+id/text_doct_exps"/>
+
+            <TextView
+                android:id="@+id/text_doct_regstraionno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edittext_doct_exps"
+                android:textSize="16sp"
+                android:text="Registration No:"
+                android:textColor="@color/blue_1"
+                android:textStyle="normal"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+
+                />
+            <EditText
+                android:id="@+id/edittext_doct_registraionnimber"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:hint="Enter your registration no."
+                android:backgroundTint="@color/blue_1"
+                android:layout_below="@+id/text_doct_regstraionno"/>
+
+            <TextView
+                android:id="@+id/text_doct_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edittext_doct_registraionnimber"
+                android:textSize="16sp"
+                android:text="Address :"
+                android:textColor="@color/blue_1"
+                android:textStyle="normal"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+
+                />
+            <EditText
+                android:id="@+id/edittext_doct_address"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:hint="Enter your address"
+                android:backgroundTint="@color/blue_1"
+                android:layout_below="@+id/text_doct_address"/>
+
+            <TextView
+                android:id="@+id/text_doct_picode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edittext_doct_address"
+                android:textSize="16sp"
+                android:text="Pincode :"
+                android:textColor="@color/blue_1"
+                android:textStyle="normal"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+
+                />
+            <EditText
+                android:id="@+id/edittext_pincode"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:hint="Enter your pincode"
+                android:backgroundTint="@color/blue_1"
+                android:layout_below="@+id/text_doct_picode"/>
+
+            <TextView
+                android:id="@+id/text_doct_otherno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edittext_pincode"
+                android:textSize="16sp"
+                android:text="Other contact no :"
+                android:textColor="@color/blue_1"
+                android:textStyle="normal"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+
+                />
+            <EditText
+                android:id="@+id/edittext_otherno"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:hint="Enter your contact no"
+                android:backgroundTint="@color/blue_1"
+                android:layout_below="@+id/text_doct_otherno"/>
+
+            <TextView
+                android:id="@+id/text_doct_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edittext_otherno"
+                android:textSize="16sp"
+                android:text="Status:"
+                android:textColor="@color/blue_1"
+                android:textStyle="normal"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                />
+            <RadioButton
+                android:id="@+id/radio_doctor_avialbel"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="20dp"
+                android:layout_below="@+id/text_doct_status"/>
+            <TextView
+                android:id="@+id/text_doct_status_avilaible"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_toEndOf="@+id/radio_doctor_avialbel"
+                android:layout_below="@+id/text_doct_status"
+                android:textSize="16sp"
+                android:text="Availabel"
+                android:gravity="center"
+                android:textColor="@color/blue_2"
+                android:textStyle="normal"
+                android:layout_marginStart="8dp"
+                />
+
+            <RadioButton
+                android:id="@+id/radio_doctor_unavialbel"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@+id/text_doct_status_avilaible"
+                android:layout_below="@+id/text_doct_status"/>
+            <TextView
+                android:id="@+id/text_doct_status_unvilaible"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_toEndOf="@+id/radio_doctor_unavialbel"
+                android:layout_below="@+id/text_doct_status"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:text="Not Availabel"
+                android:textColor="@color/blue_2"
+                android:textStyle="normal"
+                android:layout_marginStart="8dp"
+                />
+
+            <TextView
+                android:id="@+id/text_doct_Fromtime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/radio_doctor_avialbel"
+                android:textSize="16sp"
+                android:text="From Time:"
+                android:textColor="@color/blue_1"
+                android:textStyle="normal"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                />
+
+
+            <TextView
+                android:id="@+id/text_doct_Fromtime1"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_alignLeft="@+id/text_doct_Fromtime"
+                android:layout_below="@+id/text_doct_Fromtime"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:background="@drawable/gdridantcoolor"
+                android:text="10:30 am"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textColor="@color/white"
+                android:textStyle="normal"
+                android:layout_marginTop="10dp"
+                />
+
+            <TextView
+                android:id="@+id/text_doct_totime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/text_doct_Fromtime"
+                android:layout_below="@+id/radio_doctor_avialbel"
+                android:textSize="16sp"
+                android:text="To Time:"
+                android:textColor="@color/blue_1"
+                android:textStyle="normal"
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="10dp"
+                />
+
+            <TextView
+                android:id="@+id/text_doct_totime1"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_below="@+id/text_doct_totime"
+               android:layout_alignLeft="@+id/text_doct_totime"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:background="@drawable/gdridantcoolor"
+                android:text="10:30 am"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textColor="@color/white"
+                android:textStyle="normal"
+                android:layout_marginTop="10dp"
+                />
+
+
+            <TextView
+                android:id="@+id/text_doct_submit_data"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_below="@+id/text_doct_totime1"
+              android:layout_centerHorizontal="true"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:background="@drawable/gdridantcoolor"
+                android:text="Submit"
+                android:paddingStart="60dp"
+                android:paddingEnd="60dp"
+                android:textColor="@color/white"
+                android:textStyle="normal"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="50dp"
+                />
+
+        </RelativeLayout>
+
+
+
+    </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

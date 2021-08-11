@@ -7,12 +7,12 @@
 
     <ImageView
         android:id="@+id/imageView_profilelogo"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:background="@drawable/gdridantcoolor"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
 
         />
 
@@ -24,8 +24,10 @@
         android:layout_toEndOf="@id/imageView_profilelogo"
         android:gravity="center_vertical"
         android:textColor="@color/black"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@+id/textView_doctor_chat"
         android:text="j fghf fghfhgfhgf hfh"
-        android:textSize="16sp"/>
+        android:textSize="15sp"/>
 
     <TextView
         android:id="@+id/textView_doctordegree"
@@ -36,8 +38,10 @@
         android:gravity="center_vertical"
         android:textColor="@color/black"
         android:layout_marginTop="7dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@+id/textView_doctor_chat"
         android:text="j fghf fghfhgfhgf hfh"
-        android:textSize="15sp"/>
+        android:textSize="14sp"/>
     <TextView
         android:id="@+id/textView_doctor_exp"
         android:layout_width="match_parent"
@@ -49,7 +53,7 @@
         android:layout_marginTop="7dp"
 
         android:text="Experience: 10yrs"
-        android:textSize="15sp"/>
+        android:textSize="14sp"/>
 
     <TextView
         android:id="@+id/textView_doctor_status"
@@ -60,8 +64,31 @@
         android:gravity="center_vertical"
         android:textColor="@color/black"
         android:layout_marginTop="7dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="15dp"
         android:text="Status: Availabel"
-        android:textSize="15sp"/>
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/textView_doctor_chat"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/hchat"
+        android:layout_alignTop="@+id/imageView_profilelogo"
+        android:layout_marginBottom="15dp"
+        android:textSize="14sp"/>
+
+
+    <TextView
+        android:id="@+id/textView_doctor_message"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/hmessage"
+        android:layout_alignBottom="@+id/textView_doctor_status"
+        android:layout_marginBottom="15dp"
+        android:textSize="14sp"/>
 
 </RelativeLayout>

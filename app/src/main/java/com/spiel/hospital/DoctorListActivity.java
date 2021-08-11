@@ -61,8 +61,8 @@ public class DoctorListActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             final MyListData myListData = listdata[position];
-            holder.textView.setText(listdata[position].getDescription());
-            holder.imageView.setImageResource(listdata[position].getImgId());
+            holder.textView_doctname.setText(listdata[position].getDescription());
+            holder.imageView_profilelogo.setImageResource(listdata[position].getImgId());
             holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -78,13 +78,16 @@ public class DoctorListActivity extends AppCompatActivity {
         }
 
         public  class ViewHolder extends RecyclerView.ViewHolder {
-            public ImageView imageView;
-            public TextView textView;
+            public ImageView imageView_profilelogo;
+            public TextView textView_doctname,textView_doctor_exp,textView_doctordegree,textView_doctor_status;
             public RelativeLayout relativeLayout;
             public ViewHolder(View itemView) {
                 super(itemView);
-                this.imageView = (ImageView) itemView.findViewById(R.id.imageView);
-                this.textView = (TextView) itemView.findViewById(R.id.textView);
+                this.imageView_profilelogo = (ImageView) itemView.findViewById(R.id.imageView_profilelogo);
+                this.textView_doctname = (TextView) itemView.findViewById(R.id.textView_doctname);
+                this.textView_doctordegree = (TextView) itemView.findViewById(R.id.textView_doctordegree);
+                this.textView_doctor_exp = (TextView) itemView.findViewById(R.id.textView_doctor_exp);
+                this.textView_doctor_status = (TextView) itemView.findViewById(R.id.textView_doctor_status);
                 relativeLayout = (RelativeLayout)itemView.findViewById(R.id.relativeLayout);
             }
         }
