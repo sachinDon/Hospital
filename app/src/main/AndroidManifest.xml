@@ -12,10 +12,10 @@
         <activity android:name=".DoctorActivity"></activity>
         <activity android:name=".DoctorProfileActivity" />
         <activity android:name=".LoginDoctorActivity" />
-        <activity android:name=".MainViewActivity" />
+        <activity android:name=".LoginActivity" />
         <activity android:name=".DoctorListActivity" />
         <activity android:name=".PackageActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".MainViewActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
