@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 public class DoctorListActivity extends AppCompatActivity {
 
+      TextView textview_doctlist_eqp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +36,16 @@ public class DoctorListActivity extends AppCompatActivity {
                 new MyListData("Alert", android.R.drawable.ic_dialog_alert),
                 new MyListData("Map", android.R.drawable.ic_dialog_map),
         };
+        textview_doctlist_eqp = (TextView) findViewById(R.id.textview_doctlist_eqp);
+
+        textview_doctlist_eqp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(DoctorListActivity.this,EquipementActivity.class);
+                startActivity(intent);
+            }
+        });
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView_doctorlist);
         MyListAdapter adapter = new MyListAdapter(myListData);
@@ -53,7 +65,7 @@ public class DoctorListActivity extends AppCompatActivity {
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-            View listItem= layoutInflater.inflate(R.layout.doctorlist_item, parent, false);
+            View listItem= layoutInflater.inflate(R.layout.doctor_itemlist1, parent, false);
             ViewHolder viewHolder = new ViewHolder(listItem);
             return viewHolder;
         }

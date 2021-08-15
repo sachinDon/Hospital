@@ -5,28 +5,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".PackageActivity">
+    tools:context=".EquipementActivity">
 
+<RelativeLayout
+    android:id="@+id/relative_top_eque"
+    android:layout_width="wrap_content"
+    android:layout_height="55dp"
+    android:background="@color/blue_1">
 
     <TextView
-        android:id="@+id/text_pckg_titles"
+        android:id="@+id/text_eqp_titles"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="match_parent"
         android:textSize="22sp"
-        android:text="Packaages"
-        android:background="@color/blue_1"
+        android:text="Equipements"
         android:fontFamily="sans-serif-black"
         android:gravity="center"/>
 
+    <TextView
+        android:id="@+id/text_back_equp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="Back"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:paddingLeft="15dp"
+        android:paddingRight="25dp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/white"/>
+
+</RelativeLayout>
+
+
     <SearchView
-        android:id="@+id/serch_pckg_searchView"
+        android:id="@+id/serch_equp_searchView"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="@color/ligt_gray"
         android:queryBackground="@color/ligt_gray"
         android:queryHint="Search here"
         android:iconifiedByDefault="false"
-        android:layout_below="@+id/text_pckg_titles"
+        android:layout_below="@+id/relative_top_eque"
         android:closeIcon="@drawable/ic_baseline_close_24"
         android:searchIcon="@drawable/ic_baseline_search_24"
 
@@ -34,11 +53,12 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView_pckage_list"
+        android:id="@+id/recyclerView_equp_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/serch_pckg_searchView"
+        android:layout_below="@+id/serch_equp_searchView"
         android:scrollbars="vertical">
     </androidx.recyclerview.widget.RecyclerView>
+
 
 </RelativeLayout>
