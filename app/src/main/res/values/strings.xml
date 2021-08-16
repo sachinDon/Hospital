@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Hospital</string>
+    <string name="app_name">SureDoc</string>
+    <string name="selectcountry">Select country</string>
+    <string name="verified">Verification successful</string>
 </resources>

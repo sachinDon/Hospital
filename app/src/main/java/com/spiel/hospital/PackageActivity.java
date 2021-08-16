@@ -29,7 +29,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class PackageActivity extends AppCompatActivity {
-
+ TextView text_submitpckg;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +56,18 @@ public class PackageActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+
+        text_submitpckg = (TextView)findViewById(R.id.text_submitpckg);
+        text_submitpckg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent intent = new Intent(PackageActivity.this,DoctorListActivity.class);
+                startActivity(intent);
+
+            }
+        });
     }
 
 

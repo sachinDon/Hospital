@@ -13,6 +13,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+        buildConfigField "String", "SEND_OTP_KEY", '"334053Akxn2Lw0DvR5efa3c61P1"'
     }
 
     buildTypes {
@@ -35,4 +37,5 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation 'com.msg91.sendotpandroid.library:library:1.2.2'
 }

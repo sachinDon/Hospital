@@ -24,15 +24,16 @@
                 android:text="SureDoc"
                 android:gravity="center"
                 android:textSize="22sp"
+                android:fontFamily="sans-serif-black"
                 android:textColor="@color/blue_1"
                 />
             <ImageView
                 android:id="@+id/image_logo_mainview1"
-                android:layout_width="200dp"
+                android:layout_width="350dp"
                 android:layout_height="200dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/blue2"/>
+                android:background="@drawable/logo"/>
 
             <TextView
                 android:id="@+id/mainview_title1"
@@ -42,7 +43,7 @@
                 android:text="Sachin Mokashi"
                 android:textAlignment="center"
                 android:textColor="@color/blue_1"
-                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium"
                 android:layout_below="@+id/image_logo_mainview1"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
@@ -66,7 +67,7 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:textColor="@color/white"
-                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium"
                 android:layout_centerHorizontal="true"
                 />
 
@@ -81,8 +82,8 @@
                 android:layout_marginStart="40dp"
                 android:layout_marginEnd="40dp"
                 android:gravity="center"
+                android:fontFamily="sans-serif-medium"
                 android:textColor="@color/white"
-                android:textStyle="bold"
                 android:layout_marginTop="20dp"
 
                 />

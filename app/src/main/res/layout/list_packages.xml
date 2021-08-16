@@ -2,7 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/white">
 
 <RelativeLayout
@@ -45,11 +45,11 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:textColor="@color/green_1"
+            android:textColor="@color/black"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:textSize="15sp"
-            android:fontFamily="sans-serif-medium"
+            android:fontFamily="sans-serif"
             android:text="QuterYearly"/>
 
         <TextView
@@ -74,7 +74,7 @@
         android:gravity="center"
         android:layout_alignParentEnd="true"
 
-        android:textColor="@color/black"
+        android:textColor="@color/green_2"
         android:fontFamily="sans-serif-medium"/>
 
     <TextView

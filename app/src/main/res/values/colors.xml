@@ -16,5 +16,9 @@
     <color name="blue_3">#F546B7F3</color>
     <color name="blue_1">#00A5FD</color>
     <color name="green_1">#14B60F</color>
+    <color name="green_2">#047C00</color>
     <color name="ligt_gray">#7C7C7C</color>
+    <color name="transperent">#05000000</color>
+    <color name="colorred">#FF0000</color>
+
 </resources>

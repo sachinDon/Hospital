@@ -46,7 +46,11 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                Intent intent = new Intent(LoginActivity.this,PackageActivity.class);
+                Intent intent = new Intent(LoginActivity.this,OtpmsgActivity.class);
+
+                intent.putExtra("mobile", "8850519524");
+                OtpmsgActivity.str_pagetype = "reg";
+                startActivity(intent);
                 startActivity(intent);
 
             }
