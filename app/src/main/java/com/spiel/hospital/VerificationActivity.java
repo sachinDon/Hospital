@@ -83,8 +83,7 @@ public class VerificationActivity extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
 
-                Intent intents= new Intent(VerificationActivity.this,LoginActivity.class);
-                startActivity(intents);
+                finish();
 
             }
         });
@@ -418,7 +417,7 @@ public class VerificationActivity extends AppCompatActivity implements
 
             try {
 
-                URL url = new URL(Urlclass.verifymobile);
+                URL url = new URL(Urlclass.registration);
                 JSONObject postDataParams = new JSONObject();
 
 
@@ -476,70 +475,97 @@ public class VerificationActivity extends AppCompatActivity implements
 
 
 
-            if (result.equalsIgnoreCase("nullerror"))
-            {
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(VerificationActivity.this);
-                builder1.setTitle("Oops");
-                builder1.setMessage("Your Facebook Account Id seems to be absent. Please login and try again.");
-                builder1.setCancelable(false);
-                builder1.setPositiveButton("Ok",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                                // finish();
+            if (!result.equalsIgnoreCase("")) {
+                try {
+                    JSONArray jsonarray = new JSONArray(result);
+
+                    JSONObject obj_values = new JSONObject(String.valueOf(jsonarray.getString(0)));
+
+
+
+                    if (jsonarray != null) {
+
+                        if (obj_values.getString("status").equalsIgnoreCase("success1")) {
+
+                            if (obj_values.getString("result").equalsIgnoreCase("noregister"))
+                            {
+                                Intent intent = new Intent(VerificationActivity.this,RegisterActivity.class);
+                                RegisterActivity.str_mobileno= str_mobileno;
+                                startActivity(intent);
                             }
-                        });
-                alertDialog_Box = builder1.create();
-                alertDialog_Box.show();
-
-
-
-
-            }
-            else if (result.equalsIgnoreCase("updateerror"))
-            {
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(VerificationActivity.this);
-                builder1.setTitle("Oops");
-                builder1.setMessage("Server encountered an error in verifying your mobile number. Please try again later.");
-                builder1.setCancelable(false);
-                builder1.setPositiveButton("Ok",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                                // finish();
+                           else if (obj_values.getString("result").equalsIgnoreCase("register"))
+                            {
+                            Intent intent = new Intent(VerificationActivity.this,DoctorListActivity.class);
+                            startActivity(intent);
                             }
-                        });
-                alertDialog_Box = builder1.create();
-                alertDialog_Box.show();
+                         else
+                            {
 
+                                AlertDialog.Builder builder1 = new AlertDialog.Builder(VerificationActivity.this);
+                                builder1.setTitle("Oops");
+                                builder1.setMessage("Server encountered an error . Please try again later.");
+                                builder1.setCancelable(false);
+                                builder1.setPositiveButton("Ok",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                dialog.cancel();
+                                                // finish();
+                                            }
+                                        });
+                                alertDialog_Box = builder1.create();
+                                alertDialog_Box.show();
 
-            }
-            else if (result.equalsIgnoreCase("alreadyregistered"))
-            {
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(VerificationActivity.this);
-                builder1.setTitle("Already registered");
-                builder1.setMessage("Sorry your mobile number has already been registered by some other user. Please try using another mobile number.");
-                builder1.setCancelable(false);
-                builder1.setPositiveButton("Ok",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                                // finish();
                             }
-                        });
-                alertDialog_Box = builder1.create();
-                alertDialog_Box.show();
+
+                        }
+                       else if (obj_values.getString("result").equalsIgnoreCase("failure"))
+                        {
 
 
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(VerificationActivity.this);
+                            builder1.setTitle("Oops");
+                            builder1.setMessage(obj_values.getString("errormessage"));
+                            builder1.setCancelable(false);
+                            builder1.setPositiveButton("Ok",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                            // finish();
+                                        }
+                                    });
+                            alertDialog_Box = builder1.create();
+                            alertDialog_Box.show();
+                        }
+                        else
+
+                            {
+
+
+                                AlertDialog.Builder builder1 = new AlertDialog.Builder(VerificationActivity.this);
+                                builder1.setTitle("Oops");
+                                builder1.setMessage("Server encountered an error. Please try again later.");
+                                builder1.setCancelable(false);
+                                builder1.setPositiveButton("Ok",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                dialog.cancel();
+                                                // finish();
+                                            }
+                                        });
+                                alertDialog_Box = builder1.create();
+                                alertDialog_Box.show();
+
+
+                        }
+                    }
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-            else if (result.equalsIgnoreCase("updated"))
-            {
-                editor.putString("login", "yes");
-                editor.commit();
-//                Intent intent = new Intent(VerificationActivity.this, HomeActivity.class);
-//                startActivity(intent);
 
-            }
             else
             {
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(VerificationActivity.this);

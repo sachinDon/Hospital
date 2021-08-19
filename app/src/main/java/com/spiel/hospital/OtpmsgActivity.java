@@ -34,7 +34,7 @@ public class OtpmsgActivity extends AppCompatActivity {
     public static final String INTENT_COUNTRY_CODE = "code";
 
     private EditText mPhoneNumber;
-    private TextView mSmsButton,text_edittext_register;
+    private TextView mSmsButton;
     private String mCountryIso,str_mobileno;
     private TextWatcher mNumberTextWatcher;
     public  static String str_pagetype="";
@@ -49,7 +49,7 @@ public class OtpmsgActivity extends AppCompatActivity {
 
         mPhoneNumber = findViewById(R.id.phoneNumber);
         mSmsButton = findViewById(R.id.smsVerificationButton);
-        text_edittext_register= (TextView) findViewById(R.id.text_edittext_register);
+
         Intent intent = getIntent();
         if (intent != null) {
 
@@ -57,26 +57,11 @@ public class OtpmsgActivity extends AppCompatActivity {
             mPhoneNumber.setText(str_mobileno);
 
         }
-        if (str_pagetype.equalsIgnoreCase("for"))
-        {
-            text_edittext_register.setVisibility(View.INVISIBLE);
-        }
-        else
-        {
-            text_edittext_register.setVisibility(View.VISIBLE);
-        }
+
 
         LocalBroadcastManager.getInstance(OtpmsgActivity.this).registerReceiver(updateotp,
                 new IntentFilter("updateotp"));
-        text_edittext_register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-//                SignUpActivity.str_viewpage="editotp";
-//                Intent intent = new Intent(info.wkweb.com.medical.OtpmsgActivity.this,SignUpActivity.class);
-//                startActivity(intent);
-            }
-        });
 
         mCountryIso = PhoneNumberUtils.getDefaultCountryIso(this);
         final String defaultCountryName = new Locale("", mCountryIso).getDisplayName();
@@ -155,11 +140,11 @@ public class OtpmsgActivity extends AppCompatActivity {
             public synchronized void afterTextChanged(Editable s) {
                 super.afterTextChanged(s);
                 if (isPossiblePhoneNumber()) {
-                    setButtonsEnabled(true);
-                    mPhoneNumber.setTextColor(Color.WHITE);
+                    //setButtonsEnabled(true);
+                    mPhoneNumber.setTextColor(Color.BLACK);
                 } else {
-                    setButtonsEnabled(false);
-                    mPhoneNumber.setTextColor(Color.RED);
+                   // setButtonsEnabled(false);
+                    mPhoneNumber.setTextColor(Color.BLACK);
                 }
             }
         };

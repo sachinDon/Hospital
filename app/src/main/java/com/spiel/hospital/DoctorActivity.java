@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 public class DoctorActivity extends AppCompatActivity {
     TextView textv_doctorup,textv_doctor_logout;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,7 +18,6 @@ public class DoctorActivity extends AppCompatActivity {
 
          textv_doctorup = (TextView) findViewById(R.id.textv_doctorup);
         textv_doctor_logout = (TextView) findViewById(R.id.textv_doctor_logout);
-
 
 
         textv_doctorup.setOnClickListener(new View.OnClickListener() {

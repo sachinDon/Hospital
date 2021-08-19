@@ -44,7 +44,7 @@ public class CountrySpinner extends AppCompatSpinner {
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                 final String selectedCountry = (String) adapterView.getItemAtPosition(position);
                 TextView textView = (TextView) view;
-                textView.setTextColor(getResources().getColor(R.color.white));
+                textView.setTextColor(getResources().getColor(R.color.blue_1));
                 notifyListeners(selectedCountry);
             }
 

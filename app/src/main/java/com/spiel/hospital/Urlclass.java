@@ -9,10 +9,10 @@ public class Urlclass
     public static String admin_username = "sachin";
     public static String admin_password = "sachin";
    // public static String url = "http://demodb.akwisys.com/";
-   public static String url = "http://pritama.akwisys.com/";//http://chhatrasangh.in/";//http://pritama.akwisys.com/";//"http://pritama.bestharvest.co.in/";
+   public static String url = "http://suredoc.akwebinfotech.com/";//http://chhatrasangh.in/";//http://pritama.akwisys.com/";//"http://pritama.bestharvest.co.in/";
 
 
-    public static String registerlogin = url + "registerlogin.php";
+    public static String registration = url + "registration.php";
     public static String login = url+"login.php";
     public static String changepassword= url + "changepassword.php";
 
