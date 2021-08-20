@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -32,14 +33,18 @@ public class RegisterActivity extends AppCompatActivity {
 
     AlertDialog alertDialog_Box;
     public  static  String str_mobileno;
-    ProgressDialog progressDialog,progressDialog1;
+    ProgressDialog progressDialog1;
     EditText edittext_reg_hospitalname,edittext_reg_hospitalregno,edittext_reg_mobile;
     TextView text_regbtn;
+    public SharedPreferences pref;
+    SharedPreferences.Editor editor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        editor = pref.edit();
 
         edittext_reg_hospitalname = (EditText) findViewById(R.id.edittext_reg_hospitalname);
         edittext_reg_hospitalregno = (EditText) findViewById(R.id.edittext_reg_hospitalregno);
@@ -53,7 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
                 progressDialog1 = new ProgressDialog(RegisterActivity.this);
-                progressDialog1.setMessage("Verifying..."); // Setting Message
+                progressDialog1.setMessage("Register..."); // Setting Message
                 progressDialog1.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 progressDialog1.show(); // Display Progress Dialog
                 progressDialog1.setCancelable(false);
@@ -74,7 +79,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             try {
 
-                URL url = new URL(Urlclass.registration);
+                URL url = new URL(Urlclass.registration1);
                 JSONObject postDataParams = new JSONObject();
 
 
@@ -144,17 +149,35 @@ public class RegisterActivity extends AppCompatActivity {
 
                     if (jsonarray != null) {
 
-                        if (obj_values.getString("status").equalsIgnoreCase("success1")) {
+                        if (obj_values.getString("status").equalsIgnoreCase("1")) {
 
                             if (obj_values.getString("result").equalsIgnoreCase("noregister"))
                             {
-                                Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
+                                Intent intent = new Intent(RegisterActivity.this,OtpmsgActivity.class);
                                 startActivity(intent);
                             }
                             else if (obj_values.getString("result").equalsIgnoreCase("register"))
                             {
-                                Intent intent = new Intent(RegisterActivity.this,DoctorListActivity.class);
-                                startActivity(intent);
+
+                                AlertDialog.Builder builder1 = new AlertDialog.Builder(RegisterActivity.this);
+                                builder1.setTitle("Sucessfull!");
+                                builder1.setMessage(obj_values.getString("errormessage"));
+                                builder1.setCancelable(false);
+                                builder1.setPositiveButton("Ok",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                dialog.cancel();
+
+                                                editor.putString("login", "yes");
+                                                editor.commit();
+
+                                                Intent intent = new Intent(RegisterActivity.this,DoctorListActivity.class);
+                                                startActivity(intent);
+                                            }
+                                        });
+                                alertDialog_Box = builder1.create();
+                                alertDialog_Box.show();
+
                             }
                             else
                             {
@@ -176,7 +199,7 @@ public class RegisterActivity extends AppCompatActivity {
                             }
 
                         }
-                        else if (obj_values.getString("result").equalsIgnoreCase("failure"))
+                        else if (obj_values.getString("result").equalsIgnoreCase("0"))
                         {
 
 
@@ -241,7 +264,7 @@ public class RegisterActivity extends AppCompatActivity {
                 alertDialog_Box.show();
             }
 
-            progressDialog.dismiss();
+            progressDialog1.dismiss();
 
 //                else
 //                {

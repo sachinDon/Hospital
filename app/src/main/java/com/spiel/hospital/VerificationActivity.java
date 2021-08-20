@@ -485,7 +485,7 @@ public class VerificationActivity extends AppCompatActivity implements
 
                     if (jsonarray != null) {
 
-                        if (obj_values.getString("status").equalsIgnoreCase("success1")) {
+                        if (obj_values.getString("status").equalsIgnoreCase("1")) {
 
                             if (obj_values.getString("result").equalsIgnoreCase("noregister"))
                             {
@@ -495,6 +495,8 @@ public class VerificationActivity extends AppCompatActivity implements
                             }
                            else if (obj_values.getString("result").equalsIgnoreCase("register"))
                             {
+                                editor.putString("login", "yes");
+                                editor.commit();
                             Intent intent = new Intent(VerificationActivity.this,DoctorListActivity.class);
                             startActivity(intent);
                             }
@@ -518,7 +520,7 @@ public class VerificationActivity extends AppCompatActivity implements
                             }
 
                         }
-                       else if (obj_values.getString("result").equalsIgnoreCase("failure"))
+                       else if (obj_values.getString("result").equalsIgnoreCase("0"))
                         {
 
 

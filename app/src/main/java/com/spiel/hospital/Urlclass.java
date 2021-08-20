@@ -13,8 +13,9 @@ public class Urlclass
 
 
     public static String registration = url + "registration.php";
-    public static String login = url+"login.php";
-    public static String changepassword= url + "changepassword.php";
+ public static String registration1 = url + "registration1.php";
+    public static String getdoctorlist = url+"getdoctorlist.php";
+    public static String doctorlogin= url + "doctorlogin.php";
 
     public static String forgotpassword = url + "forgotpassword.php";
     public static String getareapincode = url + "getareapincode.php";

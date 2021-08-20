@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bottom_border">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
+        app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+        app:strokeColor="@color/ligt_gray"
+        app:strokeWidth="0dp"
+
         android:id="@+id/imageView_profilelogo"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:background="@drawable/gdridantcoolor"
+        android:background="@drawable/defaultdoctor"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginTop="15dp"
@@ -25,6 +30,7 @@
         android:gravity="center_vertical"
         android:textColor="@color/black"
         android:layout_marginEnd="10dp"
+        android:fontFamily="sans-serif-black"
         android:layout_toStartOf="@+id/textView_doctor_chat"
         android:text="j fghf fghfhgfhgf hfh"
         android:textSize="15sp"/>
@@ -36,6 +42,7 @@
         android:layout_below="@+id/textView_doctname"
         android:layout_toEndOf="@id/imageView_profilelogo"
         android:gravity="center_vertical"
+        android:fontFamily="sans-serif-medium"
         android:textColor="@color/black"
         android:layout_marginTop="7dp"
         android:layout_marginEnd="10dp"
@@ -49,6 +56,7 @@
         android:layout_below="@+id/textView_doctordegree"
         android:layout_toEndOf="@id/imageView_profilelogo"
         android:gravity="center_vertical"
+        android:fontFamily="sans-serif-medium"
         android:textColor="@color/black"
         android:layout_marginTop="7dp"
 
@@ -59,6 +67,7 @@
         android:id="@+id/textView_doctor_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
         android:layout_below="@+id/textView_doctor_exp"
         android:layout_toEndOf="@id/imageView_profilelogo"
         android:gravity="center_vertical"
