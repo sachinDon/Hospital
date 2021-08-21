@@ -54,10 +54,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
+                app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+                app:strokeColor="@color/ligt_gray"
+                app:strokeWidth="1dp"
                 android:id="@+id/imageview_profile_doc"
-                android:layout_width="300dp"
-                android:layout_height="180dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
                 android:background="@drawable/logo"
                 android:layout_centerHorizontal="true"
                 />
@@ -72,7 +75,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:textSize="16sp"
-                android:textColor="@color/white"
+                android:fontFamily="sans-serif-black"
+                android:textColor="@color/blue_1"
                 />
         </RelativeLayout>
 
@@ -90,7 +94,7 @@
                 android:textSize="16sp"
                 android:text="Name:"
                 android:textColor="@color/blue_1"
-                android:textStyle="normal"
+                android:fontFamily="sans-serif-medium"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="35dp"
 
@@ -102,6 +106,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:hint="Enter your name"
+                android:fontFamily="sans-serif-medium"
                 android:backgroundTint="@color/blue_1"
                 android:layout_below="@+id/text_doctusername"/>
 
@@ -113,7 +118,7 @@
                 android:textSize="16sp"
                 android:text="Qualification:"
                 android:textColor="@color/blue_1"
-                android:textStyle="normal"
+                android:fontFamily="sans-serif-medium"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
 
@@ -125,6 +130,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:hint="Enter your Qualification"
+                android:fontFamily="sans-serif-medium"
                 android:backgroundTint="@color/blue_1"
                 android:layout_below="@+id/text_doct_degree"/>
 
@@ -134,9 +140,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/edittext_doct_degree"
                 android:textSize="16sp"
-                android:text="Qualification:"
+                android:text="Specialist:"
                 android:textColor="@color/blue_1"
-                android:textStyle="normal"
+                android:fontFamily="sans-serif-medium"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
 
@@ -147,6 +153,7 @@
                 android:layout_height="40dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
+                android:fontFamily="sans-serif-medium"
                 android:hint="Enter your Qualification"
                 android:backgroundTint="@color/blue_1"
                 android:layout_below="@+id/text_doct_subjects"/>
@@ -159,7 +166,7 @@
                 android:textSize="16sp"
                 android:text="Experience:"
                 android:textColor="@color/blue_1"
-                android:textStyle="normal"
+                android:fontFamily="sans-serif-medium"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
 
@@ -182,7 +189,7 @@
                 android:textSize="16sp"
                 android:text="Registration No:"
                 android:textColor="@color/blue_1"
-                android:textStyle="normal"
+                android:fontFamily="sans-serif-medium"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
 
@@ -193,6 +200,7 @@
                 android:layout_height="40dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
+                android:fontFamily="sans-serif-medium"
                 android:hint="Enter your registration no."
                 android:backgroundTint="@color/blue_1"
                 android:layout_below="@+id/text_doct_regstraionno"/>
@@ -205,7 +213,7 @@
                 android:textSize="16sp"
                 android:text="Address :"
                 android:textColor="@color/blue_1"
-                android:textStyle="normal"
+                android:fontFamily="sans-serif-medium"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
 
@@ -216,6 +224,7 @@
                 android:layout_height="40dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
+                android:fontFamily="sans-serif-medium"
                 android:hint="Enter your address"
                 android:backgroundTint="@color/blue_1"
                 android:layout_below="@+id/text_doct_address"/>
@@ -228,7 +237,7 @@
                 android:textSize="16sp"
                 android:text="Pincode :"
                 android:textColor="@color/blue_1"
-                android:textStyle="normal"
+                android:fontFamily="sans-serif-medium"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
 
@@ -240,6 +249,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:hint="Enter your pincode"
+                android:fontFamily="sans-serif-medium"
                 android:backgroundTint="@color/blue_1"
                 android:layout_below="@+id/text_doct_picode"/>
 
@@ -251,7 +261,7 @@
                 android:textSize="16sp"
                 android:text="Other contact no :"
                 android:textColor="@color/blue_1"
-                android:textStyle="normal"
+                android:fontFamily="sans-serif-medium"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
 
@@ -274,7 +284,7 @@
                 android:textSize="16sp"
                 android:text="Status:"
                 android:textColor="@color/blue_1"
-                android:textStyle="normal"
+                android:fontFamily="sans-serif-medium"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 />
@@ -294,7 +304,7 @@
                 android:text="Availabel"
                 android:gravity="center"
                 android:textColor="@color/blue_2"
-                android:textStyle="normal"
+                android:fontFamily="sans-serif-medium"
                 android:layout_marginStart="8dp"
                 />
 
@@ -327,7 +337,7 @@
                 android:textSize="16sp"
                 android:text="From Time:"
                 android:textColor="@color/blue_1"
-                android:textStyle="normal"
+                android:fontFamily="sans-serif-medium"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 />
@@ -346,7 +356,7 @@
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:textColor="@color/white"
-                android:textStyle="normal"
+                android:fontFamily="sans-serif-medium"
                 android:layout_marginTop="10dp"
                 />
 
@@ -359,7 +369,7 @@
                 android:textSize="16sp"
                 android:text="To Time:"
                 android:textColor="@color/blue_1"
-                android:textStyle="normal"
+                android:fontFamily="sans-serif-medium"
                 android:layout_marginStart="60dp"
                 android:layout_marginTop="10dp"
                 />
@@ -377,7 +387,7 @@
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:textColor="@color/white"
-                android:textStyle="normal"
+                android:fontFamily="sans-serif-medium"
                 android:layout_marginTop="10dp"
                 />
 
@@ -395,7 +405,7 @@
                 android:paddingStart="60dp"
                 android:paddingEnd="60dp"
                 android:textColor="@color/white"
-                android:textStyle="normal"
+                android:fontFamily="sans-serif-medium"
                 android:layout_marginTop="50dp"
                 android:layout_marginBottom="50dp"
                 />

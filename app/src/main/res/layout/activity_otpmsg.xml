@@ -6,6 +6,12 @@
     android:background="@color/white"
     android:padding="0dip"
     tools:context=".MainActivity">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_login12"
@@ -40,30 +46,30 @@
         android:id="@+id/numberInputLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginTop="-30dp"
-        android:layout_marginBottom="60dp"
-        android:orientation="vertical"
         android:layout_below="@+id/card_login12"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="-30dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="60dp"
         android:background="@drawable/shadow"
+        android:orientation="vertical"
         android:paddingLeft="40dp"
         android:paddingRight="40dp">
 
         <ImageView
-            android:layout_marginTop="60dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="60dp"
             android:src="@drawable/ic_sendotp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_marginTop="15dp"
-            android:text="OTP will be send at this No."
             android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="OTP will be send at this No."
             android:textColor="@color/blue_1"
             android:textSize="16sp" />
 
@@ -81,10 +87,9 @@
                 style="@style/SpinnerTheme"
                 android:layout_width="255dp"
                 android:layout_height="wrap_content"
-                android:prompt="@string/selectcountry"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:prompt="@string/selectcountry" />
         </LinearLayout>
-
 
 
         <EditText
@@ -93,13 +98,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
-            android:hint="Enter mobile number"
-            android:padding="10dp"
             android:background="@drawable/bottom_border"
+            android:hint="Enter mobile number"
             android:inputType="textPhonetic"
+            android:padding="10dp"
             android:textColor="@color/blue_1"
             android:textColorHint="@color/ligt_gray"
             android:textSize="16sp">
+
             <requestFocus />
         </EditText>
 
@@ -107,8 +113,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="60dp"
             android:gravity="center"
+
             android:orientation="horizontal"
             android:weightSum="1">
 
@@ -119,18 +126,17 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_weight=".5"
                 android:background="@drawable/gdridantcoolor"
+                android:fontFamily="sans-serif-black"
                 android:gravity="center"
                 android:onClick="onButtonClicked"
-                android:paddingEnd="25dp"
                 android:paddingStart="25dp"
                 android:paddingTop="15dp"
+                android:paddingEnd="25dp"
                 android:paddingBottom="15dp"
                 android:text="Login"
                 android:textAllCaps="false"
-                android:fontFamily="sans-serif-black"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
-
 
 
         </LinearLayout>
@@ -166,6 +172,6 @@
 
 
     </LinearLayout>
-
-
+    </RelativeLayout>
+</ScrollView>
 </RelativeLayout>

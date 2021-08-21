@@ -17,7 +17,7 @@ public class Urlclass
     public static String getdoctorlist = url+"getdoctorlist.php";
     public static String doctorlogin= url + "doctorlogin.php";
 
-    public static String forgotpassword = url + "forgotpassword.php";
+    public static String doctorprofile = url + "doctorprofile.php";
     public static String getareapincode = url + "getareapincode.php";
     //public static String product= url + "productcheck.php";//product.php
     public static String product= url + "product.php";
