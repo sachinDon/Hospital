@@ -146,6 +146,11 @@ public class LoginDoctorActivity extends AppCompatActivity {
                         if (obj_values.getString("status").equalsIgnoreCase("1"))
                         {
 
+                            JSONArray array_result = new JSONArray(obj_values.getString("result"));
+                            JSONObject obj_newResult = new JSONObject(String.valueOf(array_result.get(0)));
+
+
+
                             AlertDialog.Builder builder1 = new AlertDialog.Builder(LoginDoctorActivity.this);
                             builder1.setTitle("Sucessfull!");
                             builder1.setMessage(obj_values.getString("errormessage"));
@@ -154,6 +159,8 @@ public class LoginDoctorActivity extends AppCompatActivity {
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
                                             dialog.cancel();
+
+                                            editor.putString("logindoctordetails", String.valueOf(obj_newResult));
                                             editor.putString("logindoctor","yes");
                                             editor.commit();
                                             Intent intent = new Intent(LoginDoctorActivity.this,DoctorActivity.class);
@@ -164,7 +171,7 @@ public class LoginDoctorActivity extends AppCompatActivity {
                             alertDialog_Box.show();
 
 
-                        } else if (obj_values.getString("status").equalsIgnoreCase("0")) {
+                     } else if (obj_values.getString("status").equalsIgnoreCase("0")) {
 
 
                             AlertDialog.Builder builder1 = new AlertDialog.Builder(LoginDoctorActivity.this);
@@ -294,4 +301,5 @@ public class LoginDoctorActivity extends AppCompatActivity {
     public void onBackPressed() {
 
     }
+
 }

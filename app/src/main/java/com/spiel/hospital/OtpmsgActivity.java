@@ -67,6 +67,7 @@ public class OtpmsgActivity extends AppCompatActivity {
         final String defaultCountryName = new Locale("", mCountryIso).getDisplayName();
         final CountrySpinner spinner = (CountrySpinner) findViewById(R.id.spinner);
         spinner.init(defaultCountryName);
+        spinner.setEnabled(false);
         spinner.addCountryIsoSelectedListener(new CountrySpinner.CountryIsoSelectedListener() {
             @Override
             public void onCountryIsoSelected(String selectedIso) {
@@ -139,12 +140,15 @@ public class OtpmsgActivity extends AppCompatActivity {
             @Override
             public synchronized void afterTextChanged(Editable s) {
                 super.afterTextChanged(s);
-                if (isPossiblePhoneNumber()) {
-                    //setButtonsEnabled(true);
-                    mPhoneNumber.setTextColor(Color.BLACK);
+                if (isPossiblePhoneNumber())
+                {
+                    setButtonsEnabled(true);
+                    mSmsButton.setTextColor(getResources().getColor(R.color.white));
+                    mPhoneNumber.setTextColor(getResources().getColor(R.color.blue_1));
                 } else {
-                   // setButtonsEnabled(false);
-                    mPhoneNumber.setTextColor(Color.BLACK);
+                   setButtonsEnabled(false);
+                    mPhoneNumber.setTextColor(getResources().getColor(R.color.colorred));
+                    mSmsButton.setTextColor(getResources().getColor(R.color.colorred));
                 }
             }
         };
@@ -176,7 +180,5 @@ public class OtpmsgActivity extends AppCompatActivity {
 
         }
     };
-    public void onBackPressed() {
 
-    }
 }

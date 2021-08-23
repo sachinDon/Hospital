@@ -51,20 +51,7 @@ public class DoctorListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_list);
 
-        MyListData[] myListData = new MyListData[] {
-                new MyListData("Email", android.R.drawable.ic_dialog_email),
-                new MyListData("Info", android.R.drawable.ic_dialog_info),
-                new MyListData("Delete", android.R.drawable.ic_delete),
-                new MyListData("Dialer", android.R.drawable.ic_dialog_dialer),
-                new MyListData("Alert", android.R.drawable.ic_dialog_alert),
-                new MyListData("Map", android.R.drawable.ic_dialog_map),
-                new MyListData("Email", android.R.drawable.ic_dialog_email),
-                new MyListData("Info", android.R.drawable.ic_dialog_info),
-                new MyListData("Delete", android.R.drawable.ic_delete),
-                new MyListData("Dialer", android.R.drawable.ic_dialog_dialer),
-                new MyListData("Alert", android.R.drawable.ic_dialog_alert),
-                new MyListData("Map", android.R.drawable.ic_dialog_map),
-        };
+
         textview_doctlist_eqp = (TextView) findViewById(R.id.textview_doctlist_eqp);
         array_doctorlist = new JSONArray();
         textview_doctlist_eqp.setOnClickListener(new View.OnClickListener() {
@@ -348,5 +335,10 @@ public class DoctorListActivity extends AppCompatActivity {
 
         }
         return result.toString();
+    }
+
+
+    public void onBackPressed() {
+
     }
 }

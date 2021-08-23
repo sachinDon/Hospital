@@ -55,4 +55,8 @@ public class MainViewActivity extends AppCompatActivity {
             }
         });
     }
+    public void onBackPressed() {
+
+    }
+
 }

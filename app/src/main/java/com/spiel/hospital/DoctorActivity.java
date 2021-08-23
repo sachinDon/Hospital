@@ -45,4 +45,9 @@ public class DoctorActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void onBackPressed() {
+
+    }
+
 }

@@ -16,12 +16,11 @@ public class Urlclass
  public static String registration1 = url + "registration1.php";
     public static String getdoctorlist = url+"getdoctorlist.php";
     public static String doctorlogin= url + "doctorlogin.php";
-
     public static String doctorprofile = url + "doctorprofile.php";
-    public static String getareapincode = url + "getareapincode.php";
-    //public static String product= url + "productcheck.php";//product.php
-    public static String product= url + "product.php";
-    public static String productoffer= url + "productoffer.php";
+    public static String getequipement= url + "getequipement.php";
+
+
+    public static String inquerydetails= url + "inquerydetails.php";
     public static String aboutus= url + "aboutus.php";
 
     public static String orderhistory= url + "orderhistory.php";
@@ -46,11 +45,6 @@ public class Urlclass
     public static String orderstatus= url + "orderstatus.php";
     public static String getdelivery= url + "getdelivery.php";
     public static String updateapp= url + "updateapp.php";
-
-
-
-
-
 
 
 }

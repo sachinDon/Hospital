@@ -100,7 +100,7 @@
             android:layout_marginBottom="20dp"
             android:background="@drawable/bottom_border"
             android:hint="Enter mobile number"
-            android:inputType="textPhonetic"
+            android:inputType="phone"
             android:padding="10dp"
             android:textColor="@color/blue_1"
             android:textColorHint="@color/ligt_gray"

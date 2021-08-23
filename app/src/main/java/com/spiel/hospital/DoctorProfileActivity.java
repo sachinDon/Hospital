@@ -1,10 +1,29 @@
 package com.spiel.hospital;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.StrictMode;
+import android.provider.MediaStore;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -15,12 +34,49 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.Locale;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class DoctorProfileActivity extends AppCompatActivity {
 
-    String str_status,timeFrom,totime;
+    public  static Uri uriImage=null;
+    private Bitmap bitmap;
+    private Uri file;
+    private static final int CAMERA_REQUEST = 1888;
+    private static final int MY_CAMERA_PERMISSION_CODE = 100;
+    String str_encodedImg;
+
+
+    AlertDialog alertDialog_Box;
+    ProgressDialog progressDialog;
+    public SharedPreferences pref;
+    SharedPreferences.Editor editor;
+    String str_status,timeFrom,totime,str_contact;
     TextView textview_doct_back,text_doct_Fromtime1,text_doct_totime1,text_doct_submit_data;
     RelativeLayout relative_doc_uploadpic;
     ImageView imageview_profile_doc;
@@ -31,6 +87,11 @@ public class DoctorProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_profile);
+
+        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        editor = pref.edit();
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
 
         textview_doct_back = (TextView) findViewById(R.id.textview_doct_back);
         relative_doc_uploadpic = (RelativeLayout) findViewById(R.id.relative_doc_uploadpic);
@@ -49,6 +110,23 @@ public class DoctorProfileActivity extends AppCompatActivity {
         text_doct_totime1 = (TextView) findViewById(R.id.text_doct_totime1);
         text_doct_submit_data = (TextView) findViewById(R.id.text_doct_submit_data);
 
+
+        SetData();
+
+
+        relative_doc_uploadpic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                 if (ContextCompat.checkSelfPermission(DoctorProfileActivity.this, android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+
+                    selectImage();
+                }
+                else
+                    ActivityCompat.requestPermissions(DoctorProfileActivity.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+
+            }
+        });
 
         textview_doct_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,6 +207,13 @@ public class DoctorProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                progressDialog = new ProgressDialog(DoctorProfileActivity.this);
+                progressDialog.setMessage("Sending..."); // Setting Message
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressDialog.show(); // Display Progress Dialog
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+                new Doctorprofile_Communication().execute();
 
             }
         });
@@ -139,7 +224,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
                 boolean checked = ((RadioButton) v).isChecked();
                 // Check which radiobutton was pressed
 
-                    str_status = "UnAvailble";
+                    str_status = "NotAvailable";
                     radio_doctor_avialbel.setChecked(false);
                 radio_doctor_unavialbel.setChecked(true);
 
@@ -152,7 +237,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
                 boolean checked = ((RadioButton) v).isChecked();
                 // Check which radiobutton was pressed
 
-                    str_status = "Availble";
+                    str_status = "Available";
                 radio_doctor_avialbel.setChecked(true);
                 radio_doctor_unavialbel.setChecked(false);
 
@@ -160,9 +245,514 @@ public class DoctorProfileActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    public void SetData()
+    {
+       try {
+           JSONObject obj_val = new JSONObject(pref.getString("logindoctordetails",""));
+           str_contact=obj_val.getString("phone");
+      //  imageview_profile_doc
+        edittext_doctusername.setText(obj_val.getString("name"));
+        edittext_doct_degree.setText(obj_val.getString("degree"));
+        edittext_doct_subjects.setText(obj_val.getString("specialist"));
+        edittext_doct_exps.setText(obj_val.getString("exp"));
+        edittext_doct_registraionnimber.setText(obj_val.getString("regno"));
+        edittext_doct_address.setText(obj_val.getString("address"));
+        edittext_pincode.setText(obj_val.getString("pincode"));
+        edittext_otherno.setText(obj_val.getString("phone2"));
+        text_doct_Fromtime1.setText(obj_val.getString("ftime"));
+        text_doct_totime1.setText(obj_val.getString("ttime"));
+           str_encodedImg = "";
+           String str_imageurl = obj_val.getString("imageurl");
+
+           if (str_imageurl.length() ==0)
+           {
+               str_imageurl ="http://www.sachinmokashi";
+           }
+           Picasso.with(DoctorProfileActivity.this).invalidate(str_imageurl);
+           Picasso.with(DoctorProfileActivity.this)
+                   .load(str_imageurl)
+                   .placeholder(R.drawable.defaultdoctor)
+                   .into( imageview_profile_doc, new Callback() {
+                       @Override
+                       public void onSuccess() { }
+
+                       @Override
+                       public void onError() {}
+                   });
+
+        if (obj_val.getString("status").equalsIgnoreCase("Available"))
+        {
+            str_status = "Available";
+            radio_doctor_avialbel.setChecked(true);
+            radio_doctor_unavialbel.setChecked(false);
+        }
+        else
+        {
+            str_status = "NotAvailable";
+            radio_doctor_avialbel.setChecked(false);
+            radio_doctor_unavialbel.setChecked(true);
+        }
+   }catch (Exception e)
+        {
+    Log.d("Exceptionee", String.valueOf(e));
+        }
+}
+
+    public class Doctorprofile_Communication extends AsyncTask<String, Void, String> {
+
+        protected void onPreExecute() {
+        }
+
+        protected String doInBackground(String... arg0) {
+
+
+            try {
+
+                URL url = new URL(Urlclass.doctorprofile);
+                JSONObject postDataParams = new JSONObject();
+
+
+//                postDataParams.put("email",OTPActivity.Stremail);
+                postDataParams.put("ContactNo", str_contact);
+                postDataParams.put("Name", edittext_doctusername.getText());
+                postDataParams.put("Specialist", edittext_doct_subjects.getText());
+                postDataParams.put("Degree", edittext_doct_degree.getText());
+                postDataParams.put("ExpYear", edittext_doct_exps.getText());
+                postDataParams.put("RegNo", edittext_doct_registraionnimber.getText());
+                postDataParams.put("Address", edittext_doct_address.getText());
+                postDataParams.put("Pincode", edittext_pincode.getText());
+                postDataParams.put("FromTime", text_doct_Fromtime1.getText());
+                postDataParams.put("ToTime", text_doct_totime1.getText());
+                postDataParams.put("Status", str_status);
+                postDataParams.put("OtherNo", edittext_otherno.getText());
+                postDataParams.put("image",str_encodedImg);
+
+//Photo
+
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(60000 /* milliseconds */);
+                conn.setConnectTimeout(60000 /* milliseconds */);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(getPostDataString(postDataParams));
+
+                writer.flush();
+                writer.close();
+                os.close();
+
+                int responseCode = conn.getResponseCode();
+
+                if (responseCode == HttpsURLConnection.HTTP_OK) {
+
+                    BufferedReader in = new BufferedReader(new
+                            InputStreamReader(
+                            conn.getInputStream()));
+
+                    StringBuffer sb = new StringBuffer("");
+                    String line = "";
+
+                    while ((line = in.readLine()) != null) {
+
+                        sb.append(line);
+                        break;
+                    }
+
+                    in.close();
+                    return sb.toString();
+
+                } else {
+                    return new String("false : " + responseCode);
+                }
+            } catch (Exception e) {
+                return new String("Exception: " + e.getMessage());
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+
+            if (!result.equalsIgnoreCase("")) {
+
+                JSONArray jsonarray = null;
+                JSONObject obj_values = null;
+                try {
+                    jsonarray = new JSONArray(result);
+                    obj_values = new JSONObject(jsonarray.getString(0));
+
+                    if (jsonarray != null) {
+
+                        if (obj_values.getString("status").equalsIgnoreCase("1"))
+                        {
+
+                            JSONArray array_result = new JSONArray(obj_values.getString("result"));
+                            JSONObject obj_newResult = new JSONObject(String.valueOf(array_result.get(0)));
+
+
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorProfileActivity.this);
+                            builder1.setTitle("Sucessfull!");
+                            builder1.setMessage(obj_values.getString("errormessage"));
+                            builder1.setCancelable(false);
+                            builder1.setPositiveButton("Ok",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+
+                                            editor.putString("logindoctordetails", String.valueOf(obj_newResult));
+                                            editor.commit();
+                                           // SetData();
+                                            finish();
+                                        }
+                                    });
+                            alertDialog_Box = builder1.create();
+                            alertDialog_Box.show();
+
+
+                        } else if (obj_values.getString("status").equalsIgnoreCase("0")) {
+
+
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorProfileActivity.this);
+                            builder1.setTitle("Oops");
+                            builder1.setMessage(obj_values.getString("errormessage"));
+                            builder1.setCancelable(false);
+                            builder1.setPositiveButton("Ok",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                            // finish();
+                                        }
+                                    });
+                            alertDialog_Box = builder1.create();
+                            alertDialog_Box.show();
+                        } else {
+
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorProfileActivity.this);
+                            builder1.setTitle("Oops");
+                            builder1.setMessage("Server encountered an error . Please try again later.");
+                            builder1.setCancelable(false);
+                            builder1.setPositiveButton("Ok",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                            // finish();
+                                        }
+                                    });
+                            alertDialog_Box = builder1.create();
+                            alertDialog_Box.show();
+
+                        }
+
+                    } else {
+
+
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorProfileActivity.this);
+                        builder1.setTitle("Oops");
+                        builder1.setMessage("Server encountered an error. Please try again later.");
+                        builder1.setCancelable(false);
+                        builder1.setPositiveButton("Ok",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                        // finish();
+                                    }
+                                });
+                        alertDialog_Box = builder1.create();
+                        alertDialog_Box.show();
+
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+
+
+            else
+            {
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorProfileActivity.this);
+                builder1.setTitle("Oops");
+                builder1.setMessage("Server encountered an error in verifying your mobile number. Please try again later.");
+                builder1.setCancelable(false);
+                builder1.setPositiveButton("Ok",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                                // finish();
+                            }
+                        });
+                alertDialog_Box = builder1.create();
+                alertDialog_Box.show();
+            }
+
+            progressDialog.dismiss();
+
+//                else
+//                {
+//                    android.support.v7.app.AlertDialog.Builder builder1 = new android.support.v7.app.AlertDialog.Builder(OtpVerifyActivity.this);
+//                    builder1.setTitle("Server timeout");
+//                    builder1.setMessage("Server timeout");
+//                    builder1.setCancelable(false);
+//                    builder1.setPositiveButton("Ok",
+//                            new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialog, int id) {
+//                                    dialog.cancel();
+//                                    // finish();
+//                                }
+//                            });
+//                    alertDialog_Box = builder1.create();
+//                    alertDialog_Box.show();
 
 
 
+
+
+        }
+    }
+    public static String getPostDataString(JSONObject params) throws Exception {
+
+        StringBuilder result = new StringBuilder();
+        boolean first = true;
+
+        Iterator<String> itr = params.keys();
+
+        while (itr.hasNext()) {
+
+            String key = itr.next();
+            Object value = params.get(key);
+
+            if (first)
+                first = false;
+            else
+                result.append("&");
+
+            result.append(URLEncoder.encode(key, "UTF-8"));
+            result.append("=");
+            result.append(URLEncoder.encode(value.toString(), "UTF-8"));
+
+        }
+        return result.toString();
+    }
+    private void selectImage() {
+
+
+
+        final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
+
+
+
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(DoctorProfileActivity.this);
+
+        builder.setTitle("Add Photo!");
+
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+
+            @Override
+
+            public void onClick(DialogInterface dialog, int item) {
+
+                if (options[item].equals("Take Photo"))
+
+                {
+
+
+                    dialog.dismiss();
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    file = Uri.fromFile(getOutputMediaFile());
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, file);
+
+                    startActivityForResult(intent, 100);
+                }
+
+                else if (options[item].equals("Choose from Gallery"))
+
+                {
+
+                    Intent intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                    startActivityForResult(intent, 200);
+
+
+
+                }
+
+                else if (options[item].equals("Cancel")) {
+
+                    str_encodedImg ="";
+                    dialog.dismiss();
+
+                }
+
+            }
+
+        });
+
+        builder.show();
 
     }
+
+    private static File getOutputMediaFile(){
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "CameraDemo");
+
+        if (!mediaStorageDir.exists()){
+            if (!mediaStorageDir.mkdirs()){
+                Log.d("CameraDemo", "failed to create directory");
+                return null;
+            }
+        }
+
+        String timeStamp = new java.text.SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        return new File(mediaStorageDir.getPath() + File.separator +
+                "IMG_"+ timeStamp + ".jpg");
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100) {
+            if (resultCode == RESULT_OK) {
+                //ProfileImg.setImageBitmap(loadBitmap(String.valueOf(file)));
+
+                if (file != null) {
+
+                    bitmap = loadBitmap(String.valueOf(file));
+
+                    Handler refresh = new Handler(Looper.getMainLooper());
+                    refresh.post(new Runnable() {
+                        public void run() {
+
+
+                            if (bitmap.getHeight() >= 500 && bitmap.getWidth() >= 500) {
+                                bitmap = Bitmap.createScaledBitmap(bitmap, 500, 500, false);
+
+                            }
+                            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 60, bytes);
+
+
+                            imageview_profile_doc.setImageBitmap(bitmap);
+
+                            byte[] imageBytes = bytes.toByteArray();
+                            str_encodedImg = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+
+
+                        }
+                    });
+
+
+                }
+            }
+        } else if (requestCode == 200) {
+
+
+            if (data != null) {
+
+                Uri selectedImage = data.getData();
+                try {
+
+                    editor.putString("select_photo", "no");
+                    editor.commit();
+
+                    bitmap = MediaStore.Images.Media.getBitmap(DoctorProfileActivity.this.getContentResolver(), selectedImage);
+
+                    Handler refresh = new Handler(Looper.getMainLooper());
+                    refresh.post(new Runnable() {
+                        public void run() {
+
+                            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+
+                            if (bitmap.getHeight() >= 500 && bitmap.getWidth() >= 500) {
+                                bitmap = Bitmap.createScaledBitmap(bitmap, 500, 500, false);
+
+                            }
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 60, bytes);
+                            imageview_profile_doc.setImageBitmap(bitmap);
+                            byte[] imageBytes = bytes.toByteArray();
+
+                            str_encodedImg = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+
+                        }
+                    });
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }
+
+    }
+    public Bitmap loadBitmap(String url)
+    {
+        Bitmap bm = null;
+        InputStream is = null;
+        BufferedInputStream bis = null;
+        try
+        {
+            URLConnection conn = new URL(url).openConnection();
+            conn.connect();
+            is = conn.getInputStream();
+            bis = new BufferedInputStream(is, 8192);
+            bm = BitmapFactory.decodeStream(bis);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        finally {
+            if (bis != null)
+            {
+                try
+                {
+                    bis.close();
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+            if (is != null)
+            {
+                try
+                {
+                    is.close();
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return bm;
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 0) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                    && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+
+
+            }
+        }
+    }
+
+    public void onBackPressed() {
+
+    }
+
 }
