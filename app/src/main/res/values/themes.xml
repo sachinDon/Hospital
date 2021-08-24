@@ -22,5 +22,12 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
-
+    <style name="popupMenuStyle" >
+        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:itemBackground">#000000</item>
+        <item name="android:divider">#eaeaea</item>
+        <item name="android:dividerHeight">1dp</item>
+        <item name="android:textSize">17sp</item>
+    </style>
 </resources>

@@ -8,22 +8,19 @@ public class Urlclass
 {
     public static String admin_username = "sachin";
     public static String admin_password = "sachin";
-   // public static String url = "http://demodb.akwisys.com/";
-   public static String url = "http://suredoc.akwebinfotech.com/";//http://chhatrasangh.in/";//http://pritama.akwisys.com/";//"http://pritama.bestharvest.co.in/";
 
+   public static String url = "http://suredoc.akwebinfotech.com/";
 
     public static String registration = url + "registration.php";
- public static String registration1 = url + "registration1.php";
+    public static String registration1 = url + "registration1.php";
     public static String getdoctorlist = url+"getdoctorlist.php";
     public static String doctorlogin= url + "doctorlogin.php";
     public static String doctorprofile = url + "doctorprofile.php";
     public static String getequipement= url + "getequipement.php";
-
-
     public static String inquerydetails= url + "inquerydetails.php";
-    public static String aboutus= url + "aboutus.php";
+    public static String getpackage= url + "getpackage.php";
+    public static String addpackage= url + "addpackage.php";
 
-    public static String orderhistory= url + "orderhistory.php";
     public static String orderhistorydelete = url + "orderhistorydelete.php";
     public static String addcart= url + "addcart.php";
     public static String getaddcart= url + "getaddcart.php";

@@ -6,6 +6,10 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".DoctorListActivity">
+<RelativeLayout
+    android:id="@+id/relative_doctlist_title1"
+    android:layout_width="match_parent"
+    android:layout_height="55dp">
 
     <TextView
         android:id="@+id/textview_doctlist_title1"
@@ -19,6 +23,23 @@
         android:textColor="@color/white"
         />
 
+    <TextView
+        android:id="@+id/textview_doctlist_menu"
+        android:layout_width="45dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/threedot1"
+        android:gravity="center"
+        android:textSize="22sp"
+        android:fontFamily="sans-serif-black"
+        android:textColor="@color/white"
+        />
+
+
+</RelativeLayout>
+
+
     <SearchView
         android:id="@+id/searchView_doctlist"
         android:layout_width="match_parent"
@@ -27,7 +48,7 @@
         android:queryBackground="@color/ligt_gray"
         android:queryHint="Search here"
         android:iconifiedByDefault="false"
-        android:layout_below="@+id/textview_doctlist_title1"
+        android:layout_below="@+id/relative_doctlist_title1"
         android:closeIcon="@drawable/ic_baseline_close_24"
         android:searchIcon="@drawable/ic_baseline_search_24"
 

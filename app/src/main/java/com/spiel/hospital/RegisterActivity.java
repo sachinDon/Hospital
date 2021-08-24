@@ -159,24 +159,12 @@ public class RegisterActivity extends AppCompatActivity {
                             else if (obj_values.getString("result").equalsIgnoreCase("register"))
                             {
 
-                                AlertDialog.Builder builder1 = new AlertDialog.Builder(RegisterActivity.this);
-                                builder1.setTitle("Sucessfull!");
-                                builder1.setMessage(obj_values.getString("errormessage"));
-                                builder1.setCancelable(false);
-                                builder1.setPositiveButton("Ok",
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
-                                                dialog.cancel();
+                                editor.putString("login", "yes");
+                                editor.commit();
 
-                                                editor.putString("login", "yes");
-                                                editor.commit();
+                                Intent intent = new Intent(RegisterActivity.this,DoctorListActivity.class);
+                                startActivity(intent);
 
-                                                Intent intent = new Intent(RegisterActivity.this,DoctorListActivity.class);
-                                                startActivity(intent);
-                                            }
-                                        });
-                                alertDialog_Box = builder1.create();
-                                alertDialog_Box.show();
 
                             }
                             else

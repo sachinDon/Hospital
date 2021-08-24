@@ -5,15 +5,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,17 +47,22 @@ import javax.net.ssl.HttpsURLConnection;
 public class DoctorListActivity extends AppCompatActivity {
 
     AlertDialog alertDialog_Box;
-      TextView textview_doctlist_eqp;
+      TextView textview_doctlist_eqp,textview_doctlist_menu;
     RecyclerView recyclerView;
     MyListAdapter adapter;
     JSONArray array_doctorlist;
+    public SharedPreferences pref;
+    SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_list);
 
-
+        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        editor = pref.edit();
         textview_doctlist_eqp = (TextView) findViewById(R.id.textview_doctlist_eqp);
+        textview_doctlist_menu = (TextView) findViewById(R.id.textview_doctlist_menu);
         array_doctorlist = new JSONArray();
         textview_doctlist_eqp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +70,41 @@ public class DoctorListActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(DoctorListActivity.this,EquipementActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        textview_doctlist_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context wrapper = new ContextThemeWrapper(DoctorListActivity.this, R.style.popupMenuStyle);
+                PopupMenu menu = new PopupMenu(wrapper, v);
+                menu.getMenu().add("Pakages");  // menus items
+                menu.getMenu().add("Logout");
+                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+
+
+                        if (String.valueOf(item).equalsIgnoreCase("Logout"))
+                        {
+                                editor.putString("login","no");
+                                editor.commit();
+                                Intent intent = new Intent(DoctorListActivity.this,MainViewActivity.class);
+                                startActivity(intent);
+
+                        }
+                        else
+                        {
+                            Intent intent = new Intent(DoctorListActivity.this,PackageActivity.class);
+                            startActivity(intent);
+                        }
+
+
+                        return false;
+                    }
+                });
+
+                menu.show();
             }
         });
 

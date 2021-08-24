@@ -8,7 +8,7 @@
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bottom_border">
+    android:background="@drawable/bottom_border11">
 
     <ImageView
         android:id="@+id/image_title_pkg"
@@ -45,12 +45,12 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:textColor="@color/black"
+            android:textColor="@color/ligt_gray"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:textSize="15sp"
-            android:fontFamily="sans-serif"
-            android:text="QuterYearly"/>
+            android:fontFamily="sans-serif-medium"
+            android:text="Monthly"/>
 
         <TextView
             android:layout_width="25dp"
@@ -73,7 +73,6 @@
         android:textSize="15sp"
         android:gravity="center"
         android:layout_alignParentEnd="true"
-
         android:textColor="@color/green_2"
         android:fontFamily="sans-serif-medium"/>
 
