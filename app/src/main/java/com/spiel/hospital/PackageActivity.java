@@ -49,6 +49,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -62,6 +63,10 @@ public class PackageActivity extends AppCompatActivity {
     JSONArray array_doctorlist;
     ProgressDialog progressDialog;
     AlertDialog alert11;
+    Integer int_index,int_total;
+
+    List<String> list_id,list_totals;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,16 +83,23 @@ public class PackageActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         text_submitpckg = (TextView)findViewById(R.id.text_submitpckg);
-
+        list_id = new ArrayList<String>();
+        list_totals = new ArrayList<String>();
+        int_total=0;
+        text_submitpckg.setVisibility(View.GONE);
+        text_submitpckg.setText("Submit");
         new GetPackages_communication().execute();
 
         text_submitpckg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-
-                Intent intent = new Intent(PackageActivity.this,DoctorListActivity.class);
-                startActivity(intent);
+                progressDialog = new ProgressDialog(PackageActivity.this);
+                progressDialog.setMessage("Loading..."); // Setting Message
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); // Progress Dialog Style Spinner
+                progressDialog.show(); // Display Progress Dialog
+                progressDialog.setCancelable(false);
+               new SubmitPackage_Comm().execute();
 
             }
         });
@@ -106,6 +118,7 @@ public class PackageActivity extends AppCompatActivity {
             LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
             View listItem= layoutInflater.inflate(R.layout.list_packages, parent, false);
             MyListAdapter.ViewHolder viewHolder = new MyListAdapter.ViewHolder(listItem);
+           listItem.setTag(viewType);
             return viewHolder;
         }
 
@@ -114,7 +127,8 @@ public class PackageActivity extends AppCompatActivity {
 
 
                 holder.relative_slects_custveg1.setTag(position);
-            holder.text_add_pck.setTag(position);
+                   holder.text_add_pck.setTag(position);
+            holder.text_add_pck1.setTag(position);
 
                 try {
                     JSONObject obj = new JSONObject(String.valueOf(listdata.getJSONObject(position)));
@@ -127,11 +141,41 @@ public class PackageActivity extends AppCompatActivity {
 
 
 
+
+                    if (obj.getString("added").equalsIgnoreCase("yes"))
+                    {
+                        holder.text_add_pck.setVisibility(View.INVISIBLE);
+                        holder.text_add_pck1.setVisibility(View.VISIBLE);
+                        if (list_id.contains(obj.getString("id")))
+                        {
+
+                        }
+                        else
+                        {
+                            list_id.add(obj.getString("id"));
+                         //   list_id.add(obj.getString("selectprice"));
+                            int_total = int_total +(Integer.parseInt(obj.getString("selectprice")));
+                        }
+                    }
+                    else
+                    {
+                        holder.text_add_pck.setVisibility(View.VISIBLE);
+                        holder.text_add_pck1.setVisibility(View.INVISIBLE);
+                        if (list_id.contains(obj.getString("id")))
+                        {
+                            Integer int_idexlist = list_id.indexOf(obj.getString("id"));
+                           // list_id.remove(int_idexlist);
+                         //   list_id.remove(int_idexlist);
+                           // int_total = int_total - (Integer.parseInt(obj.getString("selectprice")));
+                        }
+                    }
+
+
                     holder.text_add_pck.setOnTouchListener(new View.OnTouchListener()
                     {
                         View v;
                         private GestureDetector gestureDetector = new GestureDetector(PackageActivity.this, new GestureDetector.SimpleOnGestureListener() {
-                            final Integer tagid = 0;//(Integer)v.getTag();
+
                             @Override
                             public boolean onDoubleTap(MotionEvent e)
                             {
@@ -149,13 +193,16 @@ public class PackageActivity extends AppCompatActivity {
                                 if (netInfo != null && netInfo.isConnectedOrConnecting()) {
 
                                     try {
-                                        JSONObject objectval = new JSONObject(String.valueOf(listdata.getJSONObject(tagid)));
+
+                                       int_index = (Integer)v.getTag();
+                                        JSONObject objectval = new JSONObject(String.valueOf(listdata.getJSONObject(int_index)));
 
 
                                         str_id = objectval.getString("id");
                                         str_selectpkg = objectval.getString("selectpkg");
                                         str_selectprice = objectval.getString("selectprice");
                                         str_dept  = objectval.getString("dept");
+
 
                                         progressDialog = new ProgressDialog(PackageActivity.this);
                                         progressDialog.setMessage("Loading..."); // Setting Message
@@ -192,6 +239,69 @@ public class PackageActivity extends AppCompatActivity {
                         }
                     });
 
+                    holder.text_add_pck1.setOnTouchListener(new View.OnTouchListener()
+                    {
+                        View v;
+                        private GestureDetector gestureDetector = new GestureDetector(PackageActivity.this, new GestureDetector.SimpleOnGestureListener() {
+
+                            @Override
+                            public boolean onDoubleTap(MotionEvent e)
+                            {
+
+                                Toast.makeText(PackageActivity.this, "Not allow to double tapped.",Toast.LENGTH_LONG).show();
+                                return super.onDoubleTap(e);
+                            }
+
+                            @Override
+                            public boolean onSingleTapConfirmed(MotionEvent e) {
+
+
+                                ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                                NetworkInfo netInfo = cm.getActiveNetworkInfo();
+                                if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+
+                                    try {
+
+                                        int_index = (Integer)v.getTag();
+                                        JSONObject objectval = new JSONObject(String.valueOf(listdata.getJSONObject(int_index)));
+
+
+                                        str_id = objectval.getString("id");
+
+                                        progressDialog = new ProgressDialog(PackageActivity.this);
+                                        progressDialog.setMessage("Loading..."); // Setting Message
+                                        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); // Progress Dialog Style Spinner
+                                        progressDialog.show(); // Display Progress Dialog
+                                        progressDialog.setCancelable(false);
+                                        new Deletepackages_Comm().execute();
+
+                                    }
+                                    catch (Exception ee)
+                                    {
+
+                                    }
+                                }
+                                else
+                                {
+                                    Connections();
+                                }
+
+                                return super.onSingleTapConfirmed(e);
+                            }
+
+
+
+                        });
+
+                        @Override
+                        public boolean onTouch(View v1, MotionEvent event) {
+
+                            v = v1;
+
+                            gestureDetector.onTouchEvent(event);
+                            return true;
+                        }
+                    });
 
                     holder.relative_slects_custveg1.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -231,6 +341,7 @@ public class PackageActivity extends AppCompatActivity {
                                            objectval.put("selectpkg",str_selectpkg);
                                            objectval.put("selectprice",str_selectprice);
                                           listdata.put(tagid,objectval);
+
                                           adapter.notifyDataSetChanged();
 
                                         } catch (JSONException e) {
@@ -252,6 +363,12 @@ public class PackageActivity extends AppCompatActivity {
 
                         }
                     });
+                    text_submitpckg.setText("Submit Total(Rs"+String.valueOf(int_total)+")");
+                    text_submitpckg.setVisibility(View.VISIBLE);
+                    if(int_total <=0)
+                    {
+                        text_submitpckg.setVisibility(View.GONE);
+                    }
 
 
                 } catch (JSONException e) {
@@ -269,7 +386,7 @@ public class PackageActivity extends AppCompatActivity {
         public  class ViewHolder extends RecyclerView.ViewHolder {
 
             public TextView text_setprice_custveg;
-            public TextView text_spc_namae_pkg,textview_pck_price,text_add_pck;
+            public TextView text_spc_namae_pkg,textview_pck_price,text_add_pck,text_add_pck1;
             public RelativeLayout relative_slects_custveg1;
             public ViewHolder(View itemView) {
                 super(itemView);
@@ -277,13 +394,13 @@ public class PackageActivity extends AppCompatActivity {
                 this.text_spc_namae_pkg = (TextView) itemView.findViewById(R.id.text_spc_namae_pkg);
                 this.textview_pck_price = (TextView) itemView.findViewById(R.id.textview_pck_price);
                 this.text_add_pck = (TextView) itemView.findViewById(R.id.text_add_pck);
+                this.text_add_pck1 = (TextView) itemView.findViewById(R.id.text_add_pck1);
                 this.relative_slects_custveg1 = (RelativeLayout)itemView.findViewById(R.id.relative_slects_custveg1);
             }
         }
     }
     //
-
-    public class Addpackages_Comm extends AsyncTask<String, Void, String> {
+    public class SubmitPackage_Comm extends AsyncTask<String, Void, String> {
 
         protected void onPreExecute() {
         }
@@ -293,16 +410,21 @@ public class PackageActivity extends AppCompatActivity {
 
             try {
 
-                URL url = new URL(Urlclass.addpackage);
+                URL url = new URL(Urlclass.submitpackage);
                 JSONObject postDataParams = new JSONObject();
 
 
 //                postDataParams.put("email",OTPActivity.Stremail);
                 postDataParams.put("mobile","8850519524");
-                postDataParams.put("id",str_id);
-                postDataParams.put("dept",str_dept);
-                postDataParams.put("selectpkg",str_dept);
-                postDataParams.put("selectprice",str_id);
+                String newString = list_id.toString().replace("{", "");
+                 newString = newString.replace("}", "");
+                newString = newString.replace("[", "");
+                newString = newString.replace("]", "");
+                newString = newString.replace("\t", "");
+                newString = newString.replace("\n", "");
+                postDataParams.put("id",newString);
+
+
 
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(60000 /* milliseconds */);
@@ -367,50 +489,31 @@ public class PackageActivity extends AppCompatActivity {
 
                         if (obj_values.getString("status").equalsIgnoreCase("1")) {
 
-                            if (obj_values.getString("result").equalsIgnoreCase("noregister"))
-                            {
-                                Intent intent = new Intent(PackageActivity.this,OtpmsgActivity.class);
-                                startActivity(intent);
-                            }
-                            else if (obj_values.getString("result").equalsIgnoreCase("register"))
-                            {
+                            list_id = new ArrayList<String>();
+                            int_total = 0;
+                            text_submitpckg.setVisibility(View.GONE);
+                            text_submitpckg.setText("Submit");
+                            new GetPackages_communication().execute();
 
-                                AlertDialog.Builder builder1 = new AlertDialog.Builder(PackageActivity.this);
-                                builder1.setTitle("Sucessfull!");
-                                builder1.setMessage(obj_values.getString("errormessage"));
-                                builder1.setCancelable(false);
-                                builder1.setPositiveButton("Ok",
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
-                                                dialog.cancel();
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(PackageActivity.this);
+                            builder1.setTitle("Sucessfull!");
+                            builder1.setMessage(obj_values.getString("errormessage"));
+                            builder1.setCancelable(false);
+                            builder1.setPositiveButton("Ok",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
 
 
-                                                Intent intent = new Intent(PackageActivity.this,DoctorListActivity.class);
-                                                startActivity(intent);
-                                            }
-                                        });
-                                alertDialog_Box = builder1.create();
-                                alertDialog_Box.show();
 
-                            }
-                            else
-                            {
+                                        }
+                                    });
+                            alertDialog_Box = builder1.create();
+                            alertDialog_Box.show();
 
-                                AlertDialog.Builder builder1 = new AlertDialog.Builder(PackageActivity.this);
-                                builder1.setTitle("Oops");
-                                builder1.setMessage("Server encountered an error . Please try again later.");
-                                builder1.setCancelable(false);
-                                builder1.setPositiveButton("Ok",
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
-                                                dialog.cancel();
-                                                // finish();
-                                            }
-                                        });
-                                alertDialog_Box = builder1.create();
-                                alertDialog_Box.show();
 
-                            }
+
+
 
                         }
                         else if (obj_values.getString("result").equalsIgnoreCase("0"))
@@ -502,6 +605,417 @@ public class PackageActivity extends AppCompatActivity {
 
         }
     }
+    public class Addpackages_Comm extends AsyncTask<String, Void, String> {
+
+        protected void onPreExecute() {
+        }
+
+        protected String doInBackground(String... arg0) {
+
+
+            try {
+
+                URL url = new URL(Urlclass.addpackage);
+                JSONObject postDataParams = new JSONObject();
+
+
+//                postDataParams.put("email",OTPActivity.Stremail);
+                postDataParams.put("mobile","8850519524");
+                postDataParams.put("id",str_id);
+                postDataParams.put("dept",str_dept);
+                postDataParams.put("selectpkg",str_selectpkg);
+                postDataParams.put("selectprice",str_selectprice);
+
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(60000 /* milliseconds */);
+                conn.setConnectTimeout(60000 /* milliseconds */);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(getPostDataString(postDataParams));
+
+                writer.flush();
+                writer.close();
+                os.close();
+
+                int responseCode = conn.getResponseCode();
+
+                if (responseCode == HttpsURLConnection.HTTP_OK) {
+
+                    BufferedReader in = new BufferedReader(new
+                            InputStreamReader(
+                            conn.getInputStream()));
+
+                    StringBuffer sb = new StringBuffer("");
+                    String line = "";
+
+                    while ((line = in.readLine()) != null) {
+
+                        sb.append(line);
+                        break;
+                    }
+
+                    in.close();
+                    return sb.toString();
+
+                } else {
+                    return new String("false : " + responseCode);
+                }
+            } catch (Exception e) {
+                return new String("Exception: " + e.getMessage());
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+
+
+
+            if (!result.equalsIgnoreCase("")) {
+                try {
+                    JSONArray jsonarray = new JSONArray(result);
+
+                    JSONObject obj_values = new JSONObject(String.valueOf(jsonarray.getString(0)));
+
+
+
+                    if (jsonarray != null) {
+
+                        if (obj_values.getString("status").equalsIgnoreCase("1")) {
+
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(PackageActivity.this);
+                                builder1.setTitle("Sucessfull!");
+                                builder1.setMessage(obj_values.getString("errormessage"));
+                                builder1.setCancelable(false);
+                                builder1.setPositiveButton("Ok",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                dialog.cancel();
+
+                                                try {
+                                                    JSONObject objectval = new JSONObject(String.valueOf(adapter.listdata.getJSONObject(int_index)));
+                                                    objectval.put("selectpkg",str_selectpkg);
+                                                    objectval.put("selectprice",str_selectprice);
+                                                    objectval.put("added","yes");
+                                                    adapter.listdata.put(int_index,objectval);
+
+                                                    adapter.notifyDataSetChanged();
+
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+
+                                            }
+                                        });
+                                alertDialog_Box = builder1.create();
+                                alertDialog_Box.show();
+
+
+
+
+
+                        }
+                        else if (obj_values.getString("result").equalsIgnoreCase("0"))
+                        {
+
+
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(PackageActivity.this);
+                            builder1.setTitle("Oops");
+                            builder1.setMessage(obj_values.getString("errormessage"));
+                            builder1.setCancelable(false);
+                            builder1.setPositiveButton("Ok",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                            // finish();
+                                        }
+                                    });
+                            alertDialog_Box = builder1.create();
+                            alertDialog_Box.show();
+                        }
+                        else
+
+                        {
+
+
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(PackageActivity.this);
+                            builder1.setTitle("Oops");
+                            builder1.setMessage("Server encountered an error. Please try again later.");
+                            builder1.setCancelable(false);
+                            builder1.setPositiveButton("Ok",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                            // finish();
+                                        }
+                                    });
+                            alertDialog_Box = builder1.create();
+                            alertDialog_Box.show();
+
+
+                        }
+                    }
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            else
+            {
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(PackageActivity.this);
+                builder1.setTitle("Oops");
+                builder1.setMessage("Server encountered an error in verifying your mobile number. Please try again later.");
+                builder1.setCancelable(false);
+                builder1.setPositiveButton("Ok",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                                // finish();
+                            }
+                        });
+                alertDialog_Box = builder1.create();
+                alertDialog_Box.show();
+            }
+
+            progressDialog.dismiss();
+
+//                else
+//                {
+//                    android.support.v7.app.AlertDialog.Builder builder1 = new android.support.v7.app.AlertDialog.Builder(OtpVerifyActivity.this);
+//                    builder1.setTitle("Server timeout");
+//                    builder1.setMessage("Server timeout");
+//                    builder1.setCancelable(false);
+//                    builder1.setPositiveButton("Ok",
+//                            new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialog, int id) {
+//                                    dialog.cancel();
+//                                    // finish();
+//                                }
+//                            });
+//                    alertDialog_Box = builder1.create();
+//                    alertDialog_Box.show();
+
+
+
+
+
+        }
+    }
+
+    public class Deletepackages_Comm extends AsyncTask<String, Void, String> {
+
+        protected void onPreExecute() {
+        }
+
+        protected String doInBackground(String... arg0) {
+
+
+            try {
+
+                URL url = new URL(Urlclass.deletepackage);
+                JSONObject postDataParams = new JSONObject();
+
+
+//                postDataParams.put("email",OTPActivity.Stremail);
+                postDataParams.put("mobile","8850519524");
+                postDataParams.put("id",str_id);
+
+
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(60000 /* milliseconds */);
+                conn.setConnectTimeout(60000 /* milliseconds */);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(getPostDataString(postDataParams));
+
+                writer.flush();
+                writer.close();
+                os.close();
+
+                int responseCode = conn.getResponseCode();
+
+                if (responseCode == HttpsURLConnection.HTTP_OK) {
+
+                    BufferedReader in = new BufferedReader(new
+                            InputStreamReader(
+                            conn.getInputStream()));
+
+                    StringBuffer sb = new StringBuffer("");
+                    String line = "";
+
+                    while ((line = in.readLine()) != null) {
+
+                        sb.append(line);
+                        break;
+                    }
+
+                    in.close();
+                    return sb.toString();
+
+                } else {
+                    return new String("false : " + responseCode);
+                }
+            } catch (Exception e) {
+                return new String("Exception: " + e.getMessage());
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+
+
+
+            if (!result.equalsIgnoreCase("")) {
+                try {
+                    JSONArray jsonarray = new JSONArray(result);
+
+                    JSONObject obj_values = new JSONObject(String.valueOf(jsonarray.getString(0)));
+
+
+
+                    if (jsonarray != null) {
+
+                        if (obj_values.getString("status").equalsIgnoreCase("1")) {
+
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(PackageActivity.this);
+                            builder1.setTitle("Sucessfull!");
+                            builder1.setMessage(obj_values.getString("errormessage"));
+                            builder1.setCancelable(false);
+                            builder1.setPositiveButton("Ok",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+
+                                            try {
+                                                JSONObject objectval = new JSONObject(String.valueOf(adapter.listdata.getJSONObject(int_index)));
+                                                objectval.put("added","no");
+                                                adapter.listdata.put(int_index,objectval);
+                                                Integer int_idexlist = list_id.indexOf(objectval.getString("id"));
+                                                list_id.remove(objectval.getString("id"));
+                                                int_total = int_total -(Integer.parseInt(objectval.getString("selectprice")));
+
+                                                adapter.notifyDataSetChanged();
+
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+
+                                        }
+                                    });
+                            alertDialog_Box = builder1.create();
+                            alertDialog_Box.show();
+
+
+
+
+
+                        }
+                        else if (obj_values.getString("result").equalsIgnoreCase("0"))
+                        {
+
+
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(PackageActivity.this);
+                            builder1.setTitle("Oops");
+                            builder1.setMessage(obj_values.getString("errormessage"));
+                            builder1.setCancelable(false);
+                            builder1.setPositiveButton("Ok",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                            // finish();
+                                        }
+                                    });
+                            alertDialog_Box = builder1.create();
+                            alertDialog_Box.show();
+                        }
+                        else
+
+                        {
+
+
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(PackageActivity.this);
+                            builder1.setTitle("Oops");
+                            builder1.setMessage("Server encountered an error. Please try again later.");
+                            builder1.setCancelable(false);
+                            builder1.setPositiveButton("Ok",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                            // finish();
+                                        }
+                                    });
+                            alertDialog_Box = builder1.create();
+                            alertDialog_Box.show();
+
+
+                        }
+                    }
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            else
+            {
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(PackageActivity.this);
+                builder1.setTitle("Oops");
+                builder1.setMessage("Server encountered an error in verifying your mobile number. Please try again later.");
+                builder1.setCancelable(false);
+                builder1.setPositiveButton("Ok",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                                // finish();
+                            }
+                        });
+                alertDialog_Box = builder1.create();
+                alertDialog_Box.show();
+            }
+
+            progressDialog.dismiss();
+
+//                else
+//                {
+//                    android.support.v7.app.AlertDialog.Builder builder1 = new android.support.v7.app.AlertDialog.Builder(OtpVerifyActivity.this);
+//                    builder1.setTitle("Server timeout");
+//                    builder1.setMessage("Server timeout");
+//                    builder1.setCancelable(false);
+//                    builder1.setPositiveButton("Ok",
+//                            new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialog, int id) {
+//                                    dialog.cancel();
+//                                    // finish();
+//                                }
+//                            });
+//                    alertDialog_Box = builder1.create();
+//                    alertDialog_Box.show();
+
+
+
+
+
+        }
+    }
+
 
     public class GetPackages_communication extends AsyncTask<String, Void, String> {
 

@@ -20,9 +20,9 @@ public class Urlclass
     public static String inquerydetails= url + "inquerydetails.php";
     public static String getpackage= url + "getpackage.php";
     public static String addpackage= url + "addpackage.php";
+    public static String deletepackage = url + "deletepackage.php";
+    public static String submitpackage= url + "submitpackage.php";
 
-    public static String orderhistorydelete = url + "orderhistorydelete.php";
-    public static String addcart= url + "addcart.php";
     public static String getaddcart= url + "getaddcart.php";
     public static String verifypincode= url + "verifypincode.php";
     public static String deleteaddcart= url + "deleteaddcart.php";

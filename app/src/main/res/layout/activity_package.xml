@@ -23,19 +23,7 @@
         android:fontFamily="sans-serif-black"
         android:gravity="center"/>
 
-    <TextView
-        android:id="@+id/text_back_edit"
-        android:layout_alignParentEnd="true"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text="Edit (10)"
 
-        android:textSize="18sp"
-        android:gravity="center"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:fontFamily="sans-serif-medium"
-        android:textColor="@color/round_gradient_button_start_color"/>
 </RelativeLayout>
 
 

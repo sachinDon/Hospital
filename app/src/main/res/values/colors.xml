@@ -20,5 +20,6 @@
     <color name="ligt_gray">#7C7C7C</color>
     <color name="transperent">#05000000</color>
     <color name="colorred">#FF0000</color>
+    <color name="colorred1">#EBFF5151</color>
 
 </resources>
