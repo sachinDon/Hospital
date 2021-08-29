@@ -22,10 +22,10 @@ public class Urlclass
     public static String addpackage= url + "addpackage.php";
     public static String deletepackage = url + "deletepackage.php";
     public static String submitpackage= url + "submitpackage.php";
+    public static String getchat= url + "getchat.php";
+    public static String chat= url + "chat.php";
+    public static String getdoctorchatlist= url + "getdoctorchatlist.php";
 
-    public static String getaddcart= url + "getaddcart.php";
-    public static String verifypincode= url + "verifypincode.php";
-    public static String deleteaddcart= url + "deleteaddcart.php";
     public static String updateaddcart= url + "updateaddcart.php";
 
     public static String updateprofile = url + "updateprofile.php";

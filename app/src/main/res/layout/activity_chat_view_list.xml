@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChatViewListActivity">
+
+    <RelativeLayout
+        android:id="@+id/relative_doctlist_title_chat"
+        android:layout_width="match_parent"
+        android:layout_height="55dp">
+
+        <TextView
+            android:id="@+id/textview_doctlist_title_chat"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="Chat List"
+            android:background="@color/blue_1"
+            android:gravity="center"
+            android:textSize="22sp"
+            android:fontFamily="sans-serif-black"
+            android:textColor="@color/white"
+            />
+
+    </RelativeLayout>
+
+    <SearchView
+        android:id="@+id/searchView_doctlist_chatlist"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/ligt_gray"
+        android:queryBackground="@color/ligt_gray"
+        android:queryHint="Search here"
+        android:iconifiedByDefault="false"
+        android:layout_below="@+id/relative_doctlist_title_chat"
+        android:closeIcon="@drawable/ic_baseline_close_24"
+        android:searchIcon="@drawable/ic_baseline_search_24"
+
+        />
+
+    <LinearLayout
+        android:id="@+id/linear_title_chatlist"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:weightSum="3"
+        android:background="@drawable/bottom_border11"
+        android:orientation="horizontal"
+        android:layout_below="@+id/searchView_doctlist_chatlist">
+
+        <TextView
+            android:id="@+id/text_reciver_chat"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.3"
+            android:padding="5dp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="Hospital Name"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+
+        <TextView
+            android:id="@+id/text_sender_chat"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.3"
+            android:padding="5dp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="Registration No."
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.4">
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_doctorlist_chat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/linear_title_chatlist"
+        android:scrollbars="vertical">
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+
+</RelativeLayout>

@@ -11,6 +11,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
@@ -18,6 +19,8 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -29,6 +32,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,7 +59,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class PackageActivity extends AppCompatActivity {
  TextView text_submitpckg;
-
+SearchView searchview;
     String str_id,str_selectpkg,str_selectprice,str_dept;
     AlertDialog alertDialog_Box;
     RecyclerView recyclerView;
@@ -64,7 +68,8 @@ public class PackageActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     AlertDialog alert11;
     Integer int_index,int_total;
-
+    public SharedPreferences pref;
+    SharedPreferences.Editor editor;
     List<String> list_id,list_totals;
 
 
@@ -73,8 +78,9 @@ public class PackageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_package);
 
-
-
+        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        editor = pref.edit();
+        searchview = (SearchView) findViewById(R.id.serch_pckg_searchView);
          recyclerView = (RecyclerView) findViewById(R.id.recyclerView_pckage_list);
         array_doctorlist = new JSONArray();
 
@@ -86,10 +92,56 @@ public class PackageActivity extends AppCompatActivity {
         list_id = new ArrayList<String>();
         list_totals = new ArrayList<String>();
         int_total=0;
-        text_submitpckg.setVisibility(View.GONE);
-        text_submitpckg.setText("Submit");
-        new GetPackages_communication().execute();
 
+        text_submitpckg.setText("Submit");
+
+        searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+        {
+            public boolean onQueryTextSubmit(String query) {
+                Log.d("seach_query", query);
+                // do something on text submit
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                adapter.listdata = new JSONArray();
+                if (array_doctorlist != null)                {
+                    if (TextUtils.isEmpty(newText.toString())) {
+                        //str_search_txt = "";
+                        adapter.listdata = array_doctorlist;
+                    } else {
+                        for (int i = 0; i < array_doctorlist.length(); i++) {
+
+                            try {
+                                String string = array_doctorlist.getJSONObject(i).getString("dept");
+                               // String str_category = array_doctorlist.getJSONObject(i).getString("producttype");
+                                // str_search_txt = newText;
+                                if ((string.toLowerCase()).contains(newText.toLowerCase())) {
+
+                                    adapter.listdata.put(array_doctorlist.getJSONObject(i));
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }  }}
+
+                    if (recyclerView.getAdapter() != null)
+                    {
+                        adapter.notifyDataSetChanged();
+                    }
+
+                }
+                else
+                {
+                    if (recyclerView.getAdapter() != null)
+                    {
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+                return false;
+            }
+        });
         text_submitpckg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,10 +151,13 @@ public class PackageActivity extends AppCompatActivity {
                 progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); // Progress Dialog Style Spinner
                 progressDialog.show(); // Display Progress Dialog
                 progressDialog.setCancelable(false);
-               new SubmitPackage_Comm().execute();
+                new SubmitPackage_Comm().execute();
 
             }
         });
+        new GetPackages_communication().execute();
+
+
     }
 
 
@@ -364,10 +419,14 @@ public class PackageActivity extends AppCompatActivity {
                         }
                     });
                     text_submitpckg.setText("Submit Total(Rs"+String.valueOf(int_total)+")");
-                    text_submitpckg.setVisibility(View.VISIBLE);
+
                     if(int_total <=0)
                     {
                         text_submitpckg.setVisibility(View.GONE);
+                    }
+                    else
+                    {
+                        text_submitpckg.setVisibility(View.VISIBLE);
                     }
 
 
@@ -415,7 +474,7 @@ public class PackageActivity extends AppCompatActivity {
 
 
 //                postDataParams.put("email",OTPActivity.Stremail);
-                postDataParams.put("mobile","8850519524");
+                postDataParams.put("mobile",pref.getString("userid",""));
                 String newString = list_id.toString().replace("{", "");
                  newString = newString.replace("}", "");
                 newString = newString.replace("[", "");
@@ -493,7 +552,7 @@ public class PackageActivity extends AppCompatActivity {
                             int_total = 0;
                             text_submitpckg.setVisibility(View.GONE);
                             text_submitpckg.setText("Submit");
-                            new GetPackages_communication().execute();
+                           // new GetPackages_communication().execute();
 
                             AlertDialog.Builder builder1 = new AlertDialog.Builder(PackageActivity.this);
                             builder1.setTitle("Sucessfull!");
@@ -504,6 +563,9 @@ public class PackageActivity extends AppCompatActivity {
                                         public void onClick(DialogInterface dialog, int id) {
                                             dialog.cancel();
 
+                                            finish();
+                                            Intent intet = new Intent(PackageActivity.this,Listview_DoctorsActivity.class);
+                                            startActivity(intet);
 
 
                                         }
@@ -620,7 +682,7 @@ public class PackageActivity extends AppCompatActivity {
 
 
 //                postDataParams.put("email",OTPActivity.Stremail);
-                postDataParams.put("mobile","8850519524");
+                postDataParams.put("mobile",pref.getString("userid",""));
                 postDataParams.put("id",str_id);
                 postDataParams.put("dept",str_dept);
                 postDataParams.put("selectpkg",str_selectpkg);
@@ -826,7 +888,7 @@ public class PackageActivity extends AppCompatActivity {
 
 
 //                postDataParams.put("email",OTPActivity.Stremail);
-                postDataParams.put("mobile","8850519524");
+                postDataParams.put("mobile",pref.getString("userid",""));
                 postDataParams.put("id",str_id);
 
 
@@ -1032,7 +1094,7 @@ public class PackageActivity extends AppCompatActivity {
 
 
 //                postDataParams.put("email",OTPActivity.Stremail);
-                postDataParams.put("mobile","");
+                postDataParams.put("mobile",pref.getString("userid",""));
                 postDataParams.put("id","");
 
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -1084,7 +1146,7 @@ public class PackageActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
 
 
-
+            text_submitpckg.setVisibility(View.GONE);
 
             if (!result.equalsIgnoreCase(""))
             {

@@ -495,6 +495,7 @@ public class VerificationActivity extends AppCompatActivity implements
                             }
                            else if (obj_values.getString("result").equalsIgnoreCase("register"))
                             {
+                                editor.putString("userid", str_mobileno);
                                 editor.putString("login", "yes");
                                 editor.commit();
                             Intent intent = new Intent(VerificationActivity.this,DoctorListActivity.class);

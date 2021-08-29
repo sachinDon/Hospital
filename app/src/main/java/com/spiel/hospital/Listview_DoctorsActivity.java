@@ -23,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,101 +41,46 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.net.ssl.HttpsURLConnection;
 
-
-
-public class DoctorListActivity extends AppCompatActivity {
+public class Listview_DoctorsActivity extends AppCompatActivity {
 
     AlertDialog alertDialog_Box;
-    TextView textview_doctlist_eqp,textview_doctlist_menu;
     RecyclerView recyclerView;
     MyListAdapter adapter;
     JSONArray array_doctorlist;
-    SearchView searchview;
-
     public SharedPreferences pref;
     SharedPreferences.Editor editor;
+    ArrayList <String> array_id;
+    TextView text_submitpckg2;
+    SearchView searchview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doctor_list);
+        setContentView(R.layout.activity_listview__doctors);
+
 
         pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = pref.edit();
-        textview_doctlist_eqp = (TextView) findViewById(R.id.textview_doctlist_eqp);
-        textview_doctlist_menu = (TextView) findViewById(R.id.textview_doctlist_menu);
-        searchview = (SearchView) findViewById(R.id.searchView_doctlist);
-
         array_doctorlist = new JSONArray();
-        textview_doctlist_eqp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        array_id = new ArrayList<String>();
+        searchview = (SearchView) findViewById(R.id.searchView_doctlist2);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView_doctorlist2);
+        text_submitpckg2 = (TextView) findViewById(R.id.text_submitpckg2);
 
-                Intent intent = new Intent(DoctorListActivity.this,EquipementActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        textview_doctlist_menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Context wrapper = new ContextThemeWrapper(DoctorListActivity.this, R.style.popupMenuStyle);
-                PopupMenu menu = new PopupMenu(wrapper, v);
-                menu.getMenu().add("Buy Pakages");
-                menu.getMenu().add("Paid Pakages");
-                menu.getMenu().add("Transctions");// menus items
-                menu.getMenu().add("Logout");
-                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-
-
-                        if (String.valueOf(item).equalsIgnoreCase("Buy Pakages"))
-                        {
-                            Intent intent = new Intent(DoctorListActivity.this,PackageActivity.class);
-                            startActivity(intent);
-
-                        }
-                        else  if (String.valueOf(item).equalsIgnoreCase("Paid Pakages"))
-                        {
-
-                        }
-                        else  if (String.valueOf(item).equalsIgnoreCase("Transctions"))
-                        {
-
-                        }
-                        else  if (String.valueOf(item).equalsIgnoreCase("Logout"))
-                        {
-                            editor.putString("userid","");
-                            editor.putString("login","no");
-                            editor.commit();
-                            Intent intent = new Intent(DoctorListActivity.this,MainViewActivity.class);
-                            startActivity(intent);
-                        }
-                        else {}
-
-
-                        return false;
-                    }
-                });
-
-                menu.show();
-            }
-        });
-
-         recyclerView = (RecyclerView) findViewById(R.id.recyclerView_doctorlist);
-         adapter = new MyListAdapter(array_doctorlist);
+        adapter = new MyListAdapter(array_doctorlist);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+        text_submitpckg2.setVisibility(View.GONE);
 
         searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener()
         {
-             public boolean onQueryTextSubmit(String query) {
+            public boolean onQueryTextSubmit(String query) {
                 Log.d("seach_query", query);
                 // do something on text submit
                 return false;
@@ -181,10 +125,18 @@ public class DoctorListActivity extends AppCompatActivity {
                 return false;
             }
         });
+        text_submitpckg2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
+            }
+        });
 
         new GetDoctorList_communication().execute();
-    }
 
+    }
 
     public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder>{
         private JSONArray listdata;
@@ -194,29 +146,41 @@ public class DoctorListActivity extends AppCompatActivity {
             this.listdata = listdata;
         }
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public MyListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
             View listItem= layoutInflater.inflate(R.layout.doctor_itemlist1, parent, false);
-            ViewHolder viewHolder = new ViewHolder(listItem);
+            MyListAdapter.ViewHolder viewHolder = new MyListAdapter.ViewHolder(listItem);
             return viewHolder;
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
+        public void onBindViewHolder(MyListAdapter.ViewHolder holder, int position) {
 
             try {
                 JSONObject obj = new JSONObject(String.valueOf(listdata.getJSONObject(position)));
 
-               //  [{"id":null,"name":"sachin","specialist":"Cediology","degree":"MBBS","exp":"10","regno":"457896","address":"panvel","pincode":"142102","ftime":"10","ttime":"21","status":"availabel","imageurl":"http:\/\/wwww.google.com\/ipl.png","phone":"8850519524","phone2":"9850017872"},{"id":"4","name":"Dr.Navin ","specialist":"Jadhav","degree":"Msc","exp":"2030","regno":"123","address":"Nerul","pincode":"123654","ftime":"","ttime":"","status":"Available","imageurl":"undefined","phone":null,"phone2":null},{"id":"5","name":"sdfsdf","specialist":"fsfsdfsdfs","degree":"sdfsdf","exp":"35000","regno":"323432","address":"234234","pincode":"324234234","ftime":"1","ttime":"2","status":"Available","imageurl":"undefined","phone":null,"phone2":null},{"id":"6","name":"sss","specialist":"sss","degree":"sssddd","exp":"12","regno":"123","address":"sss","pincode":"234","ftime":"10","ttime":"2","status":"Not Available","imageurl":"undefined","phone":"112","phone2":"12"}]
-                holder.textView_doctor_chat.setTag(position);
-                holder.textView_doctor_message.setTag(position);
+                //  [{"id":null,"name":"sachin","specialist":"Cediology","degree":"MBBS","exp":"10","regno":"457896","address":"panvel","pincode":"142102","ftime":"10","ttime":"21","status":"availabel","imageurl":"http:\/\/wwww.google.com\/ipl.png","phone":"8850519524","phone2":"9850017872"},{"id":"4","name":"Dr.Navin ","specialist":"Jadhav","degree":"Msc","exp":"2030","regno":"123","address":"Nerul","pincode":"123654","ftime":"","ttime":"","status":"Available","imageurl":"undefined","phone":null,"phone2":null},{"id":"5","name":"sdfsdf","specialist":"fsfsdfsdfs","degree":"sdfsdf","exp":"35000","regno":"323432","address":"234234","pincode":"324234234","ftime":"1","ttime":"2","status":"Available","imageurl":"undefined","phone":null,"phone2":null},{"id":"6","name":"sss","specialist":"sss","degree":"sssddd","exp":"12","regno":"123","address":"sss","pincode":"234","ftime":"10","ttime":"2","status":"Not Available","imageurl":"undefined","phone":"112","phone2":"12"}]
+                holder.relativeLayout.setTag(obj.getString("id"));
+
+                if (array_id.contains(String.valueOf(obj.getString("id"))))
+                {
+
+                    holder.relativeLayout.setBackgroundResource(R.drawable.border_bottom12);
+                }
+                else
+                {
+
+                    holder.relativeLayout.setBackgroundResource(R.drawable.bottom_border11);
+                }
+
 
                 holder.textView_doctname.setText("Name: "+obj.getString("name"));
-               // holder.imageView_profilelogo.setImageResource(listdata[position].getImgId());
+                // holder.imageView_profilelogo.setImageResource(listdata[position].getImgId());
                 holder.textView_doctordegree.setText("Degree: "+obj.getString("degree"));
                 holder.textView_doctor_exp.setText("Experience: "+obj.getString("exp") + " yrs.");
                 holder.textView_doctor_status.setText("Status: "+obj.getString("status"));
-
+                holder.textView_doctor_chat.setVisibility(View.INVISIBLE);
+                holder.textView_doctor_message.setVisibility(View.INVISIBLE);
                 if (obj.getString("status").equalsIgnoreCase("Available"))
                 {
                     holder.textView_doctor_status.setText(Html.fromHtml( " <font color=#414141>  "+"Status: "+ " </font> <font color=#00b33c> <b> "+obj.getString("status")+ " </b> </font>"));
@@ -238,7 +202,7 @@ public class DoctorListActivity extends AppCompatActivity {
 //                        .resize(100, 100)
 //                        .transform(new CropCircleTransformation())
 //                        .into(holder.imageView_profilelogo);
-                Picasso.with(DoctorListActivity.this)
+                Picasso.with(Listview_DoctorsActivity.this)
                         .load(str_imageurl)
                         .placeholder(R.drawable.defaultdoctor)
                         .into( holder.imageView_profilelogo, new Callback() {
@@ -254,40 +218,38 @@ public class DoctorListActivity extends AppCompatActivity {
                             }
                         });
 
-                holder.textView_doctor_chat.setOnClickListener(new View.OnClickListener() {
+                holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
-                       Integer int_index = (Integer)view.getTag();
-                        JSONObject objectval = null;
-                        try {
-
-                            objectval = new JSONObject(String.valueOf(listdata.getJSONObject(int_index)));
-                            Intent intent = new Intent(DoctorListActivity.this,ChatActivity.class);
-                            ChatActivity.str_reciverid = objectval.getString("id");;
-                            ChatActivity.str_chatname = objectval.getString("name");;
-                            startActivity(intent);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        if (array_id.contains(String.valueOf(view.getTag())))
+                        {
+                            array_id.remove(String.valueOf(view.getTag()));
+                            holder.relativeLayout.setBackgroundResource(R.drawable.bottom_border11);
                         }
+                        else
+                        {
+                            array_id.add(String.valueOf(view.getTag()));
+                            holder.relativeLayout.setBackgroundResource(R.drawable.border_bottom12);
+                        }
+                        if (array_id.size() == 0)
+                        {
+                            text_submitpckg2.setText("Submit");
+                            text_submitpckg2.setVisibility(View.GONE);
 
-
-
+                        }
+                        else
+                        {
+                            text_submitpckg2.setText("Submit ("+array_id.size()+")");
+                            text_submitpckg2.setVisibility(View.VISIBLE);
+                        }
                     }
                 });
 
-                holder.textView_doctor_message.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                    }
-                });
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
 
 
         }
@@ -301,8 +263,8 @@ public class DoctorListActivity extends AppCompatActivity {
         public  class ViewHolder extends RecyclerView.ViewHolder {
             public ImageView imageView_profilelogo;
             public TextView textView_doctname,textView_doctor_exp,textView_doctordegree,textView_doctor_status;
-
-            TextView textView_doctor_chat,textView_doctor_message;
+            public RelativeLayout relativeLayout;
+            TextView  textView_doctor_chat,textView_doctor_message;
             public ViewHolder(View itemView) {
                 super(itemView);
                 this.imageView_profilelogo = (ImageView) itemView.findViewById(R.id.imageView_profilelogo);
@@ -312,7 +274,7 @@ public class DoctorListActivity extends AppCompatActivity {
                 this.textView_doctor_status = (TextView) itemView.findViewById(R.id.textView_doctor_status);
                 this.textView_doctor_chat = (TextView) itemView.findViewById(R.id.textView_doctor_chat);
                 this.textView_doctor_message = (TextView) itemView.findViewById(R.id.textView_doctor_message);
-
+                this.relativeLayout = (RelativeLayout)itemView.findViewById(R.id.relativeLayout);
             }
         }
     }
@@ -393,11 +355,13 @@ public class DoctorListActivity extends AppCompatActivity {
                     array_doctorlist = new JSONArray(result);
 
 
+
+
                     if (array_doctorlist != null)
                     {
                         adapter = new MyListAdapter(array_doctorlist);
                         recyclerView.setHasFixedSize(true);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(DoctorListActivity.this));
+                        recyclerView.setLayoutManager(new LinearLayoutManager(Listview_DoctorsActivity.this));
                         recyclerView.setAdapter(adapter);
 
                     }
@@ -411,7 +375,7 @@ public class DoctorListActivity extends AppCompatActivity {
 
             else
             {
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorListActivity.this);
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(Listview_DoctorsActivity.this);
                 builder1.setTitle("Oops");
                 builder1.setMessage("Server encountered an error in verifying your mobile number. Please try again later.");
                 builder1.setCancelable(false);
@@ -477,7 +441,6 @@ public class DoctorListActivity extends AppCompatActivity {
     }
 
 
-    public void onBackPressed() {
 
-    }
+
 }

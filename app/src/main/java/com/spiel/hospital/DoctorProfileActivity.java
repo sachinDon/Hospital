@@ -314,7 +314,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
                 JSONObject postDataParams = new JSONObject();
 
 
-//                postDataParams.put("email",OTPActivity.Stremail);
+                postDataParams.put("mobile",pref.getString("userid",""));
                 postDataParams.put("ContactNo", str_contact);
                 postDataParams.put("Name", edittext_doctusername.getText());
                 postDataParams.put("Specialist", edittext_doct_subjects.getText());

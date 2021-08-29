@@ -5,7 +5,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,18 +13,13 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -42,101 +36,44 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.security.PublicKey;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.net.ssl.HttpsURLConnection;
 
+public class ChatViewListActivity extends AppCompatActivity {
 
-
-public class DoctorListActivity extends AppCompatActivity {
-
+    public  static  String str_id,str_mobile;
     AlertDialog alertDialog_Box;
-    TextView textview_doctlist_eqp,textview_doctlist_menu;
     RecyclerView recyclerView;
     MyListAdapter adapter;
     JSONArray array_doctorlist;
-    SearchView searchview;
-
     public SharedPreferences pref;
     SharedPreferences.Editor editor;
+    SearchView searchview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doctor_list);
+        setContentView(R.layout.activity_chat_view_list);
 
         pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = pref.edit();
-        textview_doctlist_eqp = (TextView) findViewById(R.id.textview_doctlist_eqp);
-        textview_doctlist_menu = (TextView) findViewById(R.id.textview_doctlist_menu);
-        searchview = (SearchView) findViewById(R.id.searchView_doctlist);
-
         array_doctorlist = new JSONArray();
-        textview_doctlist_eqp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(DoctorListActivity.this,EquipementActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        textview_doctlist_menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Context wrapper = new ContextThemeWrapper(DoctorListActivity.this, R.style.popupMenuStyle);
-                PopupMenu menu = new PopupMenu(wrapper, v);
-                menu.getMenu().add("Buy Pakages");
-                menu.getMenu().add("Paid Pakages");
-                menu.getMenu().add("Transctions");// menus items
-                menu.getMenu().add("Logout");
-                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
+        searchview = (SearchView) findViewById(R.id.searchView_doctlist_chatlist);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView_doctorlist_chat);
 
 
-                        if (String.valueOf(item).equalsIgnoreCase("Buy Pakages"))
-                        {
-                            Intent intent = new Intent(DoctorListActivity.this,PackageActivity.class);
-                            startActivity(intent);
-
-                        }
-                        else  if (String.valueOf(item).equalsIgnoreCase("Paid Pakages"))
-                        {
-
-                        }
-                        else  if (String.valueOf(item).equalsIgnoreCase("Transctions"))
-                        {
-
-                        }
-                        else  if (String.valueOf(item).equalsIgnoreCase("Logout"))
-                        {
-                            editor.putString("userid","");
-                            editor.putString("login","no");
-                            editor.commit();
-                            Intent intent = new Intent(DoctorListActivity.this,MainViewActivity.class);
-                            startActivity(intent);
-                        }
-                        else {}
-
-
-                        return false;
-                    }
-                });
-
-                menu.show();
-            }
-        });
-
-         recyclerView = (RecyclerView) findViewById(R.id.recyclerView_doctorlist);
-         adapter = new MyListAdapter(array_doctorlist);
+        adapter = new MyListAdapter(array_doctorlist);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
+
         searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener()
         {
-             public boolean onQueryTextSubmit(String query) {
+            public boolean onQueryTextSubmit(String query) {
                 Log.d("seach_query", query);
                 // do something on text submit
                 return false;
@@ -153,10 +90,10 @@ public class DoctorListActivity extends AppCompatActivity {
                         for (int i = 0; i < array_doctorlist.length(); i++) {
 
                             try {
-                                String string = array_doctorlist.getJSONObject(i).getString("name");
-                                String str_category = array_doctorlist.getJSONObject(i).getString("degree");
+                                String string = array_doctorlist.getJSONObject(i).getString("hname");
+                                //String str_category = array_doctorlist.getJSONObject(i).getString("degree");
                                 // str_search_txt = newText;
-                                if ((string.toLowerCase()).contains(newText.toLowerCase()) || (str_category.toLowerCase()).contains(newText.toLowerCase()) ) {
+                                if ((string.toLowerCase()).contains(newText.toLowerCase()) ) {
 
                                     adapter.listdata.put(array_doctorlist.getJSONObject(i));
                                 }
@@ -182,9 +119,9 @@ public class DoctorListActivity extends AppCompatActivity {
             }
         });
 
-        new GetDoctorList_communication().execute();
-    }
 
+        new GetDoctorListchat_communication().execute();
+    }
 
     public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder>{
         private JSONArray listdata;
@@ -194,78 +131,45 @@ public class DoctorListActivity extends AppCompatActivity {
             this.listdata = listdata;
         }
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public MyListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-            View listItem= layoutInflater.inflate(R.layout.doctor_itemlist1, parent, false);
-            ViewHolder viewHolder = new ViewHolder(listItem);
+            View listItem= layoutInflater.inflate(R.layout.list_doctor_chat, parent, false);
+            MyListAdapter.ViewHolder viewHolder = new MyListAdapter.ViewHolder(listItem);
             return viewHolder;
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
+        public void onBindViewHolder(MyListAdapter.ViewHolder holder, int position) {
 
             try {
                 JSONObject obj = new JSONObject(String.valueOf(listdata.getJSONObject(position)));
 
-               //  [{"id":null,"name":"sachin","specialist":"Cediology","degree":"MBBS","exp":"10","regno":"457896","address":"panvel","pincode":"142102","ftime":"10","ttime":"21","status":"availabel","imageurl":"http:\/\/wwww.google.com\/ipl.png","phone":"8850519524","phone2":"9850017872"},{"id":"4","name":"Dr.Navin ","specialist":"Jadhav","degree":"Msc","exp":"2030","regno":"123","address":"Nerul","pincode":"123654","ftime":"","ttime":"","status":"Available","imageurl":"undefined","phone":null,"phone2":null},{"id":"5","name":"sdfsdf","specialist":"fsfsdfsdfs","degree":"sdfsdf","exp":"35000","regno":"323432","address":"234234","pincode":"324234234","ftime":"1","ttime":"2","status":"Available","imageurl":"undefined","phone":null,"phone2":null},{"id":"6","name":"sss","specialist":"sss","degree":"sssddd","exp":"12","regno":"123","address":"sss","pincode":"234","ftime":"10","ttime":"2","status":"Not Available","imageurl":"undefined","phone":"112","phone2":"12"}]
-                holder.textView_doctor_chat.setTag(position);
-                holder.textView_doctor_message.setTag(position);
+                holder.relativeLayout.setTag(position);
+                holder.text_hcname_chat.setText(obj.getString("hname"));
+                holder.text_hregno_chat.setText(obj.getString("hregno"));
 
-                holder.textView_doctname.setText("Name: "+obj.getString("name"));
-               // holder.imageView_profilelogo.setImageResource(listdata[position].getImgId());
-                holder.textView_doctordegree.setText("Degree: "+obj.getString("degree"));
-                holder.textView_doctor_exp.setText("Experience: "+obj.getString("exp") + " yrs.");
-                holder.textView_doctor_status.setText("Status: "+obj.getString("status"));
-
-                if (obj.getString("status").equalsIgnoreCase("Available"))
+                if (obj.getString("read").equalsIgnoreCase("yes"))
                 {
-                    holder.textView_doctor_status.setText(Html.fromHtml( " <font color=#414141>  "+"Status: "+ " </font> <font color=#00b33c> <b> "+obj.getString("status")+ " </b> </font>"));
-
+                    holder.text__readmsg.setVisibility(View.INVISIBLE);
                 }
                 else
                 {
-                    holder.textView_doctor_status.setText(Html.fromHtml( " <font color=#414141>  "+"Status: "+ " </font> <font color=#ff0000> <b> "+obj.getString("status")+ " </b> </font>"));
+                    holder.text__readmsg.setVisibility(View.VISIBLE);
                 }
 
-                String str_imageurl = obj.getString("imageurl");
 
-                if (str_imageurl.length() ==0)
-                {
-                    str_imageurl ="http://www.sachinmokashi";
-                }
-//                Picasso.with(DoctorListActivity.this)
-//                        .load(str_imageurl)
-//                        .resize(100, 100)
-//                        .transform(new CropCircleTransformation())
-//                        .into(holder.imageView_profilelogo);
-                Picasso.with(DoctorListActivity.this)
-                        .load(str_imageurl)
-                        .placeholder(R.drawable.defaultdoctor)
-                        .into( holder.imageView_profilelogo, new Callback() {
-                            @Override
-                            public void onSuccess() {
-
-
-                            }
-
-                            @Override
-                            public void onError() {
-
-                            }
-                        });
-
-                holder.textView_doctor_chat.setOnClickListener(new View.OnClickListener() {
+                holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
-                       Integer int_index = (Integer)view.getTag();
+                        Integer int_index = (Integer)view.getTag();
                         JSONObject objectval = null;
                         try {
 
                             objectval = new JSONObject(String.valueOf(listdata.getJSONObject(int_index)));
-                            Intent intent = new Intent(DoctorListActivity.this,ChatActivity.class);
-                            ChatActivity.str_reciverid = objectval.getString("id");;
-                            ChatActivity.str_chatname = objectval.getString("name");;
+                            Intent intent = new Intent(ChatViewListActivity.this,ChatActivity.class);
+                            ChatActivity.str_reciverid = objectval.getString("mobile");;
+                            ChatActivity.str_chatname = objectval.getString("hname");;
                             startActivity(intent);
 
                         } catch (JSONException e) {
@@ -273,21 +177,13 @@ public class DoctorListActivity extends AppCompatActivity {
                         }
 
 
-
                     }
                 });
 
-                holder.textView_doctor_message.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                    }
-                });
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
 
 
         }
@@ -299,25 +195,21 @@ public class DoctorListActivity extends AppCompatActivity {
         }
 
         public  class ViewHolder extends RecyclerView.ViewHolder {
-            public ImageView imageView_profilelogo;
-            public TextView textView_doctname,textView_doctor_exp,textView_doctordegree,textView_doctor_status;
 
-            TextView textView_doctor_chat,textView_doctor_message;
+            public RelativeLayout relativeLayout;
+            TextView  text_hregno_chat,text_hcname_chat,text__readmsg;
             public ViewHolder(View itemView) {
                 super(itemView);
-                this.imageView_profilelogo = (ImageView) itemView.findViewById(R.id.imageView_profilelogo);
-                this.textView_doctname = (TextView) itemView.findViewById(R.id.textView_doctname);
-                this.textView_doctordegree = (TextView) itemView.findViewById(R.id.textView_doctordegree);
-                this.textView_doctor_exp = (TextView) itemView.findViewById(R.id.textView_doctor_exp);
-                this.textView_doctor_status = (TextView) itemView.findViewById(R.id.textView_doctor_status);
-                this.textView_doctor_chat = (TextView) itemView.findViewById(R.id.textView_doctor_chat);
-                this.textView_doctor_message = (TextView) itemView.findViewById(R.id.textView_doctor_message);
 
+                this.text__readmsg = (TextView) itemView.findViewById(R.id.text__readmsg);
+                this.text_hregno_chat = (TextView) itemView.findViewById(R.id.text_hregno_chat);
+                this.text_hcname_chat = (TextView) itemView.findViewById(R.id.text_hcname_chat);
+                this.relativeLayout = (RelativeLayout)itemView.findViewById(R.id.relative_chatlistview);
             }
         }
     }
 
-    public class GetDoctorList_communication extends AsyncTask<String, Void, String> {
+    public class GetDoctorListchat_communication extends AsyncTask<String, Void, String> {
 
         protected void onPreExecute() {
         }
@@ -327,13 +219,13 @@ public class DoctorListActivity extends AppCompatActivity {
 
             try {
 
-                URL url = new URL(Urlclass.getdoctorlist);
+                URL url = new URL(Urlclass.getdoctorchatlist);
                 JSONObject postDataParams = new JSONObject();
 
 
 //                postDataParams.put("email",OTPActivity.Stremail);
-                postDataParams.put("mobile",pref.getString("userid",""));
-                postDataParams.put("id","");
+                postDataParams.put("mobile",str_mobile);
+                postDataParams.put("id",str_id);
 
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(60000 /* milliseconds */);
@@ -393,11 +285,13 @@ public class DoctorListActivity extends AppCompatActivity {
                     array_doctorlist = new JSONArray(result);
 
 
+
+
                     if (array_doctorlist != null)
                     {
                         adapter = new MyListAdapter(array_doctorlist);
                         recyclerView.setHasFixedSize(true);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(DoctorListActivity.this));
+                        recyclerView.setLayoutManager(new LinearLayoutManager(ChatViewListActivity.this));
                         recyclerView.setAdapter(adapter);
 
                     }
@@ -411,7 +305,7 @@ public class DoctorListActivity extends AppCompatActivity {
 
             else
             {
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorListActivity.this);
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(ChatViewListActivity.this);
                 builder1.setTitle("Oops");
                 builder1.setMessage("Server encountered an error in verifying your mobile number. Please try again later.");
                 builder1.setCancelable(false);
@@ -477,7 +371,4 @@ public class DoctorListActivity extends AppCompatActivity {
     }
 
 
-    public void onBackPressed() {
-
-    }
 }

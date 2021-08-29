@@ -9,6 +9,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
@@ -19,7 +20,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -31,6 +34,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,15 +68,20 @@ public class EquipementActivity extends AppCompatActivity {
     JSONArray array_doctorlist;
    ProgressDialog progressDialog;
     AlertDialog alert11;
+    SearchView searchview;
+    public SharedPreferences pref;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_equipement);
-
+        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        editor = pref.edit();
 
         text_back_equp =(TextView)findViewById(R.id.text_back_equp);
          recyclerView = (RecyclerView) findViewById(R.id.recyclerView_equp_list);
+        searchview = (SearchView) findViewById(R.id.serch_equp_searchView);
         array_doctorlist = new JSONArray();
 
          adapter = new MyListAdapter(array_doctorlist);
@@ -80,6 +89,53 @@ public class EquipementActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
+        searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+        {
+            public boolean onQueryTextSubmit(String query) {
+                Log.d("seach_query", query);
+                // do something on text submit
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                adapter.listdata = new JSONArray();
+                if (array_doctorlist != null)                {
+                    if (TextUtils.isEmpty(newText.toString())) {
+                        //str_search_txt = "";
+                        adapter.listdata = array_doctorlist;
+                    } else {
+                        for (int i = 0; i < array_doctorlist.length(); i++) {
+
+                            try {
+                                String string = array_doctorlist.getJSONObject(i).getString("productname");
+                                String str_category = array_doctorlist.getJSONObject(i).getString("producttype");
+                                // str_search_txt = newText;
+                                if ((string.toLowerCase()).contains(newText.toLowerCase()) || (str_category.toLowerCase()).contains(newText.toLowerCase()) ) {
+
+                                    adapter.listdata.put(array_doctorlist.getJSONObject(i));
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }  }}
+
+                    if (recyclerView.getAdapter() != null)
+                    {
+                        adapter.notifyDataSetChanged();
+                    }
+
+                }
+                else
+                {
+                    if (recyclerView.getAdapter() != null)
+                    {
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+                return false;
+            }
+        });
         new Equipement_communication().execute();
 
         text_back_equp.setOnClickListener(new View.OnClickListener() {
@@ -291,7 +347,7 @@ public class EquipementActivity extends AppCompatActivity {
 
 
 //                postDataParams.put("email",OTPActivity.Stremail);
-                postDataParams.put("mobile","");
+                postDataParams.put("mobile",pref.getString("userid",""));
                 postDataParams.put("id","");
 
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();

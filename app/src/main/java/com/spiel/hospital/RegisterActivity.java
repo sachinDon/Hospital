@@ -159,6 +159,7 @@ public class RegisterActivity extends AppCompatActivity {
                             else if (obj_values.getString("result").equalsIgnoreCase("register"))
                             {
 
+                                editor.putString("usersid",str_mobileno);
                                 editor.putString("login", "yes");
                                 editor.commit();
 
