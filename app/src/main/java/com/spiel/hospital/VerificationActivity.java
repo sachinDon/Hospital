@@ -55,7 +55,7 @@ public class VerificationActivity extends AppCompatActivity implements
     ProgressDialog progressDialog,progressDialog1;
     public SharedPreferences pref;
     SharedPreferences.Editor editor;
-    String str_mobileno;
+    String str_mobileno,str_logintype;
     AlertDialog alertDialog_Box;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,6 +142,7 @@ public class VerificationActivity extends AppCompatActivity implements
         if (intent != null) {
 //            DataManager.getInstance().showProgressMessage(this, "");
             str_mobileno = intent.getStringExtra(OtpmsgActivity.INTENT_PHONENUMBER);
+            str_logintype = intent.getStringExtra("type");
 
             int countryCode = intent.getIntExtra(OtpmsgActivity.INTENT_COUNTRY_CODE, 0);
             TextView phoneText = (TextView) findViewById(R.id.numberText);
@@ -273,9 +274,9 @@ public class VerificationActivity extends AppCompatActivity implements
                     progressDialog.setCancelable(false);
                     progressDialog.show();
 
-                    if (OtpmsgActivity.str_pagetype.equalsIgnoreCase("for"))
+                    if (str_logintype.equalsIgnoreCase("doctor"))
                     {
-
+                        new SendPostRequestDoctor().execute();
                     }
                     else
                     {
@@ -557,6 +558,194 @@ public class VerificationActivity extends AppCompatActivity implements
                                         });
                                 alertDialog_Box = builder1.create();
                                 alertDialog_Box.show();
+
+
+                        }
+                    }
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            else
+            {
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(VerificationActivity.this);
+                builder1.setTitle("Oops");
+                builder1.setMessage("Server encountered an error in verifying your mobile number. Please try again later.");
+                builder1.setCancelable(false);
+                builder1.setPositiveButton("Ok",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                                // finish();
+                            }
+                        });
+                alertDialog_Box = builder1.create();
+                alertDialog_Box.show();
+            }
+
+            progressDialog.dismiss();
+
+//                else
+//                {
+//                    android.support.v7.app.AlertDialog.Builder builder1 = new android.support.v7.app.AlertDialog.Builder(OtpVerifyActivity.this);
+//                    builder1.setTitle("Server timeout");
+//                    builder1.setMessage("Server timeout");
+//                    builder1.setCancelable(false);
+//                    builder1.setPositiveButton("Ok",
+//                            new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialog, int id) {
+//                                    dialog.cancel();
+//                                    // finish();
+//                                }
+//                            });
+//                    alertDialog_Box = builder1.create();
+//                    alertDialog_Box.show();
+
+
+
+
+
+        }
+    }
+
+    public class SendPostRequestDoctor extends AsyncTask<String, Void, String> {
+
+        protected void onPreExecute() {
+        }
+
+        protected String doInBackground(String... arg0) {
+
+
+            try {
+
+                URL url = new URL(Urlclass.doctorregister);
+                JSONObject postDataParams = new JSONObject();
+
+
+//                postDataParams.put("email",OTPActivity.Stremail);
+                postDataParams.put("mobile",str_mobileno);
+
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(60000 /* milliseconds */);
+                conn.setConnectTimeout(60000 /* milliseconds */);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(getPostDataString(postDataParams));
+
+                writer.flush();
+                writer.close();
+                os.close();
+
+                int responseCode = conn.getResponseCode();
+
+                if (responseCode == HttpsURLConnection.HTTP_OK) {
+
+                    BufferedReader in = new BufferedReader(new
+                            InputStreamReader(
+                            conn.getInputStream()));
+
+                    StringBuffer sb = new StringBuffer("");
+                    String line = "";
+
+                    while ((line = in.readLine()) != null) {
+
+                        sb.append(line);
+                        break;
+                    }
+
+                    in.close();
+                    return sb.toString();
+
+                } else {
+                    return new String("false : " + responseCode);
+                }
+            } catch (Exception e) {
+                return new String("Exception: " + e.getMessage());
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+
+
+
+            if (!result.equalsIgnoreCase("")) {
+                try {
+                    JSONArray jsonarray = new JSONArray(result);
+
+                    JSONObject obj_values = new JSONObject(String.valueOf(jsonarray.getString(0)));
+
+
+
+                    if (jsonarray != null) {
+
+                        if (obj_values.getString("status").equalsIgnoreCase("1")) {
+
+
+                            JSONArray array_result = new JSONArray(obj_values.getString("result"));
+                            JSONObject obj_newResult = new JSONObject(String.valueOf(array_result.get(0)));
+                            editor.putString("logindoctordetails", String.valueOf(obj_newResult));
+                            editor.putString("logindoctor","yes");
+                            editor.commit();
+                            Intent intent = new Intent(VerificationActivity.this,DoctorActivity.class);
+                            startActivity(intent);
+                        }
+                        else if (obj_values.getString("status").equalsIgnoreCase("0"))
+                        {
+                            if (obj_values.getString("result").equalsIgnoreCase("notregister"))
+                            {
+                                Intent intent = new Intent(VerificationActivity.this,DoctroRegisterActivity.class);
+                                DoctroRegisterActivity.str_mobileno = str_mobileno;
+                                startActivity(intent);
+                            }
+                            if (obj_values.getString("result").equalsIgnoreCase("nullerror"))
+                            {
+                                AlertDialog.Builder builder1 = new AlertDialog.Builder(VerificationActivity.this);
+                                builder1.setTitle("Oops");
+                                builder1.setMessage(obj_values.getString("errormessage"));
+                                builder1.setCancelable(false);
+                                builder1.setPositiveButton("Ok",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                dialog.cancel();
+                                                // finish();
+                                            }
+                                        });
+                                alertDialog_Box = builder1.create();
+                                alertDialog_Box.show();
+                            }
+
+
+
+                        }
+                        else
+                        {
+
+
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(VerificationActivity.this);
+                            builder1.setTitle("Oops");
+                            builder1.setMessage("Server encountered an error. Please try again later.");
+                            builder1.setCancelable(false);
+                            builder1.setPositiveButton("Ok",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                            // finish();
+                                        }
+                                    });
+                            alertDialog_Box = builder1.create();
+                            alertDialog_Box.show();
 
 
                         }

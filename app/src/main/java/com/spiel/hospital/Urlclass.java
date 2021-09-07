@@ -6,8 +6,6 @@ package com.spiel.hospital;
 
 public class Urlclass
 {
-    public static String admin_username = "sachin";
-    public static String admin_password = "sachin";
 
    public static String url = "http://suredoc.akwebinfotech.com/";
 
@@ -25,12 +23,11 @@ public class Urlclass
     public static String getchat= url + "getchat.php";
     public static String chat= url + "chat.php";
     public static String getdoctorchatlist= url + "getdoctorchatlist.php";
+    public static String paymentpay= url + "paymentpay.php";
+    public static String doctorregister = url + "doctorregister.php";
+    public static String doctorregister1 = url + "doctorregister1.php";
+    public static String doctorloginupdate = url + "doctorloginupdate.php";
 
-    public static String updateaddcart= url + "updateaddcart.php";
-
-    public static String updateprofile = url + "updateprofile.php";
-    public static String getaccountinfo = url + "accountinfo.php";
-    public static String custorder = url + "custorder.php";
     public static String prescription = url + "prescription.php";
 
     public static String orderlist= url + "orderlist.php";

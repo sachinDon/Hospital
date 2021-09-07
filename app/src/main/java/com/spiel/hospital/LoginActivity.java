@@ -32,8 +32,7 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(LoginActivity.this,OtpmsgActivity.class);
 
                 intent.putExtra("mobile", "8850519524");
-                OtpmsgActivity.str_pagetype = "login";
-                startActivity(intent);
+               // OtpmsgActivity.str_pagetype = "login";
                 startActivity(intent);
 
             }

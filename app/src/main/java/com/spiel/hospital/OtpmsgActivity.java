@@ -14,6 +14,7 @@ import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,12 +33,13 @@ public class OtpmsgActivity extends AppCompatActivity {
 
     public static final String INTENT_PHONENUMBER = "phonenumber";
     public static final String INTENT_COUNTRY_CODE = "code";
-
+    CheckBox checkbox_hospital,checkbox_doctor;
     private EditText mPhoneNumber;
     private TextView mSmsButton;
     private String mCountryIso,str_mobileno;
     private TextWatcher mNumberTextWatcher;
-    public  static String str_pagetype="";
+    String str_logintype;
+    private  TextView text_login_forgotpassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +48,9 @@ public class OtpmsgActivity extends AppCompatActivity {
 
 
 
-
+        text_login_forgotpassword = findViewById(R.id.text_login_forgotpassword);
+        checkbox_doctor = (CheckBox)findViewById(R.id.checkbox_doctor);
+        checkbox_hospital = (CheckBox)findViewById(R.id.checkbox_hospital);
         mPhoneNumber = findViewById(R.id.phoneNumber);
         mSmsButton = findViewById(R.id.smsVerificationButton);
 
@@ -62,7 +66,41 @@ public class OtpmsgActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(OtpmsgActivity.this).registerReceiver(updateotp,
                 new IntentFilter("updateotp"));
 
+        checkbox_doctor.setChecked(false);
+        checkbox_hospital.setChecked(true);
+        str_logintype="hospital";
+        checkbox_doctor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                str_logintype="doctor";
+                checkbox_doctor.setChecked(true);
+                checkbox_hospital.setChecked(false);
+            }
+        });
+        checkbox_hospital.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                str_logintype="hospital";
+                checkbox_doctor.setChecked(false);
+                checkbox_hospital.setChecked(true);
+
+
+            }
+        });
+
+        text_login_forgotpassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent intent = new Intent(OtpmsgActivity.this,LoginDoctorActivity.class);
+                startActivity(intent);
+
+
+            }
+        });
         mCountryIso = PhoneNumberUtils.getDefaultCountryIso(this);
         final String defaultCountryName = new Locale("", mCountryIso).getDisplayName();
         final CountrySpinner spinner = (CountrySpinner) findViewById(R.id.spinner);
@@ -109,6 +147,7 @@ public class OtpmsgActivity extends AppCompatActivity {
         Intent verification = new Intent(this, VerificationActivity.class);
         verification.putExtra(INTENT_PHONENUMBER, phoneNumber);
         verification.putExtra(INTENT_COUNTRY_CODE, Iso2Phone.getPhone(mCountryIso));
+        verification.putExtra("type",str_logintype);
         startActivity(verification);
     }
 
@@ -180,5 +219,7 @@ public class OtpmsgActivity extends AppCompatActivity {
 
         }
     };
+    public void onBackPressed() {
 
+    }
 }

@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
@@ -36,11 +37,13 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.Iterator;
 
@@ -70,6 +73,16 @@ public class DoctorListActivity extends AppCompatActivity {
         textview_doctlist_eqp = (TextView) findViewById(R.id.textview_doctlist_eqp);
         textview_doctlist_menu = (TextView) findViewById(R.id.textview_doctlist_menu);
         searchview = (SearchView) findViewById(R.id.searchView_doctlist);
+
+        int SDK_INT = android.os.Build.VERSION.SDK_INT;
+        if (SDK_INT > 8)
+        {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                    .permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            //your codes here
+
+        }
 
         array_doctorlist = new JSONArray();
         textview_doctlist_eqp.setOnClickListener(new View.OnClickListener() {
@@ -214,6 +227,7 @@ public class DoctorListActivity extends AppCompatActivity {
                 holder.textView_doctname.setText("Name: "+obj.getString("name"));
                // holder.imageView_profilelogo.setImageResource(listdata[position].getImgId());
                 holder.textView_doctordegree.setText("Degree: "+obj.getString("degree"));
+                holder.textView_specilistdc.setText("Specialist: "+obj.getString("specialist"));
                 holder.textView_doctor_exp.setText("Experience: "+obj.getString("exp") + " yrs.");
                 holder.textView_doctor_status.setText("Status: "+obj.getString("status"));
 
@@ -238,6 +252,7 @@ public class DoctorListActivity extends AppCompatActivity {
 //                        .resize(100, 100)
 //                        .transform(new CropCircleTransformation())
 //                        .into(holder.imageView_profilelogo);
+                Picasso.with(DoctorListActivity.this).invalidate(str_imageurl);
                 Picasso.with(DoctorListActivity.this)
                         .load(str_imageurl)
                         .placeholder(R.drawable.defaultdoctor)
@@ -281,6 +296,7 @@ public class DoctorListActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
 
+                        SendMessage();
                     }
                 });
 
@@ -300,7 +316,7 @@ public class DoctorListActivity extends AppCompatActivity {
 
         public  class ViewHolder extends RecyclerView.ViewHolder {
             public ImageView imageView_profilelogo;
-            public TextView textView_doctname,textView_doctor_exp,textView_doctordegree,textView_doctor_status;
+            public TextView textView_specilistdc,textView_doctname,textView_doctor_exp,textView_doctordegree,textView_doctor_status;
 
             TextView textView_doctor_chat,textView_doctor_message;
             public ViewHolder(View itemView) {
@@ -312,6 +328,7 @@ public class DoctorListActivity extends AppCompatActivity {
                 this.textView_doctor_status = (TextView) itemView.findViewById(R.id.textView_doctor_status);
                 this.textView_doctor_chat = (TextView) itemView.findViewById(R.id.textView_doctor_chat);
                 this.textView_doctor_message = (TextView) itemView.findViewById(R.id.textView_doctor_message);
+                this.textView_specilistdc= (TextView) itemView.findViewById(R.id.textView_specilistdc);
 
             }
         }
@@ -476,6 +493,64 @@ public class DoctorListActivity extends AppCompatActivity {
         return result.toString();
     }
 
+    public  void  SendMessage()
+    {
+        String authkey = "166733AbkGNaxvhDTl60f24e49P1";
+//Multiple mobiles numbers separated by comma
+        String mobiles = "8850519524";
+//Sender ID,While using route4 sender id should be 6 characters long.
+        String senderId = "BMHOSP";
+//Your message to send, Add URL encoding here.
+        String message = "Hi sachin mokashi message";
+//define route
+        String route="default";
+
+        URLConnection myURLConnection=null;
+        URL myURL=null;
+        BufferedReader reader=null;
+
+//encoding message
+        String encoded_message=URLEncoder.encode(message);
+
+//Send SMS API
+        String mainUrl="http://api.msg91.com/api/sendhttp.php?";
+
+//Prepare parameter string
+        StringBuilder sbPostData= new StringBuilder(mainUrl);
+        sbPostData.append("authkey="+authkey);
+        sbPostData.append("&mobiles="+mobiles);
+        sbPostData.append("&message="+encoded_message);
+        sbPostData.append("&route="+route);
+        sbPostData.append("&sender="+senderId);
+
+//final string
+        mainUrl = sbPostData.toString();
+        try
+        {
+            //prepare connection
+            myURL = new URL(mainUrl);
+            try {
+                myURLConnection = myURL.openConnection();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            myURLConnection.connect();
+            reader= new BufferedReader(new InputStreamReader(myURLConnection.getInputStream()));
+
+            //reading response
+            String response;
+            while ((response = reader.readLine()) != null)
+                //print response
+                Log.d("RESPONSE", ""+response);
+
+            //finally close connection
+            reader.close();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
 
     public void onBackPressed() {
 

@@ -175,7 +175,7 @@ public class Listview_DoctorsActivity extends AppCompatActivity {
 
 
                 holder.textView_doctname.setText("Name: "+obj.getString("name"));
-                // holder.imageView_profilelogo.setImageResource(listdata[position].getImgId());
+                holder.textView_specilistdc.setText("Specialist: "+obj.getString("specialist"));
                 holder.textView_doctordegree.setText("Degree: "+obj.getString("degree"));
                 holder.textView_doctor_exp.setText("Experience: "+obj.getString("exp") + " yrs.");
                 holder.textView_doctor_status.setText("Status: "+obj.getString("status"));
@@ -202,6 +202,7 @@ public class Listview_DoctorsActivity extends AppCompatActivity {
 //                        .resize(100, 100)
 //                        .transform(new CropCircleTransformation())
 //                        .into(holder.imageView_profilelogo);
+                Picasso.with(Listview_DoctorsActivity.this).invalidate(str_imageurl);
                 Picasso.with(Listview_DoctorsActivity.this)
                         .load(str_imageurl)
                         .placeholder(R.drawable.defaultdoctor)
@@ -262,7 +263,7 @@ public class Listview_DoctorsActivity extends AppCompatActivity {
 
         public  class ViewHolder extends RecyclerView.ViewHolder {
             public ImageView imageView_profilelogo;
-            public TextView textView_doctname,textView_doctor_exp,textView_doctordegree,textView_doctor_status;
+            public TextView textView_specilistdc,textView_doctname,textView_doctor_exp,textView_doctordegree,textView_doctor_status;
             public RelativeLayout relativeLayout;
             TextView  textView_doctor_chat,textView_doctor_message;
             public ViewHolder(View itemView) {
@@ -275,6 +276,7 @@ public class Listview_DoctorsActivity extends AppCompatActivity {
                 this.textView_doctor_chat = (TextView) itemView.findViewById(R.id.textView_doctor_chat);
                 this.textView_doctor_message = (TextView) itemView.findViewById(R.id.textView_doctor_message);
                 this.relativeLayout = (RelativeLayout)itemView.findViewById(R.id.relativeLayout);
+                this.textView_specilistdc= (TextView) itemView.findViewById(R.id.textView_specilistdc);
             }
         }
     }

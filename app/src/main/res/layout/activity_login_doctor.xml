@@ -7,7 +7,9 @@
     android:background="@color/white"
     tools:context=".LoginDoctorActivity">
 
-
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -58,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="22sp"
-                android:text="LOGIN"
+                android:text="Update Login Details"
                 android:textAlignment="center"
                 android:textColor="@color/blue_1"
                 android:textStyle="bold"
@@ -68,16 +70,31 @@
                 />
 
             <TextView
+                android:id="@+id/login_title1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="Fill valid details of old mobile number and registration number"
+                android:textAlignment="center"
+                android:textColor="@color/ligt_gray"
+                android:fontFamily="sans-serif"
+                android:layout_below="@+id/login_title"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+
+                />
+
+            <TextView
                 android:id="@+id/text_login_userid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:layout_below="@+id/login_title"
-                android:text="Username:"
+                android:layout_below="@+id/login_title1"
+                android:text="Old mobile Number:"
                 android:textColor="@color/blue_1"
                 android:textStyle="normal"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="35dp"
+                android:layout_marginTop="25dp"
 
                 />
             <EditText
@@ -87,7 +104,8 @@
                 android:textColor="@color/blue_1"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
-                android:hint="Enter user name"
+                android:inputType="phone"
+                android:hint="Enter old mobile number"
                 android:backgroundTint="@color/blue_1"
                 android:layout_below="@+id/text_login_userid"/>
 
@@ -97,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:layout_below="@+id/edittext_login_userid"
-                android:text="Password"
+                android:text="Old registration Number"
                 android:textColor="@color/blue_1"
                 android:textStyle="normal"
                 android:layout_marginStart="20dp"
@@ -110,43 +128,158 @@
                 android:layout_height="40dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
-                android:hint="Enter password"
+                android:hint="Enter old reg number"
                 android:textColor="@color/blue_1"
-                android:inputType="textPassword"
+                android:inputType="textEmailAddress"
                 android:backgroundTint="@color/blue_1"
                 android:layout_below="@+id/text_login_password"/>
 
-            <TextView
-                android:id="@+id/text_login_forgotpassword"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:textSize="16sp"
+
+            <CheckBox
+                android:id="@+id/checkbox_update_mobile"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="20dp"
                 android:layout_below="@+id/edittext_login_password"
-                android:text="Forgot Password"
+                android:layout_alignTop="@+id/text_up_newmobile"
                 android:gravity="center"
+                android:checked="false"/>
+            <TextView
+                android:id="@+id/text_up_newmobile"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:textSize="16sp"
+                android:gravity="center_vertical"
+                android:layout_toEndOf="@+id/checkbox_update_mobile"
+                android:layout_below="@+id/edittext_login_password"
+                android:text="Update mobile Number"
                 android:textColor="@color/blue_1"
                 android:textStyle="normal"
-                android:paddingStart="25dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginEnd="15dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="20dp"
+
                 />
+            <EditText
+                android:id="@+id/edittext__up_newmobile"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:visibility="gone"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:hint="Enter new mobile number"
+                android:textColor="@color/blue_1"
+                android:inputType="phone"
+                android:backgroundTint="@color/blue_1"
+                android:layout_below="@+id/text_up_newmobile"/>
+
+
+            <CheckBox
+                android:id="@+id/checkbox_update_regno"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="20dp"
+                android:layout_below="@+id/edittext__up_newmobile"
+                android:layout_alignTop="@+id/text_up_regno"
+                android:gravity="center"
+                android:checked="false"/>
+
+            <TextView
+                android:id="@+id/text_up_regno"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:textSize="16sp"
+                android:gravity="center_vertical"
+                android:layout_toEndOf="@+id/checkbox_update_regno"
+                android:layout_below="@+id/edittext__up_newmobile"
+                android:text="Update registration number"
+                android:textColor="@color/blue_1"
+                android:textStyle="normal"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="20dp"
+
+                />
+            <EditText
+                android:id="@+id/edittext_up_regno"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:visibility="gone"
+                android:hint="Enter new reg number"
+                android:textColor="@color/blue_1"
+                android:inputType="textEmailAddress"
+                android:backgroundTint="@color/blue_1"
+                android:layout_below="@+id/text_up_regno"/>
+
+
+            <RelativeLayout
+                android:id="@+id/relative_checktype"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/edittext_up_regno"
+                android:layout_marginTop="10dp">
+
+                <CheckBox
+                    android:id="@+id/checkbox_hospitalf"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:checked="true"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/text_checkbox_hospitalf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="15dp"
+                    android:layout_toEndOf="@+id/checkbox_hospitalf"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center"
+                    android:text="Hospital"
+                    android:textColor="@color/blue_1"
+                    android:textSize="16sp" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_doctorf"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_toEndOf="@+id/text_checkbox_hospitalf"
+                    android:gravity="center"
+                    android:checked="false"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center"
+                    android:text="Doctor"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/checkbox_doctorf"
+                    android:textColor="@color/blue_1"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/text_loginbtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:layout_below="@+id/text_login_forgotpassword"
-                android:text="LOGIN"
+                android:textSize="18sp"
+                android:layout_below="@+id/relative_checktype"
+                android:text="Update"
                 android:background="@drawable/gdridantcoolor"
                 android:gravity="center"
                 android:textColor="@color/white"
               android:fontFamily="sans-serif-medium"
-                android:paddingStart="65dp"
-                android:paddingEnd="65dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
+                android:paddingStart="55dp"
+                android:paddingEnd="55dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
                 android:layout_marginTop="30dp"
+                android:layout_marginBottom="60dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginEnd="15dp"
                 />
@@ -158,5 +291,5 @@
         </RelativeLayout>
 
     </RelativeLayout>
-
+</ScrollView>
 </RelativeLayout>

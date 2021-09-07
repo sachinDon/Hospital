@@ -23,40 +23,55 @@ public class MainViewActivity extends AppCompatActivity {
         pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = pref.edit();
 
-        textv_hospital_login = (TextView) findViewById(R.id.textv_hospital_login);
-                textv_doctor_login = (TextView) findViewById(R.id.textv_doctor_login);
+//        textv_hospital_login = (TextView) findViewById(R.id.textv_hospital_login);
+//                textv_doctor_login = (TextView) findViewById(R.id.textv_doctor_login);
 
             if (pref.getString("login","").equalsIgnoreCase("yes"))
             {
+
                 Intent intent = new Intent(MainViewActivity.this,DoctorListActivity.class);
                 startActivity(intent);
             }
             else if(pref.getString("logindoctor","").equalsIgnoreCase("yes"))
             {
+
                 Intent intent = new Intent(MainViewActivity.this,DoctorActivity.class);
                 startActivity(intent);
             }
-
-        textv_hospital_login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            else
+            {
 
                 Intent intent = new Intent(MainViewActivity.this,OtpmsgActivity.class);
                 startActivity(intent);
-
             }
-        });
 
-        textv_doctor_login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainViewActivity.this,LoginDoctorActivity.class);
-                startActivity(intent);
-            }
-        });
+//        textv_hospital_login.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+////                Intent intent = new Intent(MainViewActivity.this,OtpmsgActivity.class);
+////                startActivity(intent);
+//
+//                Intent intent = new Intent(MainViewActivity.this,PayuActivity.class);
+//                PayuActivity.payamount = String.valueOf(Math.round(Float.parseFloat("8")));
+//                PayuActivity.str_address ="Tasgaon";
+//              //  PayuActivity.str_arrayList_productcode = arrayList_productcode.toString();
+//
+//                startActivity(intent);
+//
+//            }
+//        });
+//
+//        textv_doctor_login.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(MainViewActivity.this,LoginDoctorActivity.class);
+//                startActivity(intent);
+//            }
+//        });
     }
-    public void onBackPressed() {
-
-    }
+//    public void onBackPressed() {
+//
+//    }
 
 }

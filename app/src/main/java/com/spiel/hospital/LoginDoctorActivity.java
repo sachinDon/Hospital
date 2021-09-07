@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -32,10 +33,12 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class LoginDoctorActivity extends AppCompatActivity {
 
+    String str_logintype;
     AlertDialog alertDialog_Box;
     ProgressDialog progressDialog;
-    TextView text_loginbtn;
-    EditText edittext_login_userid,edittext_login_password;
+    private TextView text_loginbtn;
+    private CheckBox checkbox_hospital,checkbox_doctor,checkbox_update_regno,checkbox_update_mobile;
+    private EditText edittext_login_userid,edittext_login_password,edittext__up_newmobile,edittext_up_regno;
     public SharedPreferences pref;
     SharedPreferences.Editor editor;
     @Override
@@ -48,24 +51,173 @@ public class LoginDoctorActivity extends AppCompatActivity {
         edittext_login_userid = (EditText) findViewById(R.id.edittext_login_userid);
         edittext_login_password = (EditText) findViewById(R.id.edittext_login_password);
 
+        edittext__up_newmobile = (EditText) findViewById(R.id.edittext__up_newmobile);
+        edittext_up_regno = (EditText) findViewById(R.id.edittext_up_regno);
+
+        checkbox_update_regno = (CheckBox) findViewById(R.id.checkbox_update_regno);
+                checkbox_update_mobile = (CheckBox) findViewById(R.id.checkbox_update_mobile);
+        checkbox_doctor = (CheckBox)findViewById(R.id.checkbox_doctorf);
+        checkbox_hospital = (CheckBox)findViewById(R.id.checkbox_hospitalf);
+
+        checkbox_doctor.setChecked(false);
+        checkbox_hospital.setChecked(true);
+        str_logintype="hospital";
+
+
+        checkbox_update_mobile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (checkbox_update_mobile.isChecked() == true)
+                {
+                    edittext__up_newmobile.setText("");
+                    edittext__up_newmobile.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    edittext__up_newmobile.setVisibility(View.GONE);
+                }
+
+
+            }
+        });
+        checkbox_update_regno.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                if (checkbox_update_regno.isChecked() == true)
+                {
+                    edittext_up_regno.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    edittext_up_regno.setText("");
+                    edittext_up_regno.setVisibility(View.GONE);
+
+                }
+            }
+        });
+
+
+
+        checkbox_doctor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                str_logintype="doctor";
+                checkbox_doctor.setChecked(true);
+                checkbox_hospital.setChecked(false);
+            }
+        });
+        checkbox_hospital.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                str_logintype="hospital";
+                checkbox_doctor.setChecked(false);
+                checkbox_hospital.setChecked(true);
+
+
+            }
+        });
+
         text_loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               new DoctorLoginCommunication().execute();
 
-                progressDialog = new ProgressDialog(LoginDoctorActivity.this);
-                progressDialog.setMessage("Sending..."); // Setting Message
-                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                progressDialog.show(); // Display Progress Dialog
-                progressDialog.setCancelable(false);
-                progressDialog.show();
+
+                if (edittext_login_userid.getText().length() != 0 && edittext_login_password.getText().length() !=0 )
+                {
+                 if (checkbox_update_mobile.isChecked() == true && checkbox_update_regno.isChecked() == true)
+                {
+                    if (edittext__up_newmobile.getText().length() != 0 && edittext_up_regno.getText().length()!= 0)
+                    {
+                       UpdateData();
+                    }
+                    else if (edittext__up_newmobile.getText().length() == 0 && edittext_up_regno.getText().length()== 0)
+                    {
+                        ErrorPopup("Please enter new mobile number and registration number");
+                    }
+                    else if (edittext__up_newmobile.getText().length() != 0 && edittext_up_regno.getText().length()== 0)
+                    {
+                        ErrorPopup("Please enter new registration number");
+                    }
+                    else if (edittext__up_newmobile.getText().length() == 0 && edittext_up_regno.getText().length() != 0)
+                    {
+                        ErrorPopup("Please enter new mobile number");
+                    }
+                    else
+                    {
+                        ErrorPopup("Please select updated records");
+                    }
+                }
+                else if (checkbox_update_mobile.isChecked() == true && checkbox_update_regno.isChecked() == false)
+                {
+                    if (edittext__up_newmobile.getText().length() == 0)
+                    {
+                        ErrorPopup("Please enter new mobile number");
+                    }
+                    else
+                    {
+                        UpdateData();
+                    }
+                }
+                else if (checkbox_update_mobile.isChecked() == false && checkbox_update_regno.isChecked() == true )
+                {
+                    if (edittext_up_regno.getText().length()==0)
+                    {
+                        ErrorPopup("Please enter new registration number");
+                    }
+                    else
+                    {
+                        UpdateData();
+                    }
+                }
+                else
+                 {
+                     ErrorPopup("Please select updated records");
+                 }
+                }
+
+                else {
+
+                    ErrorPopup("Please enter both  old mobile number and old registration number ");
+                }
 
 
             }
         });
 
     }
+    public  void UpdateData()
+    {
+        new DoctorLoginCommunication().execute();
+        progressDialog = new ProgressDialog(LoginDoctorActivity.this);
+        progressDialog.setMessage("Sending..."); // Setting Message
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.show(); // Display Progress Dialog
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+    public void ErrorPopup(String str_msg)
+    {
 
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(LoginDoctorActivity.this);
+        builder1.setTitle("Oopps!");
+        builder1.setMessage(str_msg);
+        builder1.setCancelable(false);
+        builder1.setPositiveButton("Ok",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+
+
+                    }
+                });
+        alertDialog_Box = builder1.create();
+        alertDialog_Box.show();
+    }
     public class DoctorLoginCommunication extends AsyncTask<String, Void, String> {
 
         protected void onPreExecute() {
@@ -76,13 +228,13 @@ public class LoginDoctorActivity extends AppCompatActivity {
 
             try {
 
-                URL url = new URL(Urlclass.doctorlogin);
+                URL url = new URL(Urlclass.doctorloginupdate);
                 JSONObject postDataParams = new JSONObject();
-
-
-//                postDataParams.put("email",OTPActivity.Stremail);
-                postDataParams.put("userid", edittext_login_userid.getText());
-                postDataParams.put("password", edittext_login_password.getText());
+                postDataParams.put("mobile", edittext_login_userid.getText());
+                postDataParams.put("regno", edittext_login_password.getText());
+                postDataParams.put("mobile1", edittext__up_newmobile.getText());
+                postDataParams.put("regno1", edittext_up_regno.getText());
+                postDataParams.put("type", str_logintype);
 
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(60000 /* milliseconds */);
@@ -146,11 +298,6 @@ public class LoginDoctorActivity extends AppCompatActivity {
                         if (obj_values.getString("status").equalsIgnoreCase("1"))
                         {
 
-                            JSONArray array_result = new JSONArray(obj_values.getString("result"));
-                            JSONObject obj_newResult = new JSONObject(String.valueOf(array_result.get(0)));
-
-
-
                             AlertDialog.Builder builder1 = new AlertDialog.Builder(LoginDoctorActivity.this);
                             builder1.setTitle("Sucessfull!");
                             builder1.setMessage(obj_values.getString("errormessage"));
@@ -160,11 +307,7 @@ public class LoginDoctorActivity extends AppCompatActivity {
                                         public void onClick(DialogInterface dialog, int id) {
                                             dialog.cancel();
 
-                                            editor.putString("logindoctordetails", String.valueOf(obj_newResult));
-                                            editor.putString("logindoctor","yes");
-                                            editor.commit();
-                                            Intent intent = new Intent(LoginDoctorActivity.this,DoctorActivity.class);
-                                            startActivity(intent);
+                                            finish();
                                         }
                                     });
                             alertDialog_Box = builder1.create();
@@ -298,8 +441,5 @@ public class LoginDoctorActivity extends AppCompatActivity {
         return result.toString();
     }
 
-    public void onBackPressed() {
-
-    }
-
+   
 }

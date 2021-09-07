@@ -6,15 +6,15 @@
     android:layout_height="wrap_content"
     android:background="@drawable/bottom_border11">
 
-    <com.google.android.material.imageview.ShapeableImageView
-        app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
-        app:strokeColor="@color/ligt_gray"
-        app:strokeWidth="0dp"
-
+    <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
+        app:siShape="@drawable/shape_rounded_rectangle"
+        app:siSquare="true"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
         android:id="@+id/imageView_profilelogo"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:background="@drawable/defaultdoctor"
+        android:src="@drawable/defaultdoctor"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginTop="15dp"
@@ -50,10 +50,24 @@
         android:text="j fghf fghfhgfhgf hfh"
         android:textSize="14sp"/>
     <TextView
-        android:id="@+id/textView_doctor_exp"
+        android:id="@+id/textView_specilistdc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView_doctordegree"
+        android:layout_toEndOf="@id/imageView_profilelogo"
+        android:gravity="center_vertical"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/black"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@+id/textView_doctor_chat"
+        android:text="j fghf fghfhgfhgf hfh"
+        android:textSize="14sp"/>
+    <TextView
+        android:id="@+id/textView_doctor_exp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView_specilistdc"
         android:layout_toEndOf="@id/imageView_profilelogo"
         android:gravity="center_vertical"
         android:fontFamily="sans-serif-medium"

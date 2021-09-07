@@ -180,6 +180,7 @@ public class EquipementActivity extends AppCompatActivity {
                 {
                     str_imageurl ="http://www.sachinmokashi";
                 }
+                Picasso.with(EquipementActivity.this).invalidate(str_imageurl);
                 Picasso.with(EquipementActivity.this)
                         .load(str_imageurl)
                         .placeholder(R.drawable.defaultdoctor)

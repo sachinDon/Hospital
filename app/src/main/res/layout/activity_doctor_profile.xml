@@ -54,16 +54,19 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
-                app:strokeColor="@color/ligt_gray"
-                app:strokeWidth="1dp"
+
+            <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
+
+                app:siShape="@drawable/shape_rounded_rectangle"
+                app:siSquare="true"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
                 android:id="@+id/imageview_profile_doc"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                android:background="@drawable/logo"
+                android:src="@drawable/defaultdoctor"
                 android:layout_centerHorizontal="true"
-                />
+              />
             <TextView
                 android:id="@+id/textview_doct_uploadimage"
                 android:layout_width="wrap_content"

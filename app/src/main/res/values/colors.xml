@@ -24,5 +24,6 @@
     <color name="colorred1">#EBFF5151</color>
     <color name="color_yellowchat">#FFE28A</color>
     <color name="color_bluechat">#61BAEC</color>
-
+    <color name="pink_dark">#C0175C</color>
+    <color name="pink_primary">#EB1E63</color>
 </resources>

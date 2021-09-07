@@ -32,7 +32,7 @@ import javax.net.ssl.HttpsURLConnection;
 public class RegisterActivity extends AppCompatActivity {
 
     AlertDialog alertDialog_Box;
-    public  static  String str_mobileno;
+    public static  String str_mobileno;
     ProgressDialog progressDialog1;
     EditText edittext_reg_hospitalname,edittext_reg_hospitalregno,edittext_reg_mobile;
     TextView text_regbtn;

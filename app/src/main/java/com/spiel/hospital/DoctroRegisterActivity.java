@@ -25,17 +25,12 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
-
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -62,7 +57,7 @@ import java.util.Locale;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class DoctorProfileActivity extends AppCompatActivity {
+public class DoctroRegisterActivity extends AppCompatActivity {
 
     public  static Uri uriImage=null;
     private Bitmap bitmap;
@@ -76,54 +71,51 @@ public class DoctorProfileActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     public SharedPreferences pref;
     SharedPreferences.Editor editor;
-    String str_status,str_id,str_contact;
+    String str_status,timeFrom,totime,str_contact;
     TextView textview_doct_back,text_doct_Fromtime1,text_doct_totime1,text_doct_submit_data;
     RelativeLayout relative_doc_uploadpic;
     ImageView imageview_profile_doc;
     RadioButton radio_doctor_unavialbel,radio_doctor_avialbel;
     EditText edittext_doctusername,edittext_doct_degree,edittext_doct_subjects,edittext_doct_exps;
     EditText edittext_doct_registraionnimber,edittext_doct_address,edittext_pincode,edittext_otherno;
+    public static  String str_mobileno;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doctor_profile);
-
+        setContentView(R.layout.activity_doctro_register);
         pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = pref.edit();
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
 
-        textview_doct_back = (TextView) findViewById(R.id.textview_doct_back);
-        relative_doc_uploadpic = (RelativeLayout) findViewById(R.id.relative_doc_uploadpic);
-        imageview_profile_doc = (ImageView) findViewById(R.id.imageview_profile_doc);
-        edittext_doctusername = (EditText) findViewById(R.id.edittext_doctusername);
-        edittext_doct_degree = (EditText) findViewById(R.id.edittext_doct_degree);
-        edittext_doct_subjects = (EditText) findViewById(R.id.edittext_doct_subjects);
-        edittext_doct_exps = (EditText) findViewById(R.id.edittext_doct_exps);
-        edittext_doct_registraionnimber = (EditText) findViewById(R.id.edittext_doct_registraionnimber);
-        edittext_doct_address = (EditText) findViewById(R.id.edittext_doct_address);
-        edittext_pincode = (EditText) findViewById(R.id.edittext_pincode);
-        edittext_otherno = (EditText) findViewById(R.id.edittext_otherno);
-        radio_doctor_unavialbel = (RadioButton) findViewById(R.id.radio_doctor_unavialbel);
-        radio_doctor_avialbel = (RadioButton) findViewById(R.id.radio_doctor_avialbel);
-        text_doct_Fromtime1 = (TextView) findViewById(R.id.text_doct_Fromtime1);
-        text_doct_totime1 = (TextView) findViewById(R.id.text_doct_totime1);
-        text_doct_submit_data = (TextView) findViewById(R.id.text_doct_submit_data);
-
-
-        SetData();
+        textview_doct_back = (TextView) findViewById(R.id.textview_doct_back11);
+        relative_doc_uploadpic = (RelativeLayout) findViewById(R.id.relative_doc_uploadpic11);
+        imageview_profile_doc = (ImageView) findViewById(R.id.imageview_profile_doc11);
+        edittext_doctusername = (EditText) findViewById(R.id.edittext_doctusername11);
+        edittext_doct_degree = (EditText) findViewById(R.id.edittext_doct_degree11);
+        edittext_doct_subjects = (EditText) findViewById(R.id.edittext_doct_subjects11);
+        edittext_doct_exps = (EditText) findViewById(R.id.edittext_doct_exps11);
+        edittext_doct_registraionnimber = (EditText) findViewById(R.id.edittext_doct_registraionnimber11);
+        edittext_doct_address = (EditText) findViewById(R.id.edittext_doct_address11);
+        edittext_pincode = (EditText) findViewById(R.id.edittext_pincode11);
+        edittext_otherno = (EditText) findViewById(R.id.edittext_otherno11);
+        radio_doctor_unavialbel = (RadioButton) findViewById(R.id.radio_doctor_unavialbel11);
+        radio_doctor_avialbel = (RadioButton) findViewById(R.id.radio_doctor_avialbel11);
+        text_doct_Fromtime1 = (TextView) findViewById(R.id.text_doct_Fromtime111);
+        text_doct_totime1 = (TextView) findViewById(R.id.text_doct_totime111);
+        text_doct_submit_data = (TextView) findViewById(R.id.text_doct_submit_data11);
 
 
         relative_doc_uploadpic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                 if (ContextCompat.checkSelfPermission(DoctorProfileActivity.this, android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(DoctroRegisterActivity.this, android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
 
                     selectImage();
                 }
                 else
-                    ActivityCompat.requestPermissions(DoctorProfileActivity.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+                    ActivityCompat.requestPermissions(DoctroRegisterActivity.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
 
             }
         });
@@ -162,7 +154,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
                         }
                     }
                 };
-                TimePickerDialog timePickerDialog = new TimePickerDialog(DoctorProfileActivity.this, android.R.style.Theme_Holo_Light_Dialog_NoActionBar, myTimeListener, hour, minute, false);
+                TimePickerDialog timePickerDialog = new TimePickerDialog(DoctroRegisterActivity.this, android.R.style.Theme_Holo_Light_Dialog_NoActionBar, myTimeListener, hour, minute, false);
                 timePickerDialog.setTitle("Choose hour:");
                 timePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                 timePickerDialog.show();
@@ -184,7 +176,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
                         if (view.isShown()) {
                             myCalender.set(Calendar.HOUR_OF_DAY, hourOfDay);
                             myCalender.set(Calendar.MINUTE, minute);
-                           //
+                            //
 
                             int hour = hourOfDay % 12;
                             if (hour == 0) hour = 12;
@@ -194,7 +186,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
                         }
                     }
                 };
-                TimePickerDialog timePickerDialog = new TimePickerDialog(DoctorProfileActivity.this, android.R.style.Theme_Holo_Light_Dialog_NoActionBar, myTimeListener, hour, minute, false);
+                TimePickerDialog timePickerDialog = new TimePickerDialog(DoctroRegisterActivity.this, android.R.style.Theme_Holo_Light_Dialog_NoActionBar, myTimeListener, hour, minute, false);
                 timePickerDialog.setTitle("Choose hour:");
                 timePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                 timePickerDialog.show();
@@ -207,7 +199,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                progressDialog = new ProgressDialog(DoctorProfileActivity.this);
+                progressDialog = new ProgressDialog(DoctroRegisterActivity.this);
                 progressDialog.setMessage("Sending..."); // Setting Message
                 progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 progressDialog.show(); // Display Progress Dialog
@@ -224,8 +216,8 @@ public class DoctorProfileActivity extends AppCompatActivity {
                 boolean checked = ((RadioButton) v).isChecked();
                 // Check which radiobutton was pressed
 
-                    str_status = "NotAvailable";
-                    radio_doctor_avialbel.setChecked(false);
+                str_status = "NotAvailable";
+                radio_doctor_avialbel.setChecked(false);
                 radio_doctor_unavialbel.setChecked(true);
 
             }
@@ -237,7 +229,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
                 boolean checked = ((RadioButton) v).isChecked();
                 // Check which radiobutton was pressed
 
-                    str_status = "Available";
+                str_status = "Available";
                 radio_doctor_avialbel.setChecked(true);
                 radio_doctor_unavialbel.setChecked(false);
 
@@ -247,60 +239,6 @@ public class DoctorProfileActivity extends AppCompatActivity {
 
     }
 
-    public void SetData()
-    {
-       try {
-           JSONObject obj_val = new JSONObject(pref.getString("logindoctordetails",""));
-           str_contact=obj_val.getString("phone");
-           str_id=obj_val.getString("id");
-        edittext_doctusername.setText(obj_val.getString("name"));
-        edittext_doct_degree.setText(obj_val.getString("degree"));
-        edittext_doct_subjects.setText(obj_val.getString("specialist"));
-        edittext_doct_exps.setText(obj_val.getString("exp"));
-        edittext_doct_registraionnimber.setText(obj_val.getString("regno"));
-        edittext_doct_address.setText(obj_val.getString("address"));
-        edittext_pincode.setText(obj_val.getString("pincode"));
-        edittext_otherno.setText(obj_val.getString("phone2"));
-        text_doct_Fromtime1.setText(obj_val.getString("ftime"));
-        text_doct_totime1.setText(obj_val.getString("ttime"));
-           str_encodedImg = "";
-           String str_imageurl = obj_val.getString("imageurl");
-
-           if (str_imageurl.length() ==0)
-           {
-               str_imageurl ="http://www.sachinmokashi";
-           }
-          Picasso.with(DoctorProfileActivity.this).invalidate(str_imageurl);
-           Picasso.with(DoctorProfileActivity.this)
-                   .load(str_imageurl)
-                   .fit().centerCrop()
-
-                   .placeholder(R.drawable.defaultdoctor)
-                   .into( imageview_profile_doc, new Callback() {
-                       @Override
-                       public void onSuccess() { }
-
-                       @Override
-                       public void onError() {}
-                   });
-
-        if (obj_val.getString("status").equalsIgnoreCase("Available"))
-        {
-            str_status = "Available";
-            radio_doctor_avialbel.setChecked(true);
-            radio_doctor_unavialbel.setChecked(false);
-        }
-        else
-        {
-            str_status = "NotAvailable";
-            radio_doctor_avialbel.setChecked(false);
-            radio_doctor_unavialbel.setChecked(true);
-        }
-   }catch (Exception e)
-        {
-    Log.d("Exceptionee", String.valueOf(e));
-        }
-}
 
     public class Doctorprofile_Communication extends AsyncTask<String, Void, String> {
 
@@ -312,23 +250,21 @@ public class DoctorProfileActivity extends AppCompatActivity {
 
             try {
 
-                URL url = new URL(Urlclass.doctorprofile);
+                URL url = new URL(Urlclass.doctorregister1);
                 JSONObject postDataParams = new JSONObject();
 
-                postDataParams.put("id",str_id);
-                postDataParams.put("mobile",pref.getString("userid",""));
-                postDataParams.put("ContactNo", str_contact);
-                postDataParams.put("Name", edittext_doctusername.getText());
-                postDataParams.put("Specialist", edittext_doct_subjects.getText());
-                postDataParams.put("Degree", edittext_doct_degree.getText());
-                postDataParams.put("ExpYear", edittext_doct_exps.getText());
-                postDataParams.put("RegNo", edittext_doct_registraionnimber.getText());
-                postDataParams.put("Address", edittext_doct_address.getText());
-                postDataParams.put("Pincode", edittext_pincode.getText());
-                postDataParams.put("FromTime", text_doct_Fromtime1.getText());
-                postDataParams.put("ToTime", text_doct_totime1.getText());
-                postDataParams.put("Status", str_status);
-                postDataParams.put("OtherNo", edittext_otherno.getText());
+                postDataParams.put("mobile",str_mobileno);
+                postDataParams.put("name", edittext_doctusername.getText());
+                postDataParams.put("specialist", edittext_doct_subjects.getText());
+                postDataParams.put("degree", edittext_doct_degree.getText());
+                postDataParams.put("exp", edittext_doct_exps.getText());
+                postDataParams.put("regno", edittext_doct_registraionnimber.getText());
+                postDataParams.put("address", edittext_doct_address.getText());
+                postDataParams.put("pincode", edittext_pincode.getText());
+                postDataParams.put("fromtime", text_doct_Fromtime1.getText());
+                postDataParams.put("totime", text_doct_totime1.getText());
+                postDataParams.put("status", str_status);
+                postDataParams.put("mobile1", edittext_otherno.getText());
                 postDataParams.put("image",str_encodedImg);
 
 //Photo
@@ -399,7 +335,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
                             JSONObject obj_newResult = new JSONObject(String.valueOf(array_result.get(0)));
 
 
-                            AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorProfileActivity.this);
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctroRegisterActivity.this);
                             builder1.setTitle("Sucessfull!");
                             builder1.setMessage(obj_values.getString("errormessage"));
                             builder1.setCancelable(false);
@@ -409,9 +345,10 @@ public class DoctorProfileActivity extends AppCompatActivity {
                                             dialog.cancel();
 
                                             editor.putString("logindoctordetails", String.valueOf(obj_newResult));
+                                            editor.putString("logindoctor","yes");
                                             editor.commit();
-                                           // SetData();
-                                            finish();
+                                            Intent intent = new Intent(DoctroRegisterActivity.this,DoctorActivity.class);
+                                            startActivity(intent);
                                         }
                                     });
                             alertDialog_Box = builder1.create();
@@ -421,7 +358,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
                         } else if (obj_values.getString("status").equalsIgnoreCase("0")) {
 
 
-                            AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorProfileActivity.this);
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctroRegisterActivity.this);
                             builder1.setTitle("Oops");
                             builder1.setMessage(obj_values.getString("errormessage"));
                             builder1.setCancelable(false);
@@ -436,7 +373,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
                             alertDialog_Box.show();
                         } else {
 
-                            AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorProfileActivity.this);
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctroRegisterActivity.this);
                             builder1.setTitle("Oops");
                             builder1.setMessage("Server encountered an error . Please try again later.");
                             builder1.setCancelable(false);
@@ -455,7 +392,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
                     } else {
 
 
-                        AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorProfileActivity.this);
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctroRegisterActivity.this);
                         builder1.setTitle("Oops");
                         builder1.setMessage("Server encountered an error. Please try again later.");
                         builder1.setCancelable(false);
@@ -481,7 +418,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
 
             else
             {
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctorProfileActivity.this);
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(DoctroRegisterActivity.this);
                 builder1.setTitle("Oops");
                 builder1.setMessage("Server encountered an error in verifying your mobile number. Please try again later.");
                 builder1.setCancelable(false);
@@ -552,7 +489,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
 
 
 
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(DoctorProfileActivity.this);
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(DoctroRegisterActivity.this);
 
         builder.setTitle("Add Photo!");
 
@@ -664,7 +601,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
                     editor.putString("select_photo", "no");
                     editor.commit();
 
-                    bitmap = MediaStore.Images.Media.getBitmap(DoctorProfileActivity.this.getContentResolver(), selectedImage);
+                    bitmap = MediaStore.Images.Media.getBitmap(DoctroRegisterActivity.this.getContentResolver(), selectedImage);
 
                     Handler refresh = new Handler(Looper.getMainLooper());
                     refresh.post(new Runnable() {
@@ -753,8 +690,5 @@ public class DoctorProfileActivity extends AppCompatActivity {
         }
     }
 
-    public void onBackPressed() {
-
-    }
 
 }
