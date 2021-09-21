@@ -16,4 +16,25 @@
         <item name="colorAccent">@color/pink_dark</item>
         <item name="android:textColorPrimary">@color/payumoney_text_color</item>
     </style>
+
+
+    <string name="ruppi_symbol">₹</string>
+    <string name="product_added">Product Added to Cart</string>
+    <string name="product_removed">Product Removed from Cart</string>
+    <string name="MerchantKey">Your MerchantKey</string>
+    <string name="MerchantId">Your MerchantId</string>
+    <string name="MerchantSalt">Your MerchantSalt</string>
+    <string name="sUrl">https://test.payumoney.com/mobileapp/payumoney/success.php</string>
+    <string name="fUrl">https://test.payumoney.com/mobileapp/payumoney/failure.php</string>
+
+    <string name="alert_opps">Oopps!</string>
+    <string name="alert_sucess">Sucessfull!</string>
+    <string name="alert_server">Server encountered an error in verifying your mobile number. Please try again later.</string>
+    <string name="alert_nointernet">No Internet</string>
+    <string name="alert_nointernetmsg">Your internet connection not available</string>
+    <string name="alert_nullerror">Some field are missing,Please try again.</string>
+    <string name="alert_serverexit">Server encountered an error . Please try again later</string>
+
+
+
 </resources>

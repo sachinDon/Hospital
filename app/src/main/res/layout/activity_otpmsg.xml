@@ -53,15 +53,15 @@
             android:background="@drawable/shadow"
             android:orientation="vertical"
             android:elevation="30dp"
-            android:paddingLeft="40dp"
-            android:paddingRight="40dp">
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="35dp"
-                android:src="@drawable/ic_sendotp" />
+                android:src="@drawable/logo" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -76,6 +76,7 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="10dp">
                 <CheckBox
                     android:id="@+id/checkbox_hospital"
@@ -126,6 +127,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
                 android:layout_marginBottom="10dp"
+                android:gravity="center"
                 android:background="@drawable/inputbox_new"
                 android:orientation="horizontal">
 
@@ -149,6 +151,8 @@
                 android:hint="Enter mobile number"
                 android:inputType="phone"
                 android:padding="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:textColor="@color/blue_1"
                 android:textColorHint="@color/ligt_gray"
                 android:textSize="16sp">

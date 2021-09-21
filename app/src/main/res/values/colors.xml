@@ -19,6 +19,7 @@
     <color name="green_1">#14B60F</color>
     <color name="green_2">#047C00</color>
     <color name="ligt_gray">#7C7C7C</color>
+    <color name="ligt_gray1">#D1D1D1</color>
     <color name="transperent">#05000000</color>
     <color name="colorred">#FF0000</color>
     <color name="colorred1">#EBFF5151</color>
@@ -26,4 +27,10 @@
     <color name="color_bluechat">#61BAEC</color>
     <color name="pink_dark">#C0175C</color>
     <color name="pink_primary">#EB1E63</color>
+    <color name="blue_tab1">#32D3BF</color>
+    <color name="blue_tab2">#FF6F00</color>
+    <color name="blue_tab3">#85D800</color>
+
+
+
 </resources>

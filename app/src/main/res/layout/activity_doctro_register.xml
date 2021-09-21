@@ -60,7 +60,7 @@
                     android:id="@+id/imageview_profile_doc11"
                     android:layout_width="200dp"
                     android:layout_height="200dp"
-                    android:src="@drawable/logo"
+                    android:src="@drawable/defaultdoctor"
                     android:layout_centerHorizontal="true"
                     />
                 <TextView
@@ -128,6 +128,7 @@
                     android:layout_height="40dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
+                    android:inputType="textCapCharacters"
                     android:hint="Enter your Qualification"
                     android:fontFamily="sans-serif-medium"
                     android:backgroundTint="@color/blue_1"
@@ -153,7 +154,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
                     android:fontFamily="sans-serif-medium"
-                    android:hint="Enter your Qualification"
+                    android:hint="Enter your specialist"
                     android:backgroundTint="@color/blue_1"
                     android:layout_below="@+id/text_doct_subjects11"/>
 
@@ -176,7 +177,8 @@
                     android:layout_height="40dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
-                    android:hint="Enter your Qualification"
+                    android:inputType="number"
+                    android:hint="Enter your exprience"
                     android:backgroundTint="@color/blue_1"
                     android:layout_below="@+id/text_doct_exps11"/>
 
@@ -247,6 +249,7 @@
                     android:layout_height="40dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
+                    android:inputType="number"
                     android:hint="Enter your pincode"
                     android:fontFamily="sans-serif-medium"
                     android:backgroundTint="@color/blue_1"
@@ -271,6 +274,7 @@
                     android:layout_height="40dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
+                    android:inputType="number"
                     android:hint="Enter your contact no"
                     android:backgroundTint="@color/blue_1"
                     android:layout_below="@+id/text_doct_otherno11"/>

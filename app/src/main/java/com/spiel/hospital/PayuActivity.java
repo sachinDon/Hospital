@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.payumoney.core.PayUmoneyConfig;
 import com.payumoney.core.PayUmoneyConstants;
@@ -28,6 +29,7 @@ import com.payumoney.core.entity.TransactionResponse;
 import com.payumoney.sdkui.ui.utils.PayUmoneyFlowManager;
 import com.payumoney.sdkui.ui.utils.ResultModel;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -71,6 +73,7 @@ public class PayuActivity extends AppCompatActivity {
             str_field7,str_field8,str_field9,str_bank_ref_num,str_bankcode,str_cardToken,str_cardnum,
             str_payuMoneyId,str_message;
     String emailPattern,str_emailvlid;
+    String txnId,str_newhashkey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -231,6 +234,8 @@ public class PayuActivity extends AppCompatActivity {
 //            //radio_btn_sandbox.setChecked(true);
 //        }
         setupCitrusConfigs();
+        txnId = System.currentTimeMillis() + "";
+        new GetPackages_communication().execute();
     }
     public void checkverify()
     {
@@ -252,7 +257,7 @@ public class PayuActivity extends AppCompatActivity {
         try {
             MessageDigest algorithm = MessageDigest.getInstance("SHA-512");
             algorithm.reset();
-            algorithm.update(hashseq);
+           algorithm.update(hashseq);
             byte messageDigest[] = algorithm.digest();
             for (byte aMessageDigest : messageDigest) {
                 String hex = Integer.toHexString(0xFF & aMessageDigest);
@@ -610,7 +615,7 @@ public class PayuActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        String txnId = System.currentTimeMillis() + "";
+
         //String txnId = "TXNID720431525261327973";
         String phone = mobile_et.getText().toString().trim();
         String productName = "product_info";//mAppPreference.getProductInfo();
@@ -663,7 +668,7 @@ public class PayuActivity extends AppCompatActivity {
              * Below code is provided to generate hash from sdk.
              * It is recommended to generate hash from server side only.
              * */
-            mPaymentParams = calculateServerSideHashAndInitiatePayment1(mPaymentParams);
+            mPaymentParams =  calculateServerSideHashAndInitiatePayment1(mPaymentParams);
 
 //            if (AppPreference.selectedTheme != -1) {
                 PayUmoneyFlowManager.startPayUMoneyFlow(mPaymentParams, PayuActivity.this, R.style.AppTheme_pink,true);
@@ -705,7 +710,7 @@ public class PayuActivity extends AppCompatActivity {
         stringBuilder.append(appEnvironment.salt());
 
         String hash = hashCal(stringBuilder.toString());
-        paymentParam.setMerchantHash(hash);
+        paymentParam.setMerchantHash(str_newhashkey);
 
         return paymentParam;
     }
@@ -1126,7 +1131,115 @@ public class PayuActivity extends AppCompatActivity {
     public void onBackPressed() {
 
     }
+    public class GetPackages_communication extends AsyncTask<String, Void, String> {
+
+        protected void onPreExecute() {
+        }
+
+        protected String doInBackground(String... arg0) {
+
+
+            try {
+
+                URL url = new URL(Urlclass.payuhashgen);
+                JSONObject postDataParams = new JSONObject();
+
+
+//                postDataParams.put("email",OTPActivity.Stremail);
+                postDataParams.put("txnid",txnId);
+                postDataParams.put("amount","8.0");
+                postDataParams.put("productinfo","product_info");
+                postDataParams.put("firstname","sachin");
+                postDataParams.put("email","sac@gmail.com");
+                postDataParams.put("user_credentials","sachins123");
+                postDataParams.put("udf1","");
+                postDataParams.put("udf2","");
+                postDataParams.put("udf3","");
+                postDataParams.put("udf4","");
+                postDataParams.put("udf5","");
+                postDataParams.put("offerKey","");
+                postDataParams.put("cardBin","");
+
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(60000 /* milliseconds */);
+                conn.setConnectTimeout(60000 /* milliseconds */);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(getPostDataString(postDataParams));
+
+                writer.flush();
+                writer.close();
+                os.close();
+
+                int responseCode = conn.getResponseCode();
+
+                if (responseCode == HttpsURLConnection.HTTP_OK) {
+
+                    BufferedReader in = new BufferedReader(new
+                            InputStreamReader(
+                            conn.getInputStream()));
+
+                    StringBuffer sb = new StringBuffer("");
+                    String line = "";
+
+                    while ((line = in.readLine()) != null) {
+
+                        sb.append(line);
+                        break;
+                    }
+
+                    in.close();
+                    return sb.toString();
+
+                } else {
+                    return new String("false : " + responseCode);
+                }
+            } catch (Exception e) {
+                return new String("Exception: " + e.getMessage());
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+
+
+            if (!result.equalsIgnoreCase(""))
+            {
+                try {
+                    JSONObject obj = new JSONObject(result);
+              str_newhashkey = obj.getString("payment_hash");
+//                    str_newhashkey = obj.getString("get_merchant_ibibo_codes_hash");
+             //      str_newhashkey = obj.getString("vas_for_mobile_sdk_hash");
+//                    str_newhashkey = obj.getString("emi_hash");
+    //               str_newhashkey = obj.getString("payment_related_details_for_mobile_sdk_hash");
+                  //  str_newhashkey = obj.getString("verify_payment_hash");
+//                    str_newhashkey = obj.getString("send_sms_hash");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            else
+            {
+
+            }
+
+
+
+        }
+    }
+
+
 }
 
 
-//{"status":0,"message":"payment status for :339476990","result":{"postBackParamId":255291219,"mihpayid":"10756514063","paymentId":339476990,"mode":"DC","status":"success","unmappedstatus":"captured","key":"bu3M9JbL","txnid":"1595514359136","amount":"5.00","additionalCharges":"","addedon":"2020-07-23 19:56:39","createdOn":1595514470000,"productinfo":"product_info","firstname":"sachin mokashi","lastname":"","address1":"","address2":"","city":"","state":"","country":"","zipcode":"","email":"sachinmokashi.1989@gmail.com","phone":"9850017872","udf1":"","udf2":"","udf3":"","udf4":"","udf5":"","udf6":"","udf7":"","udf8":"","udf9":"","udf10":"","hash":"8ed93218309569b7e10cf8fa09eecfdf0a15bd5cf1c8508e1059d56ed69965f0bbe655435abab9349713381747dd3bea5743a4fdfaccbc3f2f7c02724b2f9ca4","field1":"020579086751","field2":"195749","field3":"202057092764938","field4":"2202057007199917","field5":"05","field6":"00","field7":"AUTHPOSITIVE","field8":"Approved or completed successfully","field9":"No Error","bank_ref_num":"202057092764938","bankcode":"VISA","error":"E000","error_Message":"No Error","cardToken":"4031a02cfacffd68657a6a","offer_key":"","offer_type":"","offer_availed":"","pg_ref_no":"","offer_failure_reason":"","name_on_card":"payu","cardnum":"452011XXXXXX7811","cardhash":"","card_type":"","card_merchant_param":null,"version":"","postUrl":"https:\/\/www.payumoney.com\/mobileapp\/payumoney\/success.php","calledStatus":false,"additional_param":"","amount_split":"{\"PAYU\":\"5.00\"}","discount":"","net_amount_debit":"5","fetchAPI":null,"paisa_mecode":"","meCode":"{\"tranportalid\":\"70007469\",\"tranportalpwd\":\"70007469\"}","payuMoneyId":"339476990","encryptedPaymentId":null,"id":null,"surl":null,"furl":null,"baseUrl":null,"retryCount":0,"merchantid":null,"payment_source":null,"isConsentPayment":0,"giftCardIssued":true,"pg_TYPE":"HDFC_Internal_Plus","s2SPbpFlag":false},"errorCode":null,"responseCode":null}
+//{"status":0,"message":"payment status for :339476990","result":{"postBackParamId":255291219,"mihpayid":"10756514063","paymentId":339476990,"mode":"DC","status":"success","unmappedstatus":"captured","key":"bu3M9JbL","txnid":"1595514359136","amount":"5.00","additionalCharges":"","addedon":"2020-07-23 19:56:39","createdOn":1595514470000,"productinfo":"product_info","firstname":"sachin mokashi","lastname":"","address1":"","address2":"","city":"","state":"","country":"","zipcode":"","email":"sachinmokashi.1989@gmail.com","phone":"9850017872","udf1":"","udf2":"","udf3":"","udf4":"","udf5":"","udf6":"","udf7":"","udf8":"","udf9":"","udf10":"","hash":"8ed93218309569b7e10cf8fa09eecfdf0a15bd5cf1c8508e1059d56ed69965f0bbe655435abab9349713381747dd3bea5743a4fdfaccbc3f2f7c02724b2f9ca4","field1":"020579086751","field2":"195749","field3":"202057092764938","field4":"2202057007199917","field5":"05","field6":"00","field7":"AUTHPOSITIVE","field8":"Approved or completed successfully","field9":"No Error","bank_ref_num":"202057092764938","bankcode":"VISA","error":"E000","error_Message":"No Error","cardToken":"4031a02cfacffd68657a6a","offer_key":"","offer_type":"","offer_availed":"","pg_ref_no":"","offer_failure_reason":"","name_on_card":"payu","cardnum":"452011XXXXXX7811","cardhash":"","card_type":"","card_merchant_param":null,"version":"","postUrl":"https:\/\/www.payumoney.com\/mobileapp\/payumoney\/success.php","calledStatus":false,"additional_param":"","amount_split":"{\"PAYU\":\"5.00\"}","discount":"","net_amount_debit":"5","fetchAPI":null,"paisa_mecode":"","meCode":"{\"tranportalid\":\"70007469\",\"tranportalpwd\":\"70007469\"}","payuMoneyId":"339476990","encryptedPaymentId":null,"id":null,"surl":null,"furl":null,"baseUrl":null,"retryCount":0,"merchantid":null,"payment_source":null,"isConsentPayment":0,"giftCardIssued":true,"pg_TYPE":"HDFC_Internal_Plus","s2SPbpFlag":false},"errorCode":null,"responseCode":null}//($_POST["txnid"], $_POST["amount"], $_POST["productinfo"], $_POST["firstname"], $_POST["email"], $_POST["user_credentials"], $_POST["udf1"], $_POST["udf2"], $_POST["udf3"], $_POST["udf4"], $_POST["udf5"],$_POST["offerKey"],$_POST["cardBin"]);

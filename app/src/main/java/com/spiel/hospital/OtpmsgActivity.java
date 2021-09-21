@@ -94,10 +94,13 @@ public class OtpmsgActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
                 Intent intent = new Intent(OtpmsgActivity.this,LoginDoctorActivity.class);
-                startActivity(intent);
+                //Intent intent = new Intent(OtpmsgActivity.this,PayuActivity.class);
+               // PayuActivity.payamount = String.valueOf(Math.round(Float.parseFloat("8")));
+                //PayuActivity.str_address ="Tasgaon";
+              //  PayuActivity.str_arrayList_productcode = arrayList_productcode.toString();
 
+                startActivity(intent);
 
             }
         });

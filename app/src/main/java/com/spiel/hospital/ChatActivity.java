@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
@@ -55,9 +56,12 @@ public class ChatActivity extends AppCompatActivity {
     JSONArray array_doctorlist;
     ProgressDialog progressDialog;
     public static String str_reciverid,str_chatname;
-
+    Runnable mToastRunnable;
+    Handler mHandler = new Handler();
+    Integer int_arraycount;
     public SharedPreferences pref;
     SharedPreferences.Editor editor;
+    String str_scroll;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +72,8 @@ public class ChatActivity extends AppCompatActivity {
         textview_doctlist_chatname = (TextView) findViewById(R.id.textview_doctlist_chatname);
         edittext_chat_text = (EditText) findViewById(R.id.edittext_chat_text);
 
-
+        str_scroll ="no";
+        int_arraycount=0;
         array_doctorlist = new JSONArray();
         textview_doctlist_chatname.setText(str_chatname);
 
@@ -92,7 +97,32 @@ public class ChatActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        new Getchat_communication().execute();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //create runnable for delay
+        mToastRunnable = new Runnable() {
+            @Override
+            public void run() {
+                mHandler.postDelayed(this, 10000);
+                new Getchat_communication().execute();
+            }
+        };
+//start
+        mToastRunnable.run();
+
+//stop
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHandler.removeCallbacks(mToastRunnable);
     }
 
     public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder>{
@@ -244,10 +274,20 @@ public class ChatActivity extends AppCompatActivity {
 
                     if (array_doctorlist != null)
                     {
-                        adapter = new MyListAdapter(array_doctorlist);
-                        recyclerView.setHasFixedSize(true);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(ChatActivity.this));
-                        recyclerView.setAdapter(adapter);
+
+                        if (int_arraycount != array_doctorlist.length()) {
+
+                            int_arraycount= array_doctorlist.length();
+                            adapter = new MyListAdapter(array_doctorlist);
+                            //recyclerView.setHasFixedSize(true);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(ChatActivity.this));
+                            recyclerView.setAdapter(adapter);
+                            recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount()-1);
+
+                        }
+
+
+                       //
 
                     }
 
@@ -485,5 +525,10 @@ public class ChatActivity extends AppCompatActivity {
         return result.toString();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        mHandler.removeCallbacks(mToastRunnable);
 
+    }
 }

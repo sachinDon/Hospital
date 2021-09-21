@@ -132,6 +132,7 @@
                 android:layout_height="40dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
+                android:inputType="textCapCharacters"
                 android:hint="Enter your Qualification"
                 android:fontFamily="sans-serif-medium"
                 android:backgroundTint="@color/blue_1"
@@ -157,7 +158,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:fontFamily="sans-serif-medium"
-                android:hint="Enter your Qualification"
+                android:hint="Enter your Specialist"
                 android:backgroundTint="@color/blue_1"
                 android:layout_below="@+id/text_doct_subjects"/>
 
@@ -180,7 +181,8 @@
                 android:layout_height="40dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                android:hint="Enter your Qualification"
+                android:inputType="number"
+                android:hint="Enter your Experience"
                 android:backgroundTint="@color/blue_1"
                 android:layout_below="@+id/text_doct_exps"/>
 
@@ -251,6 +253,7 @@
                 android:layout_height="40dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
+                android:inputType="number"
                 android:hint="Enter your pincode"
                 android:fontFamily="sans-serif-medium"
                 android:backgroundTint="@color/blue_1"
@@ -262,6 +265,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/edittext_pincode"
                 android:textSize="16sp"
+
                 android:text="Other contact no :"
                 android:textColor="@color/blue_1"
                 android:fontFamily="sans-serif-medium"
@@ -275,6 +279,7 @@
                 android:layout_height="40dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
+                android:inputType="number"
                 android:hint="Enter your contact no"
                 android:backgroundTint="@color/blue_1"
                 android:layout_below="@+id/text_doct_otherno"/>

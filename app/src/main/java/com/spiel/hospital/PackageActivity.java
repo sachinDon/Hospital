@@ -71,6 +71,7 @@ SearchView searchview;
     public SharedPreferences pref;
     SharedPreferences.Editor editor;
     List<String> list_id,list_totals;
+    ArrayList<String>list_dept;
 
 
     @Override
@@ -90,6 +91,7 @@ SearchView searchview;
         recyclerView.setAdapter(adapter);
         text_submitpckg = (TextView)findViewById(R.id.text_submitpckg);
         list_id = new ArrayList<String>();
+        list_dept = new ArrayList<String>();
         list_totals = new ArrayList<String>();
         int_total=0;
 
@@ -208,6 +210,7 @@ SearchView searchview;
                         else
                         {
                             list_id.add(obj.getString("id"));
+                            list_dept.add(obj.getString("dept"));
                          //   list_id.add(obj.getString("selectprice"));
                             int_total = int_total +(Integer.parseInt(obj.getString("selectprice")));
                         }
@@ -548,7 +551,7 @@ SearchView searchview;
 
                         if (obj_values.getString("status").equalsIgnoreCase("1")) {
 
-                            list_id = new ArrayList<String>();
+
                             int_total = 0;
                             text_submitpckg.setVisibility(View.GONE);
                             text_submitpckg.setText("Submit");
@@ -564,10 +567,14 @@ SearchView searchview;
                                             dialog.cancel();
 
                                             finish();
+
+                                            Listview_DoctorsActivity.array_dept = new ArrayList<String>();
+                                            Listview_DoctorsActivity.array_dept=list_dept;
                                             Intent intet = new Intent(PackageActivity.this,Listview_DoctorsActivity.class);
                                             startActivity(intet);
 
-
+                                            list_id = new ArrayList<String>();
+                                            list_dept = new ArrayList<String>();
                                         }
                                     });
                             alertDialog_Box = builder1.create();
@@ -970,6 +977,7 @@ SearchView searchview;
                                                 adapter.listdata.put(int_index,objectval);
                                                 Integer int_idexlist = list_id.indexOf(objectval.getString("id"));
                                                 list_id.remove(objectval.getString("id"));
+                                                list_dept.remove(objectval.getString("dept"));
                                                 int_total = int_total -(Integer.parseInt(objectval.getString("selectprice")));
 
                                                 adapter.notifyDataSetChanged();

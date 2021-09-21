@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Callback;
@@ -17,7 +18,7 @@ import org.json.JSONObject;
 import javax.security.auth.callback.CallbackHandler;
 
 public class DoctorActivity extends AppCompatActivity {
-    TextView textv_doctorup,textv_doctor_logout,textv_doctor_viewmsg;
+    LinearLayout lineat_tab1,lineat_tab2,lineat_tab3,lineat_tab4;
     public SharedPreferences pref;
     SharedPreferences.Editor editor;
 
@@ -28,12 +29,15 @@ public class DoctorActivity extends AppCompatActivity {
 
         pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = pref.edit();
-         textv_doctorup = (TextView) findViewById(R.id.textv_doctorup);
-        textv_doctor_logout = (TextView) findViewById(R.id.textv_doctor_logout);
-        textv_doctor_viewmsg = (TextView) findViewById(R.id.textv_doctor_viewmsg);
 
 
-        textv_doctorup.setOnClickListener(new View.OnClickListener() {
+        lineat_tab1 = (LinearLayout) findViewById(R.id.lineat_tab1);
+        lineat_tab2 = (LinearLayout) findViewById(R.id.lineat_tab2);
+        lineat_tab3 = (LinearLayout) findViewById(R.id.lineat_tab3);
+        lineat_tab4 = (LinearLayout) findViewById(R.id.lineat_tab4);
+
+
+        lineat_tab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -42,7 +46,7 @@ public class DoctorActivity extends AppCompatActivity {
 
             }
         });
-        textv_doctor_viewmsg.setOnClickListener(new View.OnClickListener() {
+        lineat_tab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -65,7 +69,7 @@ public class DoctorActivity extends AppCompatActivity {
             }
         });
 
-        textv_doctor_logout.setOnClickListener(new View.OnClickListener() {
+        lineat_tab4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

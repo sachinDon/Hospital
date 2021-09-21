@@ -18,9 +18,11 @@ import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
@@ -54,14 +56,16 @@ import javax.net.ssl.HttpsURLConnection;
 public class DoctorListActivity extends AppCompatActivity {
 
     AlertDialog alertDialog_Box;
-    TextView textview_doctlist_eqp,textview_doctlist_menu;
+    TextView textview_doctlist_eqp,textview_doctlist_menu,text_close_free,text_buy_free;
     RecyclerView recyclerView;
     MyListAdapter adapter;
     JSONArray array_doctorlist;
     SearchView searchview;
-
+    RelativeLayout image_move;
     public SharedPreferences pref;
     SharedPreferences.Editor editor;
+    private  int xDelta,yDelta;
+    private  ViewGroup mainLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +77,17 @@ public class DoctorListActivity extends AppCompatActivity {
         textview_doctlist_eqp = (TextView) findViewById(R.id.textview_doctlist_eqp);
         textview_doctlist_menu = (TextView) findViewById(R.id.textview_doctlist_menu);
         searchview = (SearchView) findViewById(R.id.searchView_doctlist);
+        image_move= (RelativeLayout) findViewById(R.id.image_move);
+        text_buy_free = (TextView) findViewById(R.id.text_buy_free);
+                text_close_free = (TextView) findViewById(R.id.text_close_free);
+        image_move.setOnTouchListener(OnTouchListener());
 
+
+
+
+
+
+        mainLayout = (RelativeLayout)findViewById(R.id.relative_main);
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
         if (SDK_INT > 8)
         {
@@ -91,6 +105,23 @@ public class DoctorListActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(DoctorListActivity.this,EquipementActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        text_buy_free.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DoctorListActivity.this,PackageActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+        text_close_free.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+               image_move.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -116,7 +147,8 @@ public class DoctorListActivity extends AppCompatActivity {
                         }
                         else  if (String.valueOf(item).equalsIgnoreCase("Paid Pakages"))
                         {
-
+                            Intent intet = new Intent(DoctorListActivity.this,PaidPackageActivity.class);
+                            startActivity(intet);
                         }
                         else  if (String.valueOf(item).equalsIgnoreCase("Transctions"))
                         {
@@ -195,7 +227,41 @@ public class DoctorListActivity extends AppCompatActivity {
             }
         });
 
-        new GetDoctorList_communication().execute();
+
+    }
+
+    private View.OnTouchListener OnTouchListener() {
+        return new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                final int x = (int) event.getRawX();
+                final int y = (int) event.getRawY();
+                switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                    case MotionEvent.ACTION_DOWN:
+                        RelativeLayout.LayoutParams laayoutparam = (RelativeLayout.LayoutParams) v.getLayoutParams();
+                        xDelta = x - laayoutparam.leftMargin;
+                        yDelta = y - laayoutparam.topMargin;
+                        break;
+
+                    case MotionEvent.ACTION_MOVE:
+
+                        RelativeLayout.LayoutParams laayoutparam1 = (RelativeLayout.LayoutParams) v.getLayoutParams();
+                        laayoutparam1.leftMargin = x - xDelta;
+                        laayoutparam1.topMargin = y - yDelta;
+                        laayoutparam1.rightMargin = 0;
+                        laayoutparam1.bottomMargin = 0;
+                        v.setLayoutParams(laayoutparam1);
+                        break;
+
+
+                }
+                mainLayout.invalidate();
+                return true;
+            }
+        };
+
     }
 
 
@@ -550,6 +616,12 @@ public class DoctorListActivity extends AppCompatActivity {
         {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        new GetDoctorList_communication().execute();
     }
 
     public void onBackPressed() {

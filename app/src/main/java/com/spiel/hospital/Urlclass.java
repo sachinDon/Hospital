@@ -28,11 +28,13 @@ public class Urlclass
     public static String doctorregister1 = url + "doctorregister1.php";
     public static String doctorloginupdate = url + "doctorloginupdate.php";
 
-    public static String prescription = url + "prescription.php";
+    public static String payuhashgen = url + "payuhashgen.php";
 
-    public static String orderlist= url + "orderlist.php";
-    public static String ordercancel= url + "ordercancel.php";
-    public static String countcartval= url + "countcartval.php";
+    public static String paidpackagelist= url + "paidpackagelist.php";
+
+    public static String submitdoctorlist= url + "submitdoctorlist.php";
+    public static String getdoctorselect= url + "getdoctorselect.php";
+
     public static String address= url + "address.php";
     public static String updateaddress= url + "updateaddress.php";
     public static String verifymobile= url + "verifymobile.php";

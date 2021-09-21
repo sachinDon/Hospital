@@ -141,7 +141,7 @@
                     android:layout_marginTop="15dp"
                     android:gravity="center"
                     android:fontFamily="sans-serif-black"
-                    android:text="Exit"
+                    android:text="Back"
                     android:background="@color/colorred"
                     android:textColor="@color/white"
                     android:textSize="18sp"/>

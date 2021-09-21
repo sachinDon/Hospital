@@ -55,6 +55,7 @@ public class Listview_DoctorsActivity extends AppCompatActivity {
     public SharedPreferences pref;
     SharedPreferences.Editor editor;
     ArrayList <String> array_id;
+    public static ArrayList <String> array_dept ;
     TextView text_submitpckg2;
     SearchView searchview;
 
@@ -63,11 +64,11 @@ public class Listview_DoctorsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listview__doctors);
 
-
         pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = pref.edit();
         array_doctorlist = new JSONArray();
         array_id = new ArrayList<String>();
+
         searchview = (SearchView) findViewById(R.id.searchView_doctlist2);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView_doctorlist2);
         text_submitpckg2 = (TextView) findViewById(R.id.text_submitpckg2);
@@ -129,7 +130,7 @@ public class Listview_DoctorsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
+                new SubmitDoctorList_communication().execute();
 
             }
         });
@@ -281,6 +282,129 @@ public class Listview_DoctorsActivity extends AppCompatActivity {
         }
     }
 
+
+    public class SubmitDoctorList_communication extends AsyncTask<String, Void, String> {
+
+        protected void onPreExecute() {
+        }
+
+        protected String doInBackground(String... arg0) {
+
+
+            try {
+
+                URL url = new URL(Urlclass.submitdoctorlist);
+                JSONObject postDataParams = new JSONObject();
+
+
+                postDataParams.put("mobile",pref.getString("userid",""));
+                postDataParams.put("id",pref.getString("userid",""));
+                String str_ids = array_id.toString();
+                str_ids = str_ids.replace("[","");
+                str_ids = str_ids.replace("]","");
+                postDataParams.put("ids",str_ids);
+
+                String str_dept = array_dept.toString();
+                str_dept = str_dept.replace("[","");
+                str_dept = str_dept.replace("]","");
+                str_dept = str_dept.replace(" ","");
+                postDataParams.put("dept",str_dept);
+
+
+
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(60000 /* milliseconds */);
+                conn.setConnectTimeout(60000 /* milliseconds */);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(getPostDataString(postDataParams));
+
+                writer.flush();
+                writer.close();
+                os.close();
+
+                int responseCode = conn.getResponseCode();
+
+                if (responseCode == HttpsURLConnection.HTTP_OK) {
+
+                    BufferedReader in = new BufferedReader(new
+                            InputStreamReader(
+                            conn.getInputStream()));
+
+                    StringBuffer sb = new StringBuffer("");
+                    String line = "";
+
+                    while ((line = in.readLine()) != null) {
+
+                        sb.append(line);
+                        break;
+                    }
+
+                    in.close();
+                    return sb.toString();
+
+                } else {
+                    return new String("false : " + responseCode);
+                }
+            } catch (Exception e) {
+                return new String("Exception: " + e.getMessage());
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+
+
+            if (!result.equalsIgnoreCase(""))
+            {
+                JSONArray jsonarray = null;
+                JSONObject obj_values = null;
+                try {
+                    jsonarray = new JSONArray(result);
+                    obj_values = new JSONObject(jsonarray.getString(0));
+                    if (jsonarray != null)
+                    {
+                        if (obj_values.getString("status").equalsIgnoreCase("1"))
+                        {
+                            AlertDialogView alertview = new AlertDialogView();
+                            alertview.showAlert(Listview_DoctorsActivity.this, getString(R.string.alert_sucess), obj_values.getString("errormessage"), "close");
+                        }
+                        else if (obj_values.getString("status").equalsIgnoreCase("0"))
+                        {
+                        AlertDialogView alertview = new AlertDialogView();
+                        alertview.showAlert(Listview_DoctorsActivity.this, getString(R.string.alert_opps), obj_values.getString("errormessage"), "no");
+                        }
+                        else {
+                            AlertDialogView alertview = new AlertDialogView();
+                            alertview.showAlert(Listview_DoctorsActivity.this, getString(R.string.alert_opps), getString(R.string.alert_serverexit), "no");
+                        }
+                    } else {
+                        AlertDialogView alertview = new AlertDialogView();
+                        alertview.showAlert(Listview_DoctorsActivity.this, getString(R.string.alert_opps), getString(R.string.alert_serverexit), "no");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+            else
+            {
+                AlertDialogView alertview = new AlertDialogView();
+                alertview.showAlert(Listview_DoctorsActivity.this, getString(R.string.alert_opps), getString(R.string.alert_server), "no");
+
+            }
+
+        }
+    }
+
     public class GetDoctorList_communication extends AsyncTask<String, Void, String> {
 
         protected void onPreExecute() {
@@ -291,13 +415,21 @@ public class Listview_DoctorsActivity extends AppCompatActivity {
 
             try {
 
-                URL url = new URL(Urlclass.getdoctorlist);
+                URL url = new URL(Urlclass.getdoctorselect);
                 JSONObject postDataParams = new JSONObject();
 
 
 //                postDataParams.put("email",OTPActivity.Stremail);
                 postDataParams.put("mobile",pref.getString("userid",""));
-                postDataParams.put("id","");
+                postDataParams.put("id",pref.getString("userid",""));
+
+                String str_dept = array_dept.toString();
+                str_dept = str_dept.replace("[","");
+                str_dept = str_dept.replace("]","");
+                str_dept = str_dept.replace(" ","");
+                postDataParams.put("dept",str_dept);
+
+
 
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(60000 /* milliseconds */);
@@ -375,42 +507,13 @@ public class Listview_DoctorsActivity extends AppCompatActivity {
                 }
             }
 
-            else
-            {
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(Listview_DoctorsActivity.this);
-                builder1.setTitle("Oops");
-                builder1.setMessage("Server encountered an error in verifying your mobile number. Please try again later.");
-                builder1.setCancelable(false);
-                builder1.setPositiveButton("Ok",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                                // finish();
-                            }
-                        });
-                alertDialog_Box = builder1.create();
-                alertDialog_Box.show();
+            else {
+
+                AlertDialogView alertview = new AlertDialogView();
+                alertview.showAlert(Listview_DoctorsActivity.this, getString(R.string.alert_opps), getString(R.string.alert_server), "no");
+
+
             }
-
-
-
-//                else
-//                {
-//                    android.support.v7.app.AlertDialog.Builder builder1 = new android.support.v7.app.AlertDialog.Builder(OtpVerifyActivity.this);
-//                    builder1.setTitle("Server timeout");
-//                    builder1.setMessage("Server timeout");
-//                    builder1.setCancelable(false);
-//                    builder1.setPositiveButton("Ok",
-//                            new DialogInterface.OnClickListener() {
-//                                public void onClick(DialogInterface dialog, int id) {
-//                                    dialog.cancel();
-//                                    // finish();
-//                                }
-//                            });
-//                    alertDialog_Box = builder1.create();
-//                    alertDialog_Box.show();
-
-
 
 
 
