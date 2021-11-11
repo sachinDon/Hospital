@@ -53,13 +53,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp">
 
-                <com.google.android.material.imageview.ShapeableImageView
-                    app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+                <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
+
+                    app:siShape="@drawable/shape_rounded_rectangle"
+                    app:siSquare="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
                     app:strokeColor="@color/ligt_gray"
                     app:strokeWidth="1dp"
                     android:id="@+id/imageview_profile_doc11"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:src="@drawable/defaultdoctor"
                     android:layout_centerHorizontal="true"
                     />
@@ -92,10 +96,12 @@
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:text="Name:"
+                    android:drawablePadding="5dp"
+                    android:drawableLeft="@drawable/ic_baseline_person_24"
                     android:textColor="@color/blue_1"
                     android:fontFamily="sans-serif-medium"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="35dp"
+                    android:layout_marginTop="30dp"
 
                     />
                 <EditText
@@ -104,8 +110,9 @@
                     android:layout_height="40dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
-                    android:hint="Enter your name"
-                    android:fontFamily="sans-serif-medium"
+                    android:hint="Full Name"
+                    android:textSize="17sp"
+                    android:fontFamily="sans-serif"
                     android:backgroundTint="@color/blue_1"
                     android:layout_below="@+id/text_doctusername11"/>
 
@@ -116,6 +123,8 @@
                     android:layout_below="@+id/edittext_doctusername11"
                     android:textSize="16sp"
                     android:text="Qualification:"
+                    android:drawablePadding="5dp"
+                    android:drawableLeft="@drawable/ic_baseline_assignment_24"
                     android:textColor="@color/blue_1"
                     android:fontFamily="sans-serif-medium"
                     android:layout_marginStart="20dp"
@@ -129,8 +138,9 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
                     android:inputType="textCapCharacters"
-                    android:hint="Enter your Qualification"
-                    android:fontFamily="sans-serif-medium"
+                    android:hint="Qualification"
+                    android:textSize="17sp"
+                    android:fontFamily="sans-serif"
                     android:backgroundTint="@color/blue_1"
                     android:layout_below="@+id/text_doct_degree11"/>
 
@@ -141,6 +151,8 @@
                     android:layout_below="@+id/edittext_doct_degree11"
                     android:textSize="16sp"
                     android:text="Specialist:"
+                    android:drawablePadding="5dp"
+                    android:drawableLeft="@drawable/ic_baseline_contact_page_24"
                     android:textColor="@color/blue_1"
                     android:fontFamily="sans-serif-medium"
                     android:layout_marginStart="20dp"
@@ -153,8 +165,9 @@
                     android:layout_height="40dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:hint="Enter your specialist"
+                    android:fontFamily="sans-serif"
+                    android:hint="Specialist"
+                    android:textSize="17sp"
                     android:backgroundTint="@color/blue_1"
                     android:layout_below="@+id/text_doct_subjects11"/>
 
@@ -165,6 +178,8 @@
                     android:layout_below="@+id/edittext_doct_subjects11"
                     android:textSize="16sp"
                     android:text="Experience:"
+                    android:drawablePadding="5dp"
+                    android:drawableLeft="@drawable/ic_baseline_bookmark_add_24"
                     android:textColor="@color/blue_1"
                     android:fontFamily="sans-serif-medium"
                     android:layout_marginStart="20dp"
@@ -178,7 +193,10 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
                     android:inputType="number"
-                    android:hint="Enter your exprience"
+                    android:hint="Exprience"
+                    android:maxLength="2"
+                    android:textSize="17sp"
+                    android:fontFamily="sans-serif"
                     android:backgroundTint="@color/blue_1"
                     android:layout_below="@+id/text_doct_exps11"/>
 
@@ -188,6 +206,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/edittext_doct_exps11"
                     android:textSize="16sp"
+                    android:drawablePadding="5dp"
+                    android:drawableLeft="@drawable/ic_baseline_how_to_reg_24"
                     android:text="Registration No:"
                     android:textColor="@color/blue_1"
                     android:fontFamily="sans-serif-medium"
@@ -201,18 +221,77 @@
                     android:layout_height="40dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:hint="Enter your registration no."
+                    android:fontFamily="sans-serif"
+                    android:hint="Registration Number"
+                    android:textSize="17sp"
                     android:backgroundTint="@color/blue_1"
                     android:layout_below="@+id/text_doct_regstraionno11"/>
+
+                <TextView
+                    android:id="@+id/text_doct_regstraionno_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/edittext_doct_registraionnimber11"
+                    android:textSize="16sp"
+                    android:drawablePadding="5dp"
+                    android:drawableLeft="@drawable/ic_baseline_how_to_reg_24"
+                    android:text="Registration Date:"
+                    android:textColor="@color/blue_1"
+                    android:fontFamily="sans-serif-medium"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+
+                    />
+                <EditText
+                    android:id="@+id/edittext_doct_registraionnimbe_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:fontFamily="sans-serif"
+                    android:hint=""
+                    android:text="Select Date"
+                    android:textSize="17sp"
+                    android:backgroundTint="@color/blue_1"
+                    android:layout_below="@+id/text_doct_regstraionno_date"/>
+
+
+                <TextView
+                    android:id="@+id/text_doct_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/edittext_doct_registraionnimbe_date"
+                    android:textSize="16sp"
+                    android:drawablePadding="5dp"
+                    android:drawableLeft="@drawable/ic_baseline_attach_email_24"
+                    android:text="Email Id:"
+                    android:textColor="@color/blue_1"
+                    android:fontFamily="sans-serif-medium"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+
+                    />
+                <EditText
+                    android:id="@+id/edittext_doct_emaild"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:fontFamily="sans-serif"
+                    android:hint="Email Id"
+                    android:textSize="17sp"
+                    android:backgroundTint="@color/blue_1"
+                    android:layout_below="@+id/text_doct_email"/>
 
                 <TextView
                     android:id="@+id/text_doct_address11"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/edittext_doct_registraionnimber11"
+                    android:layout_below="@+id/edittext_doct_emaild"
                     android:textSize="16sp"
                     android:text="Address :"
+                    android:drawablePadding="5dp"
+                    android:drawableLeft="@drawable/ic_baseline_person_pin_circle_24"
                     android:textColor="@color/blue_1"
                     android:fontFamily="sans-serif-medium"
                     android:layout_marginStart="20dp"
@@ -225,8 +304,9 @@
                     android:layout_height="40dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:hint="Enter your address"
+                    android:fontFamily="sans-serif"
+                    android:hint="Address"
+                    android:textSize="17sp"
                     android:backgroundTint="@color/blue_1"
                     android:layout_below="@+id/text_doct_address11"/>
 
@@ -237,6 +317,8 @@
                     android:layout_below="@+id/edittext_doct_address11"
                     android:textSize="16sp"
                     android:text="Pincode :"
+                    android:drawablePadding="5dp"
+                    android:drawableLeft="@drawable/ic_baseline_pin_drop_24"
                     android:textColor="@color/blue_1"
                     android:fontFamily="sans-serif-medium"
                     android:layout_marginStart="20dp"
@@ -250,8 +332,10 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
                     android:inputType="number"
-                    android:hint="Enter your pincode"
-                    android:fontFamily="sans-serif-medium"
+                    android:hint="Pincode"
+                    android:maxLength="6"
+                    android:textSize="17sp"
+                    android:fontFamily="sans-serif"
                     android:backgroundTint="@color/blue_1"
                     android:layout_below="@+id/text_doct_picode11"/>
 
@@ -262,6 +346,8 @@
                     android:layout_below="@+id/edittext_pincode11"
                     android:textSize="16sp"
                     android:text="Other contact no :"
+                    android:drawablePadding="5dp"
+                    android:drawableLeft="@drawable/ic_baseline_call_24"
                     android:textColor="@color/blue_1"
                     android:fontFamily="sans-serif-medium"
                     android:layout_marginStart="20dp"
@@ -275,7 +361,10 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
                     android:inputType="number"
-                    android:hint="Enter your contact no"
+                    android:hint="Contact Number"
+                    android:textSize="17sp"
+                    android:maxLength="10"
+                    android:fontFamily="sans-serif"
                     android:backgroundTint="@color/blue_1"
                     android:layout_below="@+id/text_doct_otherno11"/>
 
@@ -286,6 +375,8 @@
                     android:layout_below="@+id/edittext_otherno11"
                     android:textSize="16sp"
                     android:text="Status:"
+                    android:drawablePadding="5dp"
+                    android:drawableLeft="@drawable/ic_baseline_accessibility_new_24"
                     android:textColor="@color/blue_1"
                     android:fontFamily="sans-serif-medium"
                     android:layout_marginStart="20dp"
@@ -304,7 +395,7 @@
                     android:layout_toEndOf="@+id/radio_doctor_avialbel11"
                     android:layout_below="@+id/text_doct_status11"
                     android:textSize="16sp"
-                    android:text="Availabel"
+                    android:text="Available"
                     android:gravity="center"
                     android:textColor="@color/blue_2"
                     android:fontFamily="sans-serif-medium"
@@ -326,7 +417,7 @@
                     android:layout_below="@+id/text_doct_status11"
                     android:textSize="16sp"
                     android:gravity="center"
-                    android:text="Not Availabel"
+                    android:text="Not Available"
                     android:textColor="@color/blue_2"
                     android:textStyle="normal"
                     android:layout_marginStart="8dp"

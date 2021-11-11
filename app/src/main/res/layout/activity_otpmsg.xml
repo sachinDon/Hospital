@@ -123,15 +123,16 @@
 
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
                 android:layout_marginBottom="10dp"
                 android:gravity="center"
+                android:layout_gravity="center"
                 android:background="@drawable/inputbox_new"
                 android:orientation="horizontal">
 
-                <com.spiel.hospital.CountrySpinner
+                <com.akweb.hospital.CountrySpinner
                     android:id="@+id/spinner"
                     style="@style/SpinnerTheme"
                     android:layout_width="255dp"
@@ -147,8 +148,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/bottom_border"
-                android:hint="Enter mobile number"
+                android:paddingTop="10dp"
+                android:background="@drawable/border_round_blue"
+                android:hint="Mobile number"
                 android:inputType="phone"
                 android:padding="10dp"
                 android:layout_marginLeft="20dp"
@@ -179,10 +181,10 @@
                     android:gravity="center"
                     android:onClick="onButtonClicked"
                     android:paddingStart="55dp"
-                    android:paddingTop="15dp"
+                    android:paddingTop="10dp"
                     android:paddingEnd="55dp"
-                    android:paddingBottom="15dp"
-                    android:text="Login"
+                    android:paddingBottom="10dp"
+                    android:text="Submit"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
@@ -194,7 +196,7 @@
                     android:layout_marginTop="10dp"
                     android:textSize="16sp"
                     android:layout_below="@+id/edittext_login_password"
-                    android:text="Forgot Password"
+                    android:text="Reset Details"
                     android:gravity="center"
                     android:textColor="@color/blue_1"
                     android:textStyle="normal"

@@ -92,7 +92,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
             android:editable="false"
-            android:hint="Enter hospital name"
+            android:hint="Hospital name"
             android:inputType="text"
             android:backgroundTint="@color/blue_1"
             android:layout_below="@+id/text_reg_hospitalname"/>
@@ -116,17 +116,43 @@
             android:layout_height="40dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
-            android:hint="Enter Registration number"
+            android:hint="Registration number"
             android:inputType="text"
             android:textColor="@color/blue_1"
             android:backgroundTint="@color/blue_1"
             android:layout_below="@+id/text_reg_hospitalregno"/>
+
+        <TextView
+            android:id="@+id/text_reg_expdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_below="@+id/edittext_reg_hospitalregno"
+            android:text="Registration expire date"
+            android:textColor="@color/blue_1"
+            android:textStyle="normal"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+
+            />
+        <EditText
+            android:id="@+id/edittext_reg_exxpdate"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:hint="Select Date"
+            android:inputType="text"
+            android:textColor="@color/blue_1"
+            android:backgroundTint="@color/blue_1"
+            android:layout_below="@+id/text_reg_expdate"/>
+
         <TextView
             android:id="@+id/text_reg_mobile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:layout_below="@+id/edittext_reg_hospitalregno"
+            android:layout_below="@+id/edittext_reg_exxpdate"
             android:text="Mobile Number"
             android:textColor="@color/blue_1"
             android:textStyle="normal"
@@ -140,8 +166,8 @@
             android:layout_height="40dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
-
-            android:hint="Enter mobile number"
+            android:enabled="false"
+            android:hint="Mobile number"
             android:inputType="phone"
             android:textColor="@color/blue_1"
             android:backgroundTint="@color/blue_1"
@@ -180,6 +206,7 @@
                 android:textSize="16sp"
                 android:text="Alerady have an account?"
                 android:gravity="center"
+                android:visibility="gone"
                 android:layout_centerVertical="true"
                 android:textColor="@color/blue_1"
                 android:textStyle="bold"
@@ -197,6 +224,7 @@
                 android:paddingStart="10dp"
                 android:paddingEnd="25dp"
                 android:gravity="center"
+                android:visibility="gone"
                 android:textColor="@color/blue_1"
                 android:textStyle="bold"
 

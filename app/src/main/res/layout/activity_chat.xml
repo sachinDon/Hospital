@@ -60,28 +60,37 @@
             android:minLines="1"
             android:maxLines="3"
             android:textSize="16sp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="5dp"
             android:layout_marginStart="10dp"
-            android:layout_toStartOf="@+id/text_chat_send"
+            android:layout_toStartOf="@+id/text_upload_data"
             android:fontFamily="sans-serif-medium"
             android:textColor="@color/black"
             android:background="@drawable/bottom_border"
             android:hint="Type here...."/>
+
+        <TextView
+            android:id="@+id/text_upload_data"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="5dp"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/text_chat_send"
+            android:background="@drawable/attachment"/>
      <TextView
          android:id="@+id/text_chat_send"
          android:layout_width="wrap_content"
-         android:layout_height="40dp"
+         android:layout_height="35dp"
          android:layout_marginEnd="10dp"
          android:layout_alignParentEnd="true"
          android:text="Send"
          android:background="@drawable/gdridantcoolor"
          android:textColor="@color/white"
-         android:textSize="18sp"
+         android:textSize="16sp"
          android:gravity="center"
          android:fontFamily="sans-serif-black"
          android:layout_centerVertical="true"
-         android:paddingRight="20dp"
-         android:paddingLeft="20dp"/>
+         android:paddingRight="15dp"
+         android:paddingLeft="15dp"/>
 
 
     </RelativeLayout>

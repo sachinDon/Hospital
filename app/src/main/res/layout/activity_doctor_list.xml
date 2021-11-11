@@ -68,16 +68,18 @@
     <RelativeLayout
         android:id="@+id/relative_doct_eqp"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginStart="0dp"
+        android:background="@drawable/back_bottom_border"
         android:layout_below="@+id/searchView_doctlist">
 
         <TextView
             android:id="@+id/textview_doctlist_eqpicon"
             android:layout_width="25dp"
             android:layout_height="25dp"
+            android:layout_marginLeft="15dp"
             android:layout_centerVertical="true"
             android:background="@drawable/equpiment"
             />
@@ -112,7 +114,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:padding="7dp"
-        android:visibility="visible"
+        android:visibility="gone"
         android:orientation="vertical"
         android:background="@drawable/bg_rounded_grey_border">
 
@@ -154,4 +156,11 @@
 
 
     </RelativeLayout>
+    <ProgressBar
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/progressbar_listdoc"/>
+
 </RelativeLayout>

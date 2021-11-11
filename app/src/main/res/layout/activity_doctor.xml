@@ -14,6 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:gravity="center"
+            android:visibility="gone"
             android:background="@color/blue_1"
             android:orientation="horizontal">
                  <ImageView
@@ -39,6 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="140dp"
                 android:gravity="center"
+                android:visibility="gone"
                 android:layout_marginTop="10dp"
                 android:layout_gravity="center"
                 android:orientation="horizontal"
@@ -128,6 +130,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:visibility="gone"
         >
 
         <LinearLayout
@@ -164,7 +167,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="18sp"
-                        android:text="Update Status"
+                        android:text="Status"
                         android:gravity="center"
                         android:fontFamily="sans-serif-medium"
                         android:textColor="@color/white"
@@ -219,4 +222,10 @@
 
     </LinearLayout>
 
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/content_main">
+
+</FrameLayout>
 </LinearLayout>

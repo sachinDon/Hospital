@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SureDoc</string>
+    <string name="app_name">sureDoc</string>
     <string name="selectcountry">Select country</string>
     <string name="verified">Verification successful</string>
 
@@ -34,7 +34,9 @@
     <string name="alert_nointernetmsg">Your internet connection not available</string>
     <string name="alert_nullerror">Some field are missing,Please try again.</string>
     <string name="alert_serverexit">Server encountered an error . Please try again later</string>
-
+    <string name="alert_emptychat">Please enter text message for user</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

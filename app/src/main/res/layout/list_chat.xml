@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
 
     <TextView
@@ -23,6 +23,22 @@
         android:textColor="@color/black"
         android:textSize="15sp" />
 
+    <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
+        app:siShape="@drawable/roundshapeimage"
+        app:siSquare="true"
+        android:id="@+id/image_reciver_chat"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:visibility="visible"
+        android:layout_marginEnd="55dp"
+        android:layout_below="@+id/text_reciver_chat"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/defaultdoctor"/>
+
 
     <TextView
         android:id="@+id/text_sender_chat"
@@ -42,6 +58,23 @@
         android:text="Sachin Mokashi"
         android:textColor="@color/black"
         android:textSize="15sp" />
+
+    <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
+        app:siShape="@drawable/roundshapeimage"
+        app:siSquare="true"
+        android:id="@+id/image_sender_chat"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:visibility="gone"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/text_reciver_chat"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/defaultdoctor"/>
 
 
 </RelativeLayout>

@@ -89,29 +89,39 @@
         android:layout_marginTop="7dp"
         android:layout_marginBottom="15dp"
         android:text="Status: Availabel"
+        android:layout_toStartOf="@+id/textView_doctor_message"
         android:textSize="14sp"/>
 
     <TextView
         android:id="@+id/textView_doctor_chat"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_alignParentRight="true"
         android:layout_marginEnd="10dp"
-        android:background="@drawable/hchat"
+        android:background="@drawable/emailicon"
         android:layout_alignTop="@+id/imageView_profilelogo"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/textView_doctor_mail"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="10dp"
+        android:layout_centerVertical="true"
+        android:background="@drawable/gmail_icon"
         android:layout_marginBottom="15dp"
         android:textSize="14sp"/>
 
-
     <TextView
         android:id="@+id/textView_doctor_message"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_alignParentRight="true"
         android:layout_marginEnd="10dp"
-        android:background="@drawable/hmessage"
-        android:layout_alignBottom="@+id/textView_doctor_status"
-        android:layout_marginBottom="15dp"
+        android:background="@drawable/messageicon"
+        android:layout_alignBaseline="@+id/textView_doctor_status"
+        android:layout_marginBottom="10dp"
         android:textSize="14sp"/>
 
 </RelativeLayout>
